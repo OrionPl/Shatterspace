@@ -32,4 +32,13 @@ public class goWhereIClick : MonoBehaviour {
         }
     }
 
+    public void setPlaceholder(GameObject placeholder)
+    {
+
+    }
+
+    public void goPosition()
+    {
+
+    }
 }

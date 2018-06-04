@@ -7,7 +7,9 @@ public class squadManager : MonoBehaviour {
     [SerializeField] private GameObject[] mans;
     [SerializeField] private GameObject[] placeholder;
 
-    // Use this for initialization
+    public float squadHP;
+    public float armour;
+
     void Start () {
         mans = GameObject.FindGameObjectsWithTag("man"); //find mans
 
@@ -20,7 +22,17 @@ public class squadManager : MonoBehaviour {
         transform.parent = mans[0].transform.parent; //set parent for following team
     }
 	
-	// Update is called once per frame
 	void Update () {
+
+    }
+
+    public void DealDamage(GameObject entity)
+    {
+
+    }
+
+    public void TakeDamage(float dmg)
+    {
+        squadHP -= dmg / armour;
     }
 }
