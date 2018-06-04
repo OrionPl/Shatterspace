@@ -47,8 +47,19 @@ public class goWhereIClick : MonoBehaviour {
         aIController.destination = placeholder.transform.position;
     }
 
+<<<<<<< HEAD
+    public void setPlaceholder(GameObject placeholder)
+    {
+
+    }
+
+    public void goPosition()
+    {
+
+=======
     //set default position
     public void setPlaceholder(GameObject target) {
         placeholder = target;
+>>>>>>> 348184f6215024a2ba4d8ad73d65535ca0d5bc76
     }
 }

@@ -6,12 +6,14 @@ public class squadManager : MonoBehaviour {
 
     [SerializeField] private GameObject[] mans;
     [SerializeField] private GameObject[] placeholder;
-
     [SerializeField] private Camera cam; //maincamera - scene camera
 
     private UnityEngine.AI.NavMeshAgent aIController;
 
     // Use this for initialization
+    public float squadHP;
+    public float armour;
+
     void Start () {
 
         //Declare a variable for navmesh componnent
@@ -28,7 +30,6 @@ public class squadManager : MonoBehaviour {
 
     }
 	
-	// Update is called once per frame
 	void Update () {
         if (Input.GetMouseButtonDown(1))
         {
@@ -43,5 +44,16 @@ public class squadManager : MonoBehaviour {
                 aIController.destination = hit.point;
             }
         }
+
+    }
+
+    public void DealDamage(GameObject entity)
+    {
+
+    }
+
+    public void TakeDamage(float dmg)
+    {
+        squadHP -= dmg / armour;
     }
 }
