@@ -7,7 +7,7 @@ public class goWhereIClick : MonoBehaviour {
     [SerializeField] private Camera cam; //maincamera - scene camera
 
     private UnityEngine.AI.NavMeshAgent aIController;
-    private GameObject placeholder; //default position
+    [SerializeField]  private GameObject placeholder; //default position
 
     // one time run
     void Start()
@@ -37,29 +37,19 @@ public class goWhereIClick : MonoBehaviour {
         // Check if we've reached the destination (or near of the destination)
         if (aIController.remainingDistance < 3.0f)
         {
-            goPosition();
+            GoPosition();
                 
         }
     }
 
     //function for send him to default position
-    public void goPosition() {
+    public void GoPosition() {
         aIController.destination = placeholder.transform.position;
     }
 
-<<<<<<< HEAD
-    public void setPlaceholder(GameObject placeholder)
+    public void SetPlaceholder(GameObject target)
     {
-
-    }
-
-    public void goPosition()
-    {
-
-=======
-    //set default position
-    public void setPlaceholder(GameObject target) {
         placeholder = target;
->>>>>>> 348184f6215024a2ba4d8ad73d65535ca0d5bc76
     }
+
 }

@@ -24,8 +24,9 @@ public class squadManager : MonoBehaviour {
 
         for (int i = 0; i < mans.Length; i++) //setup every man
         {
-            mans[i].GetComponent<goWhereIClick>().setPlaceholder(placeholder[i]); //set default positin
-            mans[i].GetComponent<goWhereIClick>().goPosition(); //send him to position
+            mans[i].GetComponent<goWhereIClick>().SetPlaceholder(placeholder[i]); //set default positin
+            mans[i].GetComponent<goWhereIClick>().GoPosition(); //send him to position
+
         }
 
     }
