@@ -1,9 +1,9 @@
-PROJECT NAME: Shatterspace
+Project Name: Shatterspace
 
-PROJECT TYPE: Game
+Project Type: Game
 
-GENRE: RTS
+Genre: RTS
 
-GAME DESIGN DOCUMENT: https://docs.google.com/document/d/1RB_y_utJAXrKPBDoDIYd7rZKt0aIgL4qZ0GMv193z_o/edit?usp=drivesdk
+Game Design Document: https://docs.google.com/document/d/1RB_y_utJAXrKPBDoDIYd7rZKt0aIgL4qZ0GMv193z_o/edit?usp=drivesdk
 
-TRELLO BOARD: https://trello.com/b/k9f10OkK/shatterspace
+Trello Board: https://trello.com/b/k9f10OkK/shatterspace
