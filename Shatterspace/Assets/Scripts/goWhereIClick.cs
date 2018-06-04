@@ -34,14 +34,11 @@ public class goWhereIClick : MonoBehaviour {
             }
         }
 
-        // Check if we've reached the destination
-        if (!aIController.pathPending)
+        // Check if we've reached the destination (or near of the destination)
+        if (aIController.remainingDistance < 3.0f)
         {
-            if (!aIController.hasPath || aIController.velocity.sqrMagnitude == 0f)
-            {
-                goPosition();
+            goPosition();
                 
-            }
         }
     }
 
