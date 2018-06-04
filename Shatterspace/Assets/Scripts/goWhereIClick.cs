@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class goWhereIClick : MonoBehaviour {
 
+    [SerializeField] private Camera cam; //maincamera - scene camera
+
     private UnityEngine.AI.NavMeshAgent aIController;
+    private GameObject placeholder; //default position
 
     // one time run
     void Start()
@@ -30,8 +33,24 @@ public class goWhereIClick : MonoBehaviour {
                 aIController.destination = hit.point;
             }
         }
+
+        // Check if we've reached the destination
+        if (!aIController.pathPending)
+        {
+            if (!aIController.hasPath || aIController.velocity.sqrMagnitude == 0f)
+            {
+                goPosition();
+                
+            }
+        }
     }
 
+    //function for send him to default position
+    public void goPosition() {
+        aIController.destination = placeholder.transform.position;
+    }
+
+<<<<<<< HEAD
     public void setPlaceholder(GameObject placeholder)
     {
 
@@ -40,5 +59,10 @@ public class goWhereIClick : MonoBehaviour {
     public void goPosition()
     {
 
+=======
+    //set default position
+    public void setPlaceholder(GameObject target) {
+        placeholder = target;
+>>>>>>> 348184f6215024a2ba4d8ad73d65535ca0d5bc76
     }
 }
