@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class goWhereIClick : MonoBehaviour {
 
+    [SerializeField] private Camera cam; //maincamera - scene camera
+
     private UnityEngine.AI.NavMeshAgent aIController;
+    private GameObject placeholder; //default position
 
     // one time run
     void Start()
@@ -21,7 +24,7 @@ public class goWhereIClick : MonoBehaviour {
         {
             // send ray
             RaycastHit hit;
-            Ray clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
 
             // if raycast hit  to an object
             if (Physics.Raycast(clickRay, out hit))
@@ -30,6 +33,25 @@ public class goWhereIClick : MonoBehaviour {
                 aIController.destination = hit.point;
             }
         }
+
+        // Check if we've reached the destination
+        if (!aIController.pathPending)
+        {
+            if (!aIController.hasPath || aIController.velocity.sqrMagnitude == 0f)
+            {
+                goPosition();
+                
+            }
+        }
     }
 
+    //function for send him to default position
+    public void goPosition() {
+        aIController.destination = placeholder.transform.position;
+    }
+
+    //set default position
+    public void setPlaceholder(GameObject target) {
+        placeholder = target;
+    }
 }
