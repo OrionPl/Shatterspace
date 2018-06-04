@@ -24,7 +24,7 @@ public class goWhereIClick : MonoBehaviour {
         {
             // send ray
             RaycastHit hit;
-            Ray clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
 
             // if raycast hit  to an object
             if (Physics.Raycast(clickRay, out hit))
