@@ -462,11 +462,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4546614428362274, guid: d11386bbf558ef642b565d069f4414e2,
     type: 2}
   m_PrefabInternal: {fileID: 1867432263}
---- !u!1 &499999918 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1179375271394940, guid: 7866a97217ccdd946be3ad97e64d7fc1,
-    type: 2}
-  m_PrefabInternal: {fileID: 1144955999}
 --- !u!4 &526306147 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4546614428362274, guid: d11386bbf558ef642b565d069f4414e2,
@@ -753,6 +748,10 @@ Prefab:
     - target: {fileID: 4091388523431340, guid: 7866a97217ccdd946be3ad97e64d7fc1, type: 2}
       propertyPath: m_LocalPosition.z
       value: -5.4799995
+      objectReference: {fileID: 0}
+    - target: {fileID: 1179375271394940, guid: 7866a97217ccdd946be3ad97e64d7fc1, type: 2}
+      propertyPath: m_TagString
+      value: Squad
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7866a97217ccdd946be3ad97e64d7fc1, type: 2}
@@ -1535,8 +1534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraSpeed: 10
-  squads:
-  - {fileID: 499999918}
+  squads: []
 --- !u!54 &1687258588
 Rigidbody:
   m_ObjectHideFlags: 0
