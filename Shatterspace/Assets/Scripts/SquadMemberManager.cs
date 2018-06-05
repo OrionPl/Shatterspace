@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class goWhereIClick : MonoBehaviour {
+public class SquadMemberManager : MonoBehaviour {
 
-    [SerializeField] private Camera cam; //maincamera - scene camera
+    private Camera cam; //maincamera - scene camera
 
     private UnityEngine.AI.NavMeshAgent aIController;
-    [SerializeField]  private GameObject placeholder; //default position
+    [SerializeField]private GameObject placeholder;
 
     // one time run
     void Start()
     {
-        //Declare a variable for navmesh componnent
         aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
+
+        cam = Camera.main;
     }
 
     //that will called every frame
@@ -38,7 +39,6 @@ public class goWhereIClick : MonoBehaviour {
         if (aIController.remainingDistance < 3.0f)
         {
             GoPosition();
-                
         }
     }
 

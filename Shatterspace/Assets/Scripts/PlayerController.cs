@@ -29,10 +29,10 @@ public class PlayerController : MonoBehaviour {
     public void CheckForSquads()
     {
         squads.Clear();
-        foreach (var squad in GetComponentsInChildren<GameObject>())
+        foreach (var squad in GetComponentsInChildren<Transform>())
         {
             if (squad.tag == "Squad")
-                squads.Add(squad);
+                squads.Add(squad.gameObject);
         }
     }
 }

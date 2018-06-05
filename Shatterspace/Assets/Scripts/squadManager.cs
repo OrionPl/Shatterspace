@@ -2,36 +2,84 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class squadManager : MonoBehaviour {
+public class SquadManager : MonoBehaviour {
 
-    [SerializeField] private GameObject[] mans;
-    [SerializeField] private GameObject[] placeholder;
-    [SerializeField] private Camera cam; //maincamera - scene camera
+    [SerializeField] private List<GameObject> squadMembers;
+    [SerializeField] private List<GameObject> placeholders;
+    private Camera cam; //maincamera - scene camera
 
     private UnityEngine.AI.NavMeshAgent aIController;
-
-    // Use this for initialization
+    
     public float squadHP;
     public float armour;
 
     void Start () {
-
-        //Declare a variable for navmesh componnent
         aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
+        cam = Camera.main;
 
-        mans = GameObject.FindGameObjectsWithTag("man"); //find mans
+        UpdatePlaceholders();
+        UpdateSquadMembers();
+    }
 
-        for (int i = 0; i < mans.Length; i++) //setup every man
+    private void UpdateSquadMembers()
+    {
+        squadMembers.Clear();
+
+        GameObject squadParent = null;
+
+        foreach (var go in GetComponentsInChildren<Transform>())
         {
-            mans[i].GetComponent<goWhereIClick>().SetPlaceholder(placeholder[i]); //set default positin
-            mans[i].GetComponent<goWhereIClick>().GoPosition(); //send him to position
+            if (go.name == "SquadMembers")
+            {
+                squadParent = go.gameObject;
+            }
 
         }
 
+        foreach (var member in squadParent.GetComponentsInChildren<Transform>())
+        {
+            if (member.GetComponent<SquadMemberManager>() != null)
+                squadMembers.Add(member.gameObject);
+        }
+
+        int i = 0;
+
+        foreach (var member in squadMembers) //setup every man
+        {
+            member.GetComponent<SquadMemberManager>().SetPlaceholder(placeholders[i]); //set default positin
+            member.GetComponent<SquadMemberManager>().GoPosition(); //send him to position
+            i++;
+        }
     }
-	
-	void Update () {
+
+    private void UpdatePlaceholders()
+    {
+        placeholders.Clear();
+
+        List<GameObject> placeholdersTemp = new List<GameObject>();
+        placeholdersTemp.Clear();
+        
+        foreach (var go in GetComponentsInChildren<Transform>())
+        {
+            if (go.gameObject.name == "Placeholders")
+            {
+                foreach (var placeholder in go.GetComponentsInChildren<Transform>())
+                {
+                    if (placeholder.name != "Placeholders")
+                        placeholdersTemp.Add(placeholder.gameObject);
+                }
+                break;
+            }
+        }
+
+        foreach (var placeholder in placeholdersTemp)
+        {
+            placeholders.Add(placeholder.gameObject);
+        }
+    }
+
+    void Update () {
         if (Input.GetMouseButtonDown(1))
         {
             // send ray
