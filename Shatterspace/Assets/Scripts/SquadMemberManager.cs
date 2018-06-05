@@ -5,14 +5,17 @@ using UnityEngine;
 public class SquadMemberManager : MonoBehaviour {
 
     private Camera cam; //maincamera - scene camera
-
     private UnityEngine.AI.NavMeshAgent aIController;
-    [SerializeField]private GameObject placeholder;
+    private GameObject placeholder; // TODO: Remove serialize field.
+
+    public float speed; // !!Editing navmesh agents speed does nothing. Edit this from Inspector.
+    public GameObject mySquadManager;
 
     // one time run
     void Start()
     {
         aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        aIController.speed = speed; //set speed
 
         cam = Camera.main;
     }
@@ -43,13 +46,20 @@ public class SquadMemberManager : MonoBehaviour {
     }
 
     //function for send him to default position
-    public void GoPosition() {
+    public void GoPosition() { 
         aIController.destination = placeholder.transform.position;
     }
 
+    //set placeholder and squad manager of this man
     public void SetPlaceholder(GameObject target)
     {
         placeholder = target;
+        mySquadManager = target.transform.parent.transform.parent.gameObject;
     }
 
+    //set speed of this man
+    public void SetMySpeed(float getSpeed) { 
+        speed = getSpeed;
+        aIController.speed = getSpeed;
+    }
 }

@@ -13,6 +13,9 @@ public class SquadManager : MonoBehaviour {
     public float squadHP;
     public float armour;
 
+
+    private float squadSpeed;
+
     void Start () {
         aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
@@ -22,11 +25,13 @@ public class SquadManager : MonoBehaviour {
         UpdateSquadMembers();
     }
 
-    private void UpdateSquadMembers()
+    private void UpdateSquadMembers() //updates members and sets up manager
     {
+
         squadMembers.Clear();
 
         GameObject squadParent = null;
+        float squadSpeedTemp = 100000; //declare a temp speed
 
         foreach (var go in GetComponentsInChildren<Transform>())
         {
@@ -45,12 +50,21 @@ public class SquadManager : MonoBehaviour {
 
         int i = 0;
 
-        foreach (var member in squadMembers) //setup every man
+        foreach (var member in squadMembers) //search for slowest man in squaad and setup members
         {
-            member.GetComponent<SquadMemberManager>().SetPlaceholder(placeholders[i]); //set default positin
-            member.GetComponent<SquadMemberManager>().GoPosition(); //send him to position
+            SquadMemberManager memberManager = member.GetComponent<SquadMemberManager>();
+
+            if (memberManager.speed < squadSpeedTemp) //is it slower than others?
+            {
+                squadSpeedTemp = memberManager.speed;
+            }
+            memberManager.SetPlaceholder(placeholders[i]); //set default positin
+            memberManager.GoPosition(); //send him to position 
             i++;
         }
+
+        SetSquadSpeed(squadSpeedTemp);
+
     }
 
     private void UpdatePlaceholders()
@@ -93,16 +107,28 @@ public class SquadManager : MonoBehaviour {
                 aIController.destination = hit.point;
             }
         }
-
     }
 
     public void DealDamage(GameObject entity)
     {
-
+    
     }
 
     public void TakeDamage(float dmg)
     {
         squadHP -= dmg / armour;
+    }
+
+    public void SetSquadSpeed(float setSpeed) { //sets squad speed, public function for traps, potions etc.
+
+        foreach (var member in squadMembers) //set everyones speed to given speed
+        {
+             SquadMemberManager memberManager = member.GetComponent<SquadMemberManager>();
+             memberManager.SetMySpeed(setSpeed);
+        }
+
+        //set speed of squad manager
+        aIController.speed = setSpeed * 2; //placeholders will go faster than mans for prevent bugs, to achive this its multipled with 2
+
     }
 }

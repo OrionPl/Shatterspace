@@ -1055,7 +1055,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.1
-  m_Speed: 3.5
+  m_Speed: 5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1579,6 +1579,11 @@ Prefab:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1687258584}
+    - target: {fileID: 114916839350466778, guid: d11386bbf558ef642b565d069f4414e2,
+        type: 2}
+      propertyPath: speed
+      value: 3.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d11386bbf558ef642b565d069f4414e2, type: 2}
   m_IsPrefabAsset: 0
@@ -1634,6 +1639,11 @@ Prefab:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1687258584}
+    - target: {fileID: 114916839350466778, guid: d11386bbf558ef642b565d069f4414e2,
+        type: 2}
+      propertyPath: speed
+      value: 3.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d11386bbf558ef642b565d069f4414e2, type: 2}
   m_IsPrefabAsset: 0
@@ -1774,6 +1784,11 @@ Prefab:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1687258584}
+    - target: {fileID: 114916839350466778, guid: d11386bbf558ef642b565d069f4414e2,
+        type: 2}
+      propertyPath: speed
+      value: 3.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d11386bbf558ef642b565d069f4414e2, type: 2}
   m_IsPrefabAsset: 0
@@ -1824,6 +1839,11 @@ Prefab:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1687258584}
+    - target: {fileID: 114916839350466778, guid: d11386bbf558ef642b565d069f4414e2,
+        type: 2}
+      propertyPath: speed
+      value: 3.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d11386bbf558ef642b565d069f4414e2, type: 2}
   m_IsPrefabAsset: 0
@@ -1874,6 +1894,11 @@ Prefab:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1687258584}
+    - target: {fileID: 114916839350466778, guid: d11386bbf558ef642b565d069f4414e2,
+        type: 2}
+      propertyPath: speed
+      value: 3.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d11386bbf558ef642b565d069f4414e2, type: 2}
   m_IsPrefabAsset: 0
@@ -1924,6 +1949,11 @@ Prefab:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1687258584}
+    - target: {fileID: 114916839350466778, guid: d11386bbf558ef642b565d069f4414e2,
+        type: 2}
+      propertyPath: speed
+      value: 3.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d11386bbf558ef642b565d069f4414e2, type: 2}
   m_IsPrefabAsset: 0
@@ -1978,6 +2008,11 @@ Prefab:
         type: 2}
       propertyPath: m_ObstacleAvoidanceType
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114916839350466778, guid: d11386bbf558ef642b565d069f4414e2,
+        type: 2}
+      propertyPath: speed
+      value: 3.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d11386bbf558ef642b565d069f4414e2, type: 2}
@@ -2501,6 +2536,11 @@ Prefab:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1687258584}
+    - target: {fileID: 114916839350466778, guid: d11386bbf558ef642b565d069f4414e2,
+        type: 2}
+      propertyPath: speed
+      value: 3.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d11386bbf558ef642b565d069f4414e2, type: 2}
   m_IsPrefabAsset: 0
@@ -2609,8 +2649,18 @@ Prefab:
       objectReference: {fileID: 1687258584}
     - target: {fileID: 1892202617424256, guid: d11386bbf558ef642b565d069f4414e2, type: 2}
       propertyPath: m_Name
-      value: Man
+      value: SlowMan
       objectReference: {fileID: 0}
+    - target: {fileID: 114916839350466778, guid: d11386bbf558ef642b565d069f4414e2,
+        type: 2}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 23953179260669586, guid: d11386bbf558ef642b565d069f4414e2,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 76ff537c8e1a84345868e6aeee938ab3, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d11386bbf558ef642b565d069f4414e2, type: 2}
   m_IsPrefabAsset: 0
