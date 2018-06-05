@@ -12,7 +12,7 @@ public class SquadManager : MonoBehaviour {
     
     public float squadHP;
     public float armour;
-
+    public float speedMultiplier = 1; //don't change if you are not testing anything.
 
     private float squadSpeed;
 
@@ -63,7 +63,7 @@ public class SquadManager : MonoBehaviour {
             i++;
         }
 
-        SetSquadSpeed(squadSpeedTemp);
+        SetSquadSpeed(squadSpeedTemp); //set up speeds.
 
     }
 
@@ -120,6 +120,8 @@ public class SquadManager : MonoBehaviour {
     }
 
     public void SetSquadSpeed(float setSpeed) { //sets squad speed, public function for traps, potions etc.
+
+        setSpeed = setSpeed * speedMultiplier;
 
         foreach (var member in squadMembers) //set everyones speed to given speed
         {

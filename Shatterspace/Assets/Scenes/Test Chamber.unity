@@ -1083,6 +1083,7 @@ MonoBehaviour:
   placeholders: []
   squadHP: 0
   armour: 0
+  speedMultiplier: 1
 --- !u!4 &681533062
 Transform:
   m_ObjectHideFlags: 0
