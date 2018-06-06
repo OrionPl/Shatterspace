@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SquadManager : MonoBehaviour {
+public class squadManager : MonoBehaviour {
 
     [SerializeField] private List<GameObject> squadMembers;
     [SerializeField] private List<GameObject> placeholders;
