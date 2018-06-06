@@ -16,11 +16,15 @@ public class squadManager : MonoBehaviour {
 
     private float squadSpeed;
 
-    void Start () {
+    private GameRuleManager GameRuleManager;
+
+    [Header("Set it manually for now")] // TODO: Remove serialize field.
+    [SerializeField]private int team; //will be set on spawn by PlayerController script at this script's SetSquadTeam() func.
+
+    void Awake () {
         aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
-
         cam = Camera.main;
-
+        GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameRuleManager>();  //find and set main manager
         UpdatePlaceholders();
         UpdateSquadMembers();
     }
@@ -60,10 +64,14 @@ public class squadManager : MonoBehaviour {
             }
             memberManager.SetPlaceholder(placeholders[i]); //set default positin
             memberManager.GoPosition(); //send him to position 
+            memberManager.SetTeam(team); // TODO: remove it later FOR TESTING. Use SetSquadTeam() from player when squad spawned
+
             i++;
         }
 
         SetSquadSpeed(squadSpeedTemp); //set up speeds.
+
+        
 
     }
 
@@ -85,6 +93,9 @@ public class squadManager : MonoBehaviour {
                 }
                 break;
             }
+            else {
+                Debug.Log(go.gameObject.name);
+            }
         }
 
         foreach (var placeholder in placeholdersTemp)
@@ -94,17 +105,23 @@ public class squadManager : MonoBehaviour {
     }
 
     void Update () {
-        if (Input.GetMouseButtonDown(1))
-        {
-            // send ray
-            RaycastHit hit;
-            Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
 
-            // if raycast hit  to an object
-            if (Physics.Raycast(clickRay, out hit))
+        //TODO: Make player can select and use only mans from his\her own team.
+
+        if (GameRuleManager.GetTeam() == team)
+        {
+            if (Input.GetMouseButtonDown(1))
             {
-                // set hit.point as target
-                aIController.destination = hit.point;
+                // send ray
+                RaycastHit hit;
+                Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
+
+                // if raycast hit  to an object
+                if (Physics.Raycast(clickRay, out hit))
+                {
+                    // set hit.point as target
+                    aIController.destination = hit.point;
+                }
             }
         }
     }
@@ -133,4 +150,16 @@ public class squadManager : MonoBehaviour {
         aIController.speed = setSpeed * 2; //placeholders will go faster than mans for prevent bugs, to achive this its multipled with 2
 
     }
+
+    //team will be set by player on spawn
+    public void SetSquadTeam(int getTeam) {
+        team = getTeam; //set squad's team
+
+        foreach (var member in squadMembers) //set everyones team
+        {
+            SquadMemberManager memberManager = member.GetComponent<SquadMemberManager>();
+            memberManager.SetTeam(team);
+        }
+    }
+
 }

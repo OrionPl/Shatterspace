@@ -6,6 +6,7 @@ TagManager:
   tags:
   - man
   - Squad
+  - GameManager
   layers:
   - Default
   - TransparentFX

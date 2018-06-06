@@ -14,13 +14,19 @@ public class PlayerController : MonoBehaviour {
 
     public List<GameObject> squads;
 
-	void Start () {
-        _rb = GetComponent<Rigidbody>();
+    private int team;
+    private GameRuleManager GameRuleManager;
 
+    void Start () {
+        _rb = GetComponent<Rigidbody>();
+        GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameRuleManager>();  //find and set main manager
         CheckForSquads();
 	}
 	
 	void Update () {
+
+        //TODO: Make player can select and use only mans from his\her own team.
+
         MoveCamera();
 	}
 
@@ -41,5 +47,11 @@ public class PlayerController : MonoBehaviour {
             if (squad.tag == "Squad")
                 squads.Add(squad.gameObject);
         }
+    }
+
+    //Team will be set by GameRuleManager   
+    public void SetTeam(int getTeam)
+    { 
+        team = getTeam;
     }
 }

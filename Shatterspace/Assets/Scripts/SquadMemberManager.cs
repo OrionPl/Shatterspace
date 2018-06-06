@@ -6,42 +6,50 @@ public class SquadMemberManager : MonoBehaviour {
 
     private Camera cam; //maincamera - scene camera
     private UnityEngine.AI.NavMeshAgent aIController;
-    private GameObject placeholder; // TODO: Remove serialize field.
+    private GameObject placeholder; 
 
     public float speed; // !!Editing navmesh agents speed does nothing. Edit this from Inspector.
     public GameObject mySquadManager;
+
+    [SerializeField] private int team = 0; //it will be choosen when this man spawned, by squadManager script.  TODO: remove serialize field
+
+    private GameRuleManager GameRuleManager;
 
     // one time run
     void Start()
     {
         aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
         aIController.speed = speed; //set speed
-
+        GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameRuleManager>();  //find and set main manager
         cam = Camera.main;
     }
 
     //that will called every frame
     void Update()
     {
-        // if we click anywhere on screen with right mouse button
-        if (Input.GetMouseButtonDown(1))
+        if(GameRuleManager.GetTeam() == team)
         {
-            // send ray
-            RaycastHit hit;
-            Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
-
-            // if raycast hit  to an object
-            if (Physics.Raycast(clickRay, out hit))
+            // if we click anywhere on screen with right mouse button
+            if (Input.GetMouseButtonDown(1))
             {
-                // set hit.point as target
-                aIController.destination = hit.point;
+                // send ray
+                RaycastHit hit;
+                Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
+
+                // if raycast hit  to an object
+                if (Physics.Raycast(clickRay, out hit))
+                {
+                    // set hit.point as target
+                    aIController.destination = hit.point;
+                }
             }
+
         }
 
         // Check if we've reached the destination (or near of the destination)
         if (aIController.remainingDistance < 3.0f)
         {
-            GoPosition();
+           GoPosition();
         }
     }
 
@@ -61,5 +69,11 @@ public class SquadMemberManager : MonoBehaviour {
     public void SetMySpeed(float getSpeed) { 
         speed = getSpeed;
         aIController.speed = getSpeed;
+    }
+
+    //Team will be set by SquadManager
+    public void SetTeam(int getTeam)
+    { 
+        team = getTeam;
     }
 }
