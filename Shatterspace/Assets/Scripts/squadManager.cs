@@ -9,34 +9,38 @@ public class squadManager : MonoBehaviour {
     private Camera cam; //maincamera - scene camera
 
     private UnityEngine.AI.NavMeshAgent aIController;
-    
+
     public float squadHP;
     public float armour;
     public float speedMultiplier = 1; //don't change if you are not testing anything.
 
     private float squadSpeed;
 
-    private GameRuleManager GameRuleManager;
+    private GameRuleManager _GameRuleManager;
 
     [Header("Set it manually for now")] // TODO: Remove serialize field.
-    [SerializeField]private int team; //will be set on spawn by PlayerController script at this script's SetSquadTeam() func.
+    [SerializeField] private int team; //will be set on spawn by PlayerController script at this script's SetSquadTeam() func.
 
-    void Awake () {
-        aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        cam = Camera.main;
-        GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameRuleManager>();  //find and set main manager
+
+    void Start() {
+        Invoke("LateStart", 0.001f); //Temp. Fix
+        _GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameRuleManager>();  //find and set main manager
         UpdatePlaceholders();
-        UpdateSquadMembers();
     }
 
-    private void UpdateSquadMembers() //updates members and sets up manager
-    {
+    void LateStart(){
+        aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        cam = Camera.main;
+        FindSquadMembers();
+        SetupSquadMembers();
+    }
 
+
+    private void FindSquadMembers() //updates members and sets up manager
+    {
         squadMembers.Clear();
 
         GameObject squadParent = null;
-        float squadSpeedTemp = 100000; //declare a temp speed
-
         foreach (var go in GetComponentsInChildren<Transform>())
         {
             if (go.name == "SquadMembers")
@@ -52,8 +56,12 @@ public class squadManager : MonoBehaviour {
                 squadMembers.Add(member.gameObject);
         }
 
-        int i = 0;
+    }
+    private void SetupSquadMembers() //updates members and sets up manager
+    {
 
+        float squadSpeedTemp = 100000f; //declare a temp speed
+        int i = 0;
         foreach (var member in squadMembers) //search for slowest man in squaad and setup members
         {
             SquadMemberManager memberManager = member.GetComponent<SquadMemberManager>();
@@ -68,10 +76,6 @@ public class squadManager : MonoBehaviour {
 
             i++;
         }
-
-        SetSquadSpeed(squadSpeedTemp); //set up speeds.
-
-        
 
     }
 
@@ -93,9 +97,6 @@ public class squadManager : MonoBehaviour {
                 }
                 break;
             }
-            else {
-                Debug.Log(go.gameObject.name);
-            }
         }
 
         foreach (var placeholder in placeholdersTemp)
@@ -108,7 +109,7 @@ public class squadManager : MonoBehaviour {
 
         //TODO: Make player can select and use only mans from his\her own team.
 
-        if (GameRuleManager.GetTeam() == team)
+        if (_GameRuleManager.GetTeam() == team)
         {
             if (Input.GetMouseButtonDown(1))
             {
