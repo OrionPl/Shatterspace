@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float minVerticalRotation = 90;
     [SerializeField] private float maxVerticalRotation = 10;
 
-    public Vector3 startingRotation;
+    public Quaternion startingRotation;
 
     public List<GameObject> squads;
 
@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
         _rb = GetComponent<Rigidbody>();
 
-        startingRotation = new Vector3(90, 0, 0);
+        startingRotation = transform.rotation;
 
         CheckForSquads();
 
@@ -43,22 +43,19 @@ public class PlayerController : MonoBehaviour {
 
     private void MoveCamera()
     {
-        _rb.velocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * cameraSpeed;
-
         float zoomPos = transform.position.y - Input.GetAxis("Mouse ScrollWheel") * zoomSensitivity;
         zoomPos = Mathf.Clamp(zoomPos, minCamHeight, maxCamHeight);
         transform.position = new Vector3(0, zoomPos, 0);
 
-        //int rotHorizontal = 0;
-        //if (Input.GetKey(KeyCode.LeftArrow))
-        //{
-        //    rotHorizontal++;
-        //}
-        //if (Input.GetKey(KeyCode.RightArrow))
-        //{
-        //    rotHorizontal--;
-        //}
-        //_rb.rotation = Quaternion.AngleAxis(transform.rotation.y + rotHorizontal * horizontalRotationSpeed, Vector3.up);
+        int rotHorizontal = 0;
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            rotHorizontal++;
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            rotHorizontal--;
+        }
 
         int rotVertical = 0;
         if (Input.GetKey(KeyCode.UpArrow))
@@ -74,12 +71,29 @@ public class PlayerController : MonoBehaviour {
 
         camTargetRotation = _gameManager.ClampRotationAroundXAxis(camTargetRotation, minVerticalRotation, maxVerticalRotation);
 
-        transform.rotation = camTargetRotation;
-
         if (Input.GetKeyDown(KeyCode.R))
         {
-            transform.rotation = Quaternion.Euler(startingRotation.x, startingRotation.y, startingRotation.z);
+            camTargetRotation = startingRotation;
         }
+
+        transform.rotation = camTargetRotation;
+
+
+        int moveHorizontal = 0;
+        int moveVertical = 0;
+
+        if (Input.GetKey(KeyCode.A))
+            moveHorizontal--;
+        if (Input.GetKey(KeyCode.D))
+            moveHorizontal++;
+        if (Input.GetKey(KeyCode.W))
+            moveVertical++;
+        if (Input.GetKey(KeyCode.S))
+            moveVertical--;
+
+        Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical) * cameraSpeed;
+        
+        _rb.velocity = movement;
     }
 
     public void CheckForSquads()

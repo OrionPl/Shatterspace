@@ -2131,7 +2131,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
-  m_LocalRotation: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 1.73, y: 30, z: 0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -2212,9 +2212,9 @@ MonoBehaviour:
   zoomSensitivity: 20
   horizontalRotationSpeed: 1
   verticalRotationSpeed: 1
-  minVerticalRotation: 0
+  minVerticalRotation: 15
   maxVerticalRotation: 45
-  startingRotation: {x: 0, y: 0, z: 0}
+  startingRotation: {x: 0, y: 0, z: 0, w: 0}
   squads: []
 --- !u!54 &1687258588
 Rigidbody:
