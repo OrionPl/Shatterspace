@@ -23,24 +23,25 @@ public class squadManager : MonoBehaviour {
 
 
     void Start() {
-        Invoke("LateStart", 0.001f); //Temp. Fix
+        Invoke("LateStart", 0.001f); // TODO: It's temp fix for "One man  bug".
         _GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameRuleManager>();  //find and set main manager
-        UpdatePlaceholders();
+        aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        cam = Camera.main;
     }
 
     void LateStart(){
-        aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        cam = Camera.main;
-        FindSquadMembers();
-        SetupSquadMembers();
+        UpdatePlaceholders();
+        UpdateSquadMembers();
     }
 
-
-    private void FindSquadMembers() //updates members and sets up manager
+    private void UpdateSquadMembers() //updates members and sets up manager
     {
+
         squadMembers.Clear();
 
         GameObject squadParent = null;
+        float squadSpeedTemp = 100000f; //declare a temp speed
+
         foreach (var go in GetComponentsInChildren<Transform>())
         {
             if (go.name == "SquadMembers")
@@ -56,11 +57,6 @@ public class squadManager : MonoBehaviour {
                 squadMembers.Add(member.gameObject);
         }
 
-    }
-    private void SetupSquadMembers() //updates members and sets up manager
-    {
-
-        float squadSpeedTemp = 100000f; //declare a temp speed
         int i = 0;
         foreach (var member in squadMembers) //search for slowest man in squaad and setup members
         {
@@ -76,7 +72,6 @@ public class squadManager : MonoBehaviour {
 
             i++;
         }
-
     }
 
     private void UpdatePlaceholders()
