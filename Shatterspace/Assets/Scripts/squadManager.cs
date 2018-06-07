@@ -9,18 +9,27 @@ public class squadManager : MonoBehaviour {
     private Camera cam; //maincamera - scene camera
 
     private UnityEngine.AI.NavMeshAgent aIController;
-    
+
     public float squadHP;
     public float armour;
     public float speedMultiplier = 1; //don't change if you are not testing anything.
 
     private float squadSpeed;
 
-    void Start () {
+    private GameRuleManager _GameRuleManager;
+
+    [Header("Set it manually for now")] // TODO: Remove serialize field.
+    [SerializeField] private int team; //will be set on spawn by PlayerController script at this script's SetSquadTeam() func.
+
+
+    void Start() {
+        Invoke("LateStart", 0.001f); // TODO: It's temp fix for "One man  bug".
+        _GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameRuleManager>();  //find and set main manager
         aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
-
         cam = Camera.main;
+    }
 
+    void LateStart(){
         UpdatePlaceholders();
         UpdateSquadMembers();
     }
@@ -31,7 +40,7 @@ public class squadManager : MonoBehaviour {
         squadMembers.Clear();
 
         GameObject squadParent = null;
-        float squadSpeedTemp = 100000; //declare a temp speed
+        float squadSpeedTemp = 100000f; //declare a temp speed
 
         foreach (var go in GetComponentsInChildren<Transform>())
         {
@@ -49,7 +58,6 @@ public class squadManager : MonoBehaviour {
         }
 
         int i = 0;
-
         foreach (var member in squadMembers) //search for slowest man in squaad and setup members
         {
             SquadMemberManager memberManager = member.GetComponent<SquadMemberManager>();
@@ -60,11 +68,10 @@ public class squadManager : MonoBehaviour {
             }
             memberManager.SetPlaceholder(placeholders[i]); //set default positin
             memberManager.GoPosition(); //send him to position 
+            memberManager.SetTeam(team); // TODO: remove it later FOR TESTING. Use SetSquadTeam() from player when squad spawned
+
             i++;
         }
-
-        SetSquadSpeed(squadSpeedTemp); //set up speeds.
-
     }
 
     private void UpdatePlaceholders()
@@ -94,17 +101,23 @@ public class squadManager : MonoBehaviour {
     }
 
     void Update () {
-        if (Input.GetMouseButtonDown(1))
-        {
-            // send ray
-            RaycastHit hit;
-            Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
 
-            // if raycast hit  to an object
-            if (Physics.Raycast(clickRay, out hit))
+        //TODO: Make player can select and use only mans from his\her own team.
+
+        if (_GameRuleManager.GetTeam() == team)
+        {
+            if (Input.GetMouseButtonDown(1))
             {
-                // set hit.point as target
-                aIController.destination = hit.point;
+                // send ray
+                RaycastHit hit;
+                Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
+
+                // if raycast hit  to an object
+                if (Physics.Raycast(clickRay, out hit))
+                {
+                    // set hit.point as target
+                    aIController.destination = hit.point;
+                }
             }
         }
     }
@@ -133,4 +146,16 @@ public class squadManager : MonoBehaviour {
         aIController.speed = setSpeed * 2; //placeholders will go faster than mans for prevent bugs, to achive this its multipled with 2
 
     }
+
+    //team will be set by player on spawn
+    public void SetSquadTeam(int getTeam) {
+        team = getTeam; //set squad's team
+
+        foreach (var member in squadMembers) //set everyones team
+        {
+            SquadMemberManager memberManager = member.GetComponent<SquadMemberManager>();
+            memberManager.SetTeam(team);
+        }
+    }
+
 }

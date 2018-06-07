@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour {
 
     public List<GameObject> squads;
 
+    private int team;
+    private GameRuleManager GameRuleManager;
     private GameManager _gameManager;
 
     private Quaternion startingCamRotation;
@@ -35,6 +37,9 @@ public class PlayerController : MonoBehaviour {
         startingCamRotation = transform.rotation;
         startingPlayerRotation = transform.parent.rotation;
 
+    void Start () {
+        _rb = GetComponent<Rigidbody>();
+        GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameRuleManager>();  //find and set main manager
         CheckForSquads();
 
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -44,6 +49,9 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	void Update () {
+
+        //TODO: Make player can select and use only mans from his\her own team.
+
         MoveCamera();
         RotateCamera();
 	}
@@ -118,5 +126,11 @@ public class PlayerController : MonoBehaviour {
             if (squad.tag == "Squad")
                 squads.Add(squad.gameObject);
         }
+    }
+
+    //Team will be set by GameRuleManager   
+    public void SetTeam(int getTeam)
+    { 
+        team = getTeam;
     }
 }
