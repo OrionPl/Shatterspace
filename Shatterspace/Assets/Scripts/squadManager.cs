@@ -16,11 +16,10 @@ public class squadManager : MonoBehaviour {
     public float squadHP;
     public float armour;
     public float speedMultiplier = 1; //don't change if you are not testing anything.
+
     private float squadSpeed;
-
+    private bool selected;
     private GameRuleManager _GameRuleManager;
-
-
 
 
     void Start() {
@@ -107,7 +106,7 @@ public class squadManager : MonoBehaviour {
 
         //TODO: Make player can select and use only mans from his\her own team.
 
-        if (_GameRuleManager.GetTeam() == team)
+        if (_GameRuleManager.GetTeam() == team && selected)
         {
             if (Input.GetMouseButtonDown(1))
             {
@@ -159,6 +158,23 @@ public class squadManager : MonoBehaviour {
             SquadMemberManager memberManager = member.GetComponent<SquadMemberManager>();
             memberManager.SetTeam(team);
         }
+    }
+
+    //gives squad team
+    public int GetSquadTeam()
+    {
+        return team;
+    }
+
+    //select or deselect him
+    public void Select(bool input)
+    {
+        foreach (var member in squadMembers) //set up selection for members
+        {
+            SquadMemberManager memberManager = member.GetComponent<SquadMemberManager>();
+            memberManager.Select(input);
+        }
+        selected = input;
     }
 
 }

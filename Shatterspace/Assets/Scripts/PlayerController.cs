@@ -17,14 +17,15 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float maxVerticalRotation = 10;
 
     
-
     public List<GameObject> squads;
+
+    private List<GameObject> selection;
+    private Camera cam;
 
     private int team;
 
     private Rigidbody _rb;
     private Rigidbody _parentRb;
-
 
     private Quaternion startingCamRotation;
     private Quaternion startingPlayerRotation;
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour {
     void Start()
     {
         Invoke("LateStart", 0.001f); // TODO: It's temp fix for "One man  bug".
+        selection = new List<GameObject>();
     }
 
     void LateStart()
@@ -41,23 +43,61 @@ public class PlayerController : MonoBehaviour {
         _rb = GetComponent<Rigidbody>();
         _parentRb = GetComponentInParent<Rigidbody>();
         _GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameRuleManager>();  //find and set main manager
+        cam = Camera.main;
 
         startingCamRotation = transform.rotation;
         startingPlayerRotation = transform.parent.rotation;
-
-        CheckForSquads();
-
+        
         camTargetRotation = transform.rotation;
         playerTargetRotation = transform.parent.rotation;
+
+        CheckForSquads();
     }
 
     void Update () {
 
         //TODO: Make player can select and use only mans from his\her own team.
 
+        CheckClick();
         MoveCamera();
         RotateCamera();
 	}
+
+    private void CheckClick() {
+        // if we click anywhere on screen with right mouse button
+        if (Input.GetMouseButtonDown(0))
+        {
+            // send ray
+            RaycastHit hit;
+            Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
+
+            // if raycast hit  to an object
+            if (Physics.Raycast(clickRay, out hit))
+            {
+                if (hit.collider.transform.tag == "barracks") //check for tags
+                {
+                    _GameRuleManager.UIOpenBarracks();
+                    selection.Clear();
+                }
+                else if (hit.collider.transform.tag == "Squad")
+                {
+                    squadManager tempSquad = hit.collider.gameObject.GetComponent<squadManager>();
+                    if (tempSquad.GetSquadTeam() == team) //if its ally, make squad controllable
+                    {
+                        selection.Add(tempSquad.gameObject);
+                        tempSquad.Select(true);
+                    }
+                    else
+                    {
+                        Attack(tempSquad.gameObject); //attack him, he is an enemy
+                    }
+                }
+                else {
+                    CleanSelection();
+                }
+            }
+        }
+    }
 
     private void MoveCamera()
     {
@@ -123,6 +163,18 @@ public class PlayerController : MonoBehaviour {
         transform.parent.rotation = playerTargetRotation;
     }
 
+    void Attack(GameObject target) {
+
+    }
+
+    void CleanSelection() {
+        foreach (var squad in selection) //set everyones team
+        {
+            squad.GetComponent<squadManager>().Select(false);
+        }
+        selection.Clear();
+    }
+
     public void CheckForSquads()
     {
         squads.Clear();
@@ -138,4 +190,6 @@ public class PlayerController : MonoBehaviour {
     { 
         team = getTeam;
     }
+
+
 }

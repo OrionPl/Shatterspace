@@ -6,15 +6,17 @@ public class SquadMemberManager : MonoBehaviour {
 
     [SerializeField] private int team = 0; //it will be choosen when this man spawned, by squadManager script.  TODO: remove serialize field
 
-    private Camera cam; //maincamera - scene camera
-    
-    private GameObject placeholder;
+
     public GameObject mySquadManager;
-    private UnityEngine.AI.NavMeshAgent aIController;
 
     public float speed; // !!Editing navmesh agents speed does nothing. Edit this from Inspector.
+    private Camera cam; //maincamera - scene camera
 
+    private UnityEngine.AI.NavMeshAgent aIController;
+    private GameObject placeholder;
     private GameRuleManager GameRuleManager;
+
+    private bool selected;
 
     // one time run
     void Start()
@@ -28,7 +30,7 @@ public class SquadMemberManager : MonoBehaviour {
     //that will called every frame
     void Update()
     {
-        if(GameRuleManager.GetTeam() == team)
+        if(GameRuleManager.GetTeam() == team && selected)
         {
             // if we click anywhere on screen with right mouse button
             if (Input.GetMouseButtonDown(1))
@@ -76,5 +78,9 @@ public class SquadMemberManager : MonoBehaviour {
     public void SetTeam(int getTeam)
     { 
         team = getTeam;
+    }
+
+    public void Select(bool input) {
+        selected = input;
     }
 }
