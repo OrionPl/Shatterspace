@@ -39,12 +39,17 @@ public class GameRuleManager : MonoBehaviour {
         q.y /= q.w;
         q.z /= q.w;
         q.w = 1f;
-        Debug.Log(q);
+
         float angleX = Mathf.Rad2Deg * Mathf.Atan(q.x);
         angleX = Mathf.Clamp(angleX, min, max);
 
         q.x = Mathf.Tan(Mathf.Deg2Rad * angleX);
 
         return q;
+    }
+
+
+    public void UIOpenBarracks() { //opens UI for player
+
     }
 }
