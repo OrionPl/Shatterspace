@@ -287,10 +287,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   squadMembers: []
   placeholders: []
+  team: 1
   squadHP: 0
   armour: 0
   speedMultiplier: 1
-  team: 1
 --- !u!4 &87278461
 Transform:
   m_ObjectHideFlags: 0
@@ -1892,10 +1892,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   squadMembers: []
   placeholders: []
+  team: 0
   squadHP: 0
   armour: 0
   speedMultiplier: 1
-  team: 0
 --- !u!4 &681533062
 Transform:
   m_ObjectHideFlags: 0
@@ -3418,8 +3418,8 @@ MonoBehaviour:
   zoomSensitivity: 20
   horizontalRotationSpeed: 1
   verticalRotationSpeed: 1
-  minVerticalRotation: 360
-  maxVerticalRotation: 360
+  minVerticalRotation: 15
+  maxVerticalRotation: 45
   squads: []
 --- !u!54 &1676989055
 Rigidbody:

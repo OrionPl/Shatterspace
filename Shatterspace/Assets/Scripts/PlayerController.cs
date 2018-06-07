@@ -109,9 +109,9 @@ public class PlayerController : MonoBehaviour {
 
         camTargetRotation *= Quaternion.Euler(-rotVertical * verticalRotationSpeed, 0, 0);
 
-        camTargetRotation *= _GameRuleManager.ClampRotationAroundXAxis(camTargetRotation, minVerticalRotation, maxVerticalRotation);
+        camTargetRotation = _GameRuleManager.ClampRotationAroundXAxis(camTargetRotation, minVerticalRotation, maxVerticalRotation);
 
-        Debug.Log(camTargetRotation);
+
 
         if (Input.GetKeyDown(KeyCode.R))
         {
