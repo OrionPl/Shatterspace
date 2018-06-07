@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     private Rigidbody _rb;
+    private Rigidbody _parentRb;
 
     [SerializeField] private float cameraSpeed = 1;
 
@@ -16,37 +17,63 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float minVerticalRotation = 90;
     [SerializeField] private float maxVerticalRotation = 10;
 
-    public Quaternion startingRotation;
+    
 
     public List<GameObject> squads;
 
     private GameManager _gameManager;
 
-
+    private Quaternion startingCamRotation;
+    private Quaternion startingPlayerRotation;
     private Quaternion camTargetRotation;
+    private Quaternion playerTargetRotation;
 
 	void Start () {
         _rb = GetComponent<Rigidbody>();
+        _parentRb = GetComponentInParent<Rigidbody>();
 
-        startingRotation = transform.rotation;
+        startingCamRotation = transform.rotation;
+        startingPlayerRotation = transform.parent.rotation;
 
         CheckForSquads();
 
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         camTargetRotation = transform.rotation;
+        playerTargetRotation = transform.parent.rotation;
 	}
 	
 	void Update () {
         MoveCamera();
+        RotateCamera();
 	}
 
     private void MoveCamera()
     {
-        float zoomPos = transform.position.y - Input.GetAxis("Mouse ScrollWheel") * zoomSensitivity;
-        zoomPos = Mathf.Clamp(zoomPos, minCamHeight, maxCamHeight);
-        transform.position = new Vector3(0, zoomPos, 0);
+        int moveHorizontal = 0;
+        int moveVertical = 0;
 
+        if (Input.GetKey(KeyCode.A))
+            moveHorizontal--;
+        if (Input.GetKey(KeyCode.D))
+            moveHorizontal++;
+        if (Input.GetKey(KeyCode.W))
+            moveVertical++;
+        if (Input.GetKey(KeyCode.S))
+            moveVertical--;
+
+        Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical) * cameraSpeed;
+        
+        transform.parent.position += transform.parent.forward * moveVertical * cameraSpeed;
+        transform.parent.position += transform.parent.right * moveHorizontal * cameraSpeed;
+    }
+
+    private void RotateCamera()
+    {
+        float zoomPos = transform.position.y + Input.GetAxis("Mouse ScrollWheel") * zoomSensitivity;
+        zoomPos = Mathf.Clamp(zoomPos, minCamHeight, maxCamHeight);
+        transform.position = new Vector3(transform.position.x, zoomPos, transform.position.z);
+        
         int rotHorizontal = 0;
         if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -67,33 +94,20 @@ public class PlayerController : MonoBehaviour {
             rotVertical--;
         }
 
+        playerTargetRotation *= Quaternion.Euler(0, -rotHorizontal * horizontalRotationSpeed, 0);
+
         camTargetRotation *= Quaternion.Euler(-rotVertical * verticalRotationSpeed, 0, 0);
 
         camTargetRotation = _gameManager.ClampRotationAroundXAxis(camTargetRotation, minVerticalRotation, maxVerticalRotation);
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            camTargetRotation = startingRotation;
+            camTargetRotation = startingCamRotation;
+            playerTargetRotation = startingPlayerRotation;
         }
 
-        transform.rotation = camTargetRotation;
-
-
-        int moveHorizontal = 0;
-        int moveVertical = 0;
-
-        if (Input.GetKey(KeyCode.A))
-            moveHorizontal--;
-        if (Input.GetKey(KeyCode.D))
-            moveHorizontal++;
-        if (Input.GetKey(KeyCode.W))
-            moveVertical++;
-        if (Input.GetKey(KeyCode.S))
-            moveVertical--;
-
-        Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical) * cameraSpeed;
-        
-        _rb.velocity = movement;
+        transform.localRotation = camTargetRotation;
+        transform.parent.rotation = playerTargetRotation;
     }
 
     public void CheckForSquads()
