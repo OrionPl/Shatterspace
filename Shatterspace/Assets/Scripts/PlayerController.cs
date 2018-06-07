@@ -5,22 +5,47 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     private Rigidbody _rb;
+    private Rigidbody _parentRb;
 
     [SerializeField] private float cameraSpeed = 1;
 
     [SerializeField] private float maxCamHeight = 100;
     [SerializeField] private float minCamHeight = 20;
     [SerializeField] private float zoomSensitivity = 10;
+    [SerializeField] private float horizontalRotationSpeed = 1;
+    [SerializeField] private float verticalRotationSpeed = 1;
+    [SerializeField] private float minVerticalRotation = 90;
+    [SerializeField] private float maxVerticalRotation = 10;
+
+    
 
     public List<GameObject> squads;
 
     private int team;
     private GameRuleManager GameRuleManager;
+    private GameManager _gameManager;
+
+    private Quaternion startingCamRotation;
+    private Quaternion startingPlayerRotation;
+    private Quaternion camTargetRotation;
+    private Quaternion playerTargetRotation;
+
+	void Start () {
+        _rb = GetComponent<Rigidbody>();
+        _parentRb = GetComponentInParent<Rigidbody>();
+
+        startingCamRotation = transform.rotation;
+        startingPlayerRotation = transform.parent.rotation;
 
     void Start () {
         _rb = GetComponent<Rigidbody>();
         GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameRuleManager>();  //find and set main manager
         CheckForSquads();
+
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        camTargetRotation = transform.rotation;
+        playerTargetRotation = transform.parent.rotation;
 	}
 	
 	void Update () {
@@ -28,15 +53,69 @@ public class PlayerController : MonoBehaviour {
         //TODO: Make player can select and use only mans from his\her own team.
 
         MoveCamera();
+        RotateCamera();
 	}
 
     private void MoveCamera()
     {
-        _rb.velocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * cameraSpeed;
+        int moveHorizontal = 0;
+        int moveVertical = 0;
 
-        float zoomPos = transform.position.y - Input.GetAxis("Mouse ScrollWheel") * zoomSensitivity;
+        if (Input.GetKey(KeyCode.A))
+            moveHorizontal--;
+        if (Input.GetKey(KeyCode.D))
+            moveHorizontal++;
+        if (Input.GetKey(KeyCode.W))
+            moveVertical++;
+        if (Input.GetKey(KeyCode.S))
+            moveVertical--;
+
+        Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical) * cameraSpeed;
+        
+        transform.parent.position += transform.parent.forward * moveVertical * cameraSpeed;
+        transform.parent.position += transform.parent.right * moveHorizontal * cameraSpeed;
+    }
+
+    private void RotateCamera()
+    {
+        float zoomPos = transform.position.y + Input.GetAxis("Mouse ScrollWheel") * zoomSensitivity;
         zoomPos = Mathf.Clamp(zoomPos, minCamHeight, maxCamHeight);
-        transform.position = new Vector3(0, zoomPos, 0);
+        transform.position = new Vector3(transform.position.x, zoomPos, transform.position.z);
+        
+        int rotHorizontal = 0;
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            rotHorizontal++;
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            rotHorizontal--;
+        }
+
+        int rotVertical = 0;
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            rotVertical++;
+        }
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            rotVertical--;
+        }
+
+        playerTargetRotation *= Quaternion.Euler(0, -rotHorizontal * horizontalRotationSpeed, 0);
+
+        camTargetRotation *= Quaternion.Euler(-rotVertical * verticalRotationSpeed, 0, 0);
+
+        camTargetRotation = _gameManager.ClampRotationAroundXAxis(camTargetRotation, minVerticalRotation, maxVerticalRotation);
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            camTargetRotation = startingCamRotation;
+            playerTargetRotation = startingPlayerRotation;
+        }
+
+        transform.localRotation = camTargetRotation;
+        transform.parent.rotation = playerTargetRotation;
     }
 
     public void CheckForSquads()
