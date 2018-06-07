@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    private Rigidbody _rb;
-    private Rigidbody _parentRb;
+    [SerializeField] private GameRuleManager _GameRuleManager;
 
     [SerializeField] private float cameraSpeed = 1;
 
@@ -22,33 +21,37 @@ public class PlayerController : MonoBehaviour {
     public List<GameObject> squads;
 
     private int team;
-    private GameRuleManager GameRuleManager;
-    private GameManager _gameManager;
+
+    private Rigidbody _rb;
+    private Rigidbody _parentRb;
+
 
     private Quaternion startingCamRotation;
     private Quaternion startingPlayerRotation;
     private Quaternion camTargetRotation;
     private Quaternion playerTargetRotation;
 
-	void Start () {
+    void Start()
+    {
+        Invoke("LateStart", 0.001f); // TODO: It's temp fix for "One man  bug".
+    }
+
+    void LateStart()
+    {
         _rb = GetComponent<Rigidbody>();
         _parentRb = GetComponentInParent<Rigidbody>();
+        _GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameRuleManager>();  //find and set main manager
 
         startingCamRotation = transform.rotation;
         startingPlayerRotation = transform.parent.rotation;
 
-    void Start () {
-        _rb = GetComponent<Rigidbody>();
-        GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameRuleManager>();  //find and set main manager
         CheckForSquads();
-
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         camTargetRotation = transform.rotation;
         playerTargetRotation = transform.parent.rotation;
-	}
-	
-	void Update () {
+    }
+
+    void Update () {
 
         //TODO: Make player can select and use only mans from his\her own team.
 
@@ -106,7 +109,9 @@ public class PlayerController : MonoBehaviour {
 
         camTargetRotation *= Quaternion.Euler(-rotVertical * verticalRotationSpeed, 0, 0);
 
-        camTargetRotation = _gameManager.ClampRotationAroundXAxis(camTargetRotation, minVerticalRotation, maxVerticalRotation);
+        camTargetRotation *= _GameRuleManager.ClampRotationAroundXAxis(camTargetRotation, minVerticalRotation, maxVerticalRotation);
+
+        Debug.Log(camTargetRotation);
 
         if (Input.GetKeyDown(KeyCode.R))
         {

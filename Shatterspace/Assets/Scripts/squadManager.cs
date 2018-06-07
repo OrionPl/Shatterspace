@@ -6,30 +6,31 @@ public class squadManager : MonoBehaviour {
 
     [SerializeField] private List<GameObject> squadMembers;
     [SerializeField] private List<GameObject> placeholders;
-    private Camera cam; //maincamera - scene camera
 
+    [Header("Set it manually for now")] // TODO: Remove serialize field.
+    [SerializeField] private int team; //will be set on spawn by PlayerController script at this script's SetSquadTeam() func.
+
+    private Camera cam; //maincamera - scene camera
     private UnityEngine.AI.NavMeshAgent aIController;
 
     public float squadHP;
     public float armour;
     public float speedMultiplier = 1; //don't change if you are not testing anything.
-
     private float squadSpeed;
 
     private GameRuleManager _GameRuleManager;
 
-    [Header("Set it manually for now")] // TODO: Remove serialize field.
-    [SerializeField] private int team; //will be set on spawn by PlayerController script at this script's SetSquadTeam() func.
+
 
 
     void Start() {
         Invoke("LateStart", 0.001f); // TODO: It's temp fix for "One man  bug".
-        _GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameRuleManager>();  //find and set main manager
-        aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        cam = Camera.main;
     }
 
     void LateStart(){
+        _GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameRuleManager>();  //find and set main manager
+        aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        cam = Camera.main;
         UpdatePlaceholders();
         UpdateSquadMembers();
     }
