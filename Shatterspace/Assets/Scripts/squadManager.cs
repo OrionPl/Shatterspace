@@ -73,6 +73,8 @@ public class squadManager : MonoBehaviour {
 
             i++;
         }
+
+        SetSquadSpeed(squadSpeedTemp); //set everyones speed to slowest man in squad
     }
 
     private void UpdatePlaceholders()
