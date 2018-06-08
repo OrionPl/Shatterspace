@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float minVerticalRotation = 90;
     [SerializeField] private float maxVerticalRotation = 10;
 
+    [SerializeField] private GameObject[] buildingPrefabs;
+
     [Header("0-3, 0 for Hack., 1 for SysA., 2 for Swarm,  3 for GCDI ")]
     public int teamID = 0;
 
@@ -23,8 +25,6 @@ public class PlayerController : MonoBehaviour {
 
     private List<GameObject> selection;
     private Camera cam;
-
-    private int team;
 
     private Rigidbody _rb;
     private Rigidbody _parentRb;
@@ -34,16 +34,14 @@ public class PlayerController : MonoBehaviour {
     private Quaternion camTargetRotation;
     private Quaternion playerTargetRotation;
 
-    [SerializeField] private GameObject[] buildingPrefabs;
-
     void Start()
     {
         Invoke("LateStart", 0.001f); // TODO: It's temp fix for "One man  bug".
-        selection = new List<GameObject>();
     }
 
     void LateStart()
     {
+        selection = new List<GameObject>();
         _rb = GetComponent<Rigidbody>();
         _parentRb = GetComponentInParent<Rigidbody>();
         _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
@@ -86,7 +84,7 @@ public class PlayerController : MonoBehaviour {
                 else if (hit.collider.transform.tag == "Squad")
                 {
                     squadManager tempSquad = hit.collider.gameObject.GetComponent<squadManager>();
-                    if (tempSquad.GetSquadTeam() == team) //if its ally, make squad controllable
+                    if (tempSquad.GetSquadTeam() == teamID) //if its ally, make squad controllable
                     {
                         selection.Add(tempSquad.gameObject);
                         tempSquad.Select(true);
@@ -191,7 +189,7 @@ public class PlayerController : MonoBehaviour {
     
     public void SetTeam(int newTeam)
     { 
-        team = newTeam;
+        teamID = newTeam;
     }
 
     public void OpenBarrackUI()

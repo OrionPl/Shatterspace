@@ -8,7 +8,7 @@ public class squadManager : MonoBehaviour {
     [SerializeField] private List<GameObject> placeholders;
 
     [Header("Set it manually for now")] // TODO: Remove serialize field.
-    [SerializeField] private int team; //will be set on spawn by PlayerController script at this script's SetSquadTeam() func.
+    [SerializeField] private int team; //will be set on spawn by barracks at this script's SetSquadTeam() func.
 
     private Camera cam; //maincamera - scene camera
     private UnityEngine.AI.NavMeshAgent aIController;
@@ -31,6 +31,7 @@ public class squadManager : MonoBehaviour {
         _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  //find and set main manager
         aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
         cam = Camera.main;
+        squadOwnerPC = Camera.main.gameObject.GetComponent<PlayerController>();
         UpdatePlaceholders();
         UpdateSquadMembers();
         UpdatePlaceholders();
@@ -71,12 +72,13 @@ public class squadManager : MonoBehaviour {
             memberManager.SetPlaceholder(placeholders[i]); //set default positin
             memberManager.GoPosition(); //send him to position 
             memberManager.SetTeam(team); // TODO: remove it later FOR TESTING. Use SetSquadTeam() from player when squad spawned
+            memberManager.SetMyManager(gameObject); //set his manager
 
             i++;
         }
 
         SetSquadSpeed(squadSpeedTemp); //set everyones speed to slowest man in squad
-        UpdatePlaceholders();
+        SetSquadTeam(team);
     }
 
     private void UpdatePlaceholders()

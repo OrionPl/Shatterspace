@@ -18,14 +18,19 @@ public class SquadMemberManager : MonoBehaviour {
 
     private bool selected;
 
-    // one time run
+
     void Start()
+    {
+        Invoke("LateStart", 0.001f); // TODO: It's temp fix for "One man  bug".
+    }
+
+    // one time run
+    void LateStart()
     {
         aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
         aIController.speed = speed; //set speed
         GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  //find and set main manager
-        cam = Camera.main;
-        mySquadManager = transform.parent.transform.parent.GetComponent<squadManager>();
+        cam = Camera.main;  
     }
 
     //that will called every frame
@@ -79,6 +84,10 @@ public class SquadMemberManager : MonoBehaviour {
     public void SetTeam(int getTeam)
     { 
         team = getTeam;
+    }
+
+    public void SetMyManager(GameObject manager) {
+        mySquadManager = manager.GetComponent<squadManager>();
     }
 
     public void Select(bool input) {
