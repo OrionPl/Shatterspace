@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    [SerializeField] private GameManager _gameManager;
+    private GameManager _gameManager;
 
     [SerializeField] private float cameraSpeed = 1;
 
@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour {
     private Quaternion camTargetRotation;
     private Quaternion playerTargetRotation;
 
+    [SerializeField] private GameObject[] buildingPrefabs;
+
     void Start()
     {
         Invoke("LateStart", 0.001f); // TODO: It's temp fix for "One man  bug".
@@ -44,7 +46,7 @@ public class PlayerController : MonoBehaviour {
     {
         _rb = GetComponent<Rigidbody>();
         _parentRb = GetComponentInParent<Rigidbody>();
-        _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  //find and set main manager
+        _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         cam = Camera.main;
 
         startingCamRotation = transform.rotation;
@@ -195,5 +197,42 @@ public class PlayerController : MonoBehaviour {
     public void OpenBarrackUI()
     {
         
+    }
+
+    public void BuildingPlacement(GameObject building)
+    {
+        Vector3 newBuildingPosition = new Vector3(0, 0, 0);
+        newBuilding = Instantiate(building, newBuildingPosition, Quaternion.identity);
+        StartCoroutine("NewBuildingPositionSelection");
+    }
+
+    private GameObject newBuilding;
+
+    IEnumerator NewBuildingPositionSelection()
+    {
+        yield return new WaitForSeconds(0.1f);
+        while (true)
+        {
+            yield return new WaitForEndOfFrame();
+
+            RaycastHit hit;
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                newBuilding.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
+            }
+
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                newBuilding = null;
+                break;
+            }
+        }
+    }
+
+    public void BarrackPlacement()
+    {
+        BuildingPlacement(buildingPrefabs[0]);
     }
 }

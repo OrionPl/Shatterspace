@@ -33,6 +33,7 @@ public class squadManager : MonoBehaviour {
         cam = Camera.main;
         UpdatePlaceholders();
         UpdateSquadMembers();
+        UpdatePlaceholders();
     }
 
     private void UpdateSquadMembers() //updates members and sets up manager
@@ -75,6 +76,7 @@ public class squadManager : MonoBehaviour {
         }
 
         SetSquadSpeed(squadSpeedTemp); //set everyones speed to slowest man in squad
+        UpdatePlaceholders();
     }
 
     private void UpdatePlaceholders()

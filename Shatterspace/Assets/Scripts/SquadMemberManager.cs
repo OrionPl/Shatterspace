@@ -25,6 +25,7 @@ public class SquadMemberManager : MonoBehaviour {
         aIController.speed = speed; //set speed
         GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  //find and set main manager
         cam = Camera.main;
+        mySquadManager = transform.parent.transform.parent.GetComponent<squadManager>();
     }
 
     //that will called every frame

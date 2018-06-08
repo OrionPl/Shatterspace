@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-    [Header("After some code player will be able to change team from UI")]
     [SerializeField] private bool multiplayer = false;
     
     void Start() {
