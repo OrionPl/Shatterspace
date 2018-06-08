@@ -19,15 +19,16 @@ public class squadManager : MonoBehaviour {
 
     private float squadSpeed;
     private bool selected;
-    private GameRuleManager _GameRuleManager;
-
+    private GameManager _gameManager;
+    private GameObject squadOwnerGO;
+    private PlayerController squadOwnerPC;
 
     void Start() {
         Invoke("LateStart", 0.001f); // TODO: It's temp fix for "One man  bug".
     }
 
     void LateStart(){
-        _GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameRuleManager>();  //find and set main manager
+        _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  //find and set main manager
         aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
         cam = Camera.main;
         UpdatePlaceholders();
@@ -106,7 +107,7 @@ public class squadManager : MonoBehaviour {
 
         //TODO: Make player can select and use only mans from his\her own team.
 
-        if (_GameRuleManager.GetTeam() == team && selected)
+        if (squadOwnerPC.teamID == team && selected)
         {
             if (Input.GetMouseButtonDown(1))
             {
@@ -166,7 +167,7 @@ public class squadManager : MonoBehaviour {
         return team;
     }
 
-    //select or deselect him
+    //select or deselect
     public void Select(bool input)
     {
         foreach (var member in squadMembers) //set up selection for members

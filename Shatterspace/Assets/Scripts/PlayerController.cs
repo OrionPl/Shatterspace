@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    [SerializeField] private GameRuleManager _GameRuleManager;
+    [SerializeField] private GameManager _gameManager;
 
     [SerializeField] private float cameraSpeed = 1;
 
@@ -16,7 +16,9 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float minVerticalRotation = 90;
     [SerializeField] private float maxVerticalRotation = 10;
 
-    
+    [Header("0-3, 0 for Hack., 1 for SysA., 2 for Swarm,  3 for GCDI ")]
+    public int teamID = 0;
+
     public List<GameObject> squads;
 
     private List<GameObject> selection;
@@ -42,7 +44,7 @@ public class PlayerController : MonoBehaviour {
     {
         _rb = GetComponent<Rigidbody>();
         _parentRb = GetComponentInParent<Rigidbody>();
-        _GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameRuleManager>();  //find and set main manager
+        _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  //find and set main manager
         cam = Camera.main;
 
         startingCamRotation = transform.rotation;
@@ -76,7 +78,7 @@ public class PlayerController : MonoBehaviour {
             {
                 if (hit.collider.transform.tag == "barracks") //check for tags
                 {
-                    _GameRuleManager.UIOpenBarracks();
+                    OpenBarrackUI();
                     selection.Clear();
                 }
                 else if (hit.collider.transform.tag == "Squad")
@@ -149,7 +151,7 @@ public class PlayerController : MonoBehaviour {
 
         camTargetRotation *= Quaternion.Euler(-rotVertical * verticalRotationSpeed, 0, 0);
 
-        camTargetRotation = _GameRuleManager.ClampRotationAroundXAxis(camTargetRotation, minVerticalRotation, maxVerticalRotation);
+        camTargetRotation = _gameManager.ClampRotationAroundXAxis(camTargetRotation, minVerticalRotation, maxVerticalRotation);
 
 
 
@@ -168,7 +170,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     void CleanSelection() {
-        foreach (var squad in selection) //set everyones team
+        foreach (var squad in selection)
         {
             squad.GetComponent<squadManager>().Select(false);
         }
@@ -184,12 +186,14 @@ public class PlayerController : MonoBehaviour {
                 squads.Add(squad.gameObject);
         }
     }
-
-    //Team will be set by GameRuleManager   
-    public void SetTeam(int getTeam)
+    
+    public void SetTeam(int newTeam)
     { 
-        team = getTeam;
+        team = newTeam;
     }
 
-
+    public void OpenBarrackUI()
+    {
+        
+    }
 }

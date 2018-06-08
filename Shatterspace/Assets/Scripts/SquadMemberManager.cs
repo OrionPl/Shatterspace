@@ -7,14 +7,14 @@ public class SquadMemberManager : MonoBehaviour {
     [SerializeField] private int team = 0; //it will be choosen when this man spawned, by squadManager script.  TODO: remove serialize field
 
 
-    public GameObject mySquadManager;
+    public squadManager mySquadManager;
 
     public float speed; // !!Editing navmesh agents speed does nothing. Edit this from Inspector.
     private Camera cam; //maincamera - scene camera
 
     private UnityEngine.AI.NavMeshAgent aIController;
     private GameObject placeholder;
-    private GameRuleManager GameRuleManager;
+    private GameManager GameRuleManager;
 
     private bool selected;
 
@@ -23,14 +23,14 @@ public class SquadMemberManager : MonoBehaviour {
     {
         aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
         aIController.speed = speed; //set speed
-        GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameRuleManager>();  //find and set main manager
+        GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  //find and set main manager
         cam = Camera.main;
     }
 
     //that will called every frame
     void Update()
     {
-        if(GameRuleManager.GetTeam() == team && selected)
+        if (mySquadManager.GetSquadTeam() == team && selected)
         {
             // if we click anywhere on screen with right mouse button
             if (Input.GetMouseButtonDown(1))
@@ -65,7 +65,7 @@ public class SquadMemberManager : MonoBehaviour {
     public void SetPlaceholder(GameObject target)
     {
         placeholder = target;
-        mySquadManager = target.transform.parent.transform.parent.gameObject;
+        mySquadManager = target.transform.parent.GetComponent<squadManager>();
     }
 
     //set speed of this man
