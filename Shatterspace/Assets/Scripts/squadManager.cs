@@ -18,23 +18,18 @@ public class squadManager : MonoBehaviour {
     public float speedMultiplier = 1; //don't change if you are not testing anything.
 
     private float squadSpeed;
-    private bool selected;
+    private bool selected = false;
+    private bool alive = false;
     private GameManager _gameManager;
-    private GameObject squadOwnerGO;
-    private PlayerController squadOwnerPC;
 
-    void Start() {
-        Invoke("LateStart", 0.001f); // TODO: It's temp fix for "One man  bug".
-    }
-
-    void LateStart(){
+    public void Setup(){
         _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  //find and set main manager
         aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
         cam = Camera.main;
-        squadOwnerPC = Camera.main.gameObject.GetComponent<PlayerController>();
+
         UpdatePlaceholders();
         UpdateSquadMembers();
-        UpdatePlaceholders();
+        alive = true;
     }
 
     private void UpdateSquadMembers() //updates members and sets up manager
@@ -79,6 +74,7 @@ public class squadManager : MonoBehaviour {
 
         SetSquadSpeed(squadSpeedTemp); //set everyones speed to slowest man in squad
         SetSquadTeam(team);
+        alive = true;
     }
 
     private void UpdatePlaceholders()
@@ -108,10 +104,7 @@ public class squadManager : MonoBehaviour {
     }
 
     void Update () {
-
-        //TODO: Make player can select and use only mans from his\her own team.
-
-        if (squadOwnerPC.teamID == team && selected)
+     if (selected && alive)
         {
             if (Input.GetMouseButtonDown(1))
             {

@@ -13,7 +13,10 @@ public class BarracksBuilding : MonoBehaviour {
 
     [SerializeField] private Vector3 timerOffset;
 
-    [SerializeField ]private GameObject manType;
+    [SerializeField] private GameObject manType;
+    [SerializeField] private GameObject spawnPoint;
+    [SerializeField] private GameObject emptySquad;
+    [SerializeField] private GameObject UIButtons;
 
     [SerializeField] private int team; //will be set by builder
 
@@ -21,18 +24,20 @@ public class BarracksBuilding : MonoBehaviour {
 
     private bool constructed;
     private bool selected = false;
+    private bool working;
+    private int spawnedMans;
 
     private void Start()
     {
         uiConstructionTime = GetComponentInChildren<Slider>();
         uiConstructionTime.maxValue = constructionTime;
-        uiConstructionTime.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update () {
 
         uiConstructionTime.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position + timerOffset);
+        UIButtons.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 
         if (constructionTime <= 0f)
             Destroy(gameObject);
@@ -66,6 +71,10 @@ public class BarracksBuilding : MonoBehaviour {
 
     }
 
+    private void StopWorking() {
+        working = false;
+    }
+
     private void SetupTimer() {
         InvokeRepeating("BuildTimer", 0f, 0.1f);
     }
@@ -80,7 +89,47 @@ public class BarracksBuilding : MonoBehaviour {
             
     }
 
+    public void SpawnSquad() {
+        if (selected) {
+            if (!working) {
+                working = true;
+                GameObject targetSquad = Instantiate(emptySquad, spawnPoint.transform.position, spawnPoint.transform.rotation);
+                GameObject squadParent = null;
+                foreach (var go in targetSquad.GetComponentsInChildren<Transform>())
+                {
+                    if (go.name == "SquadMembers")
+                    {
+                        squadParent = go.gameObject;
+                    }
 
+                }
+
+                foreach (var placeholder in placeholders)
+                {
+                    SpawnMans(3, placeholder, targetSquad, squadParent);
+                }
+                targetSquad.GetComponent<squadManager>().SetSquadTeam(team);
+                Invoke("StopWorking", manSpawnTime);
+            }
+        }
+    }
+
+    void SpawnMans(int count, GameObject placeholder, GameObject manager, GameObject squadParent) {
+        if (spawnedMans < placeholders.Count && spawnedMans < count) {
+            GameObject spawnedMan = Instantiate(manType, placeholder.transform.position, placeholder.transform.rotation);
+            spawnedMan.transform.SetParent(squadParent.transform);
+            SquadMemberManager manSettings = spawnedMan.GetComponent<SquadMemberManager>();
+            manSettings.SetMyManager(manager);
+            manSettings.SetTeam(team);
+            manSettings.Setup(manSpawnTime);
+        }
+    }
+
+    public void ReinforceSquad() {
+        if (selected) {
+
+        }
+    }
 
     public void SetManType(GameObject man) {
         manType = man;
@@ -99,9 +148,14 @@ public class BarracksBuilding : MonoBehaviour {
         return constructed;
     }
 
+    public int GetTeam() {
+        return team;
+    }
+
     public void Select(bool input) {
         selected = input;
         uiConstructionTime.gameObject.SetActive(input);
+        UIButtons.SetActive(input);
     }
 
     // Use this for initialization

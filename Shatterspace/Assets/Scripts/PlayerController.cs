@@ -78,10 +78,13 @@ public class PlayerController : MonoBehaviour {
             {
                 if (hit.collider.transform.tag == "barrack") //check for tags
                 {
-                    OpenBarrackUI();
-                    selection.Clear();
-                    hit.collider.gameObject.GetComponent<BarracksBuilding>().Select(true);
-                    selection.Add(hit.collider.gameObject);
+                    BarracksBuilding tempBarrack;
+                    tempBarrack = hit.collider.gameObject.GetComponent<BarracksBuilding>(); 
+                    if (tempBarrack.GetTeam() == teamID && tempBarrack.GetConstructed()) { //if its in my team and constructed
+                        selection.Clear(); //clear all selections
+                        tempBarrack.Select(true); //set barrack seleceted
+                        selection.Add(tempBarrack.gameObject); //add barracks to selection
+                    }
                 }
                 else if (hit.collider.transform.tag == "Squad")
                 {
@@ -96,7 +99,8 @@ public class PlayerController : MonoBehaviour {
                         Attack(tempSquad.gameObject); //attack him, he is an enemy
                     }
                 }
-                else {
+                else if(hit.collider.transform.tag != "UI")
+                {
                     CleanSelection();
                 }
             }
@@ -199,11 +203,6 @@ public class PlayerController : MonoBehaviour {
         teamID = newTeam;
     }
 
-    public void OpenBarrackUI()
-    {
-        
-    }
-
     public void BuildingPlacement(GameObject building)
     {
         Vector3 newBuildingPosition = new Vector3(0, 0, 0);
@@ -230,8 +229,11 @@ public class PlayerController : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.Mouse0))
             {
-                if(newBuilding.tag == "barrack")
-                    newBuilding.GetComponent<BarracksBuilding>().StartConst();
+                if(newBuilding.tag == "barrack") {
+                    newBuilding.GetComponent<BarracksBuilding>().SetTeam(teamID);
+                    newBuilding.GetComponent<BarracksBuilding>().StartConst(); //start construction phase
+                }
+                    
 
                 newBuilding = null;
                 break;

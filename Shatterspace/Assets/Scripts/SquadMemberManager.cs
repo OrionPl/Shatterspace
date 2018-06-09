@@ -1,15 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SquadMemberManager : MonoBehaviour {
 
-    [SerializeField] private int team = 0; //it will be choosen when this man spawned, by squadManager script.  TODO: remove serialize field
+
+    [SerializeField] private Slider uiHealthBar;
 
 
     public squadManager mySquadManager;
 
     public float speed; // !!Editing navmesh agents speed does nothing. Edit this from Inspector.
+
+
     private Camera cam; //maincamera - scene camera
 
     private UnityEngine.AI.NavMeshAgent aIController;
@@ -17,49 +21,80 @@ public class SquadMemberManager : MonoBehaviour {
     private GameManager GameRuleManager;
 
     private bool selected;
+    private bool living = false;
 
+    private float time;
+
+    private int team = 0; //it will be choosen when this man spawned, by squadManager script.  TODO: remove serialize field
 
     void Start()
     {
-        Invoke("LateStart", 0.001f); // TODO: It's temp fix for "One man  bug".
+        cam = Camera.main;
+        Debug.Log(cam);
     }
 
     // one time run
-    void LateStart()
+    public void Setup(float getTime)
     {
+
         aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
         aIController.speed = speed; //set speed
         GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  //find and set main manager
-        cam = Camera.main;  
+        uiHealthBar.maxValue = getTime;
+        time = getTime;
+        InvokeRepeating("Spawn", 0f, 0.1f);
+    }
+
+    void Spawn() {
+
+        uiHealthBar.value = uiHealthBar.value + 0.1f;
+        if (uiHealthBar.value >= time)
+        {
+            living = true;
+            uiHealthBar.gameObject.SetActive(false);
+            mySquadManager.GetComponent<squadManager>().SetSquadTeam(team);
+            mySquadManager.GetComponent<squadManager>().Setup();
+            GoPosition();
+            CancelInvoke("Spawn");
+        }
+
     }
 
     //that will called every frame
     void Update()
     {
-        if (mySquadManager.GetSquadTeam() == team && selected)
-        {
-            // if we click anywhere on screen with right mouse button
-            if (Input.GetMouseButtonDown(1))
-            {
-                // send ray
-                RaycastHit hit;
-                Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
+        if (living) {
 
-                // if raycast hit  to an object
-                if (Physics.Raycast(clickRay, out hit))
+            if (mySquadManager.GetSquadTeam() == team && selected)
+            {
+                // if we click anywhere on screen with right mouse button
+                if (Input.GetMouseButtonDown(1))
                 {
-                    // set hit.point as target
-                    aIController.destination = hit.point;
+                    // send ray
+                    RaycastHit hit;
+                    Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
+
+                    // if raycast hit  to an object
+                    if (Physics.Raycast(clickRay, out hit))
+                    {
+                        // set hit.point as target
+                        aIController.destination = hit.point;
+                    }
+                }
+
+
+                // Check if we've reached the destination (or near of the destination)
+                if (aIController.remainingDistance < 3.0f)
+                {
+                    GoPosition();
                 }
             }
 
+        } else
+        {
+            uiHealthBar.gameObject.transform.position = cam.WorldToScreenPoint(gameObject.transform.position);
         }
 
-        // Check if we've reached the destination (or near of the destination)
-        if (aIController.remainingDistance < 3.0f)
-        {
-           GoPosition();
-        }
     }
 
     //function for send him to default position

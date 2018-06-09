@@ -9,6 +9,7 @@ TagManager:
   - GameManager
   - Sqad
   - barrack
+  - UI
   layers:
   - Default
   - TransparentFX
