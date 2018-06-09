@@ -76,10 +76,12 @@ public class PlayerController : MonoBehaviour {
             // if raycast hit  to an object
             if (Physics.Raycast(clickRay, out hit))
             {
-                if (hit.collider.transform.tag == "barracks") //check for tags
+                if (hit.collider.transform.tag == "barrack") //check for tags
                 {
                     OpenBarrackUI();
                     selection.Clear();
+                    hit.collider.gameObject.GetComponent<BarracksBuilding>().Select(true);
+                    selection.Add(hit.collider.gameObject);
                 }
                 else if (hit.collider.transform.tag == "Squad")
                 {
@@ -170,9 +172,14 @@ public class PlayerController : MonoBehaviour {
     }
 
     void CleanSelection() {
-        foreach (var squad in selection)
+        foreach (var something in selection)
         {
-            squad.GetComponent<squadManager>().Select(false);
+            if (something.GetComponent<squadManager>() != null) {
+                something.GetComponent<squadManager>().Select(false);
+            }else if(something.GetComponent<BarracksBuilding>() != null) {
+                something.GetComponent<BarracksBuilding>().Select(false);
+            }
+                
         }
         selection.Clear();
     }
@@ -223,6 +230,9 @@ public class PlayerController : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.Mouse0))
             {
+                if(newBuilding.tag == "barrack")
+                    newBuilding.GetComponent<BarracksBuilding>().StartConst();
+
                 newBuilding = null;
                 break;
             }
