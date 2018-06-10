@@ -6,12 +6,9 @@ using UnityEngine.UI;
 public class BarracksBuilding : MonoBehaviour {
 
     [SerializeField] private List<GameObject> placeholders; // TODO: remove serialize field.
-
-    [SerializeField] private float constructionTime; //will be set by builder
+    
     [SerializeField] private float manSpawnTime;
     [SerializeField] private float defence = 1f;
-
-    [SerializeField] private Vector3 timerOffset;
 
     [SerializeField] private GameObject manType;
     [SerializeField] private GameObject spawnPoint;
@@ -19,29 +16,19 @@ public class BarracksBuilding : MonoBehaviour {
     [SerializeField] private GameObject UIButtons;
 
     [SerializeField] private int team; //will be set by builder
-
-    private Slider uiConstructionTime;
-
-    private bool constructed;
+    
     private bool selected = false;
     private bool working;
     private int spawnedMans;
 
     private void Start()
     {
-        uiConstructionTime = GetComponentInChildren<Slider>();
-        uiConstructionTime.maxValue = constructionTime;
+        
     }
 
     // Update is called once per frame
     void Update () {
-
-        uiConstructionTime.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position + timerOffset);
         UIButtons.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-
-        if (constructionTime <= 0f)
-            Destroy(gameObject);
-
 	}
 
     private void UpdatePlaceholders()
@@ -73,20 +60,6 @@ public class BarracksBuilding : MonoBehaviour {
 
     private void StopWorking() {
         working = false;
-    }
-
-    private void SetupTimer() {
-        InvokeRepeating("BuildTimer", 0f, 0.1f);
-    }
-
-    private void BuildTimer() {
-        uiConstructionTime.value = uiConstructionTime.value + 0.1f;
-        if (uiConstructionTime.value >= constructionTime) {
-            constructed = true;
-            uiConstructionTime.gameObject.SetActive(false);
-            CancelInvoke("BuildTimer");
-        }
-            
     }
 
     public void SpawnSquad() {
@@ -139,22 +112,12 @@ public class BarracksBuilding : MonoBehaviour {
         team = getTeam;
     }
 
-    public void GetDamage(float damage) {
-        uiConstructionTime.value -= damage/defence;
-        constructionTime -= damage/defence;
-    }
-
-    public bool GetConstructed() {
-        return constructed;
-    }
-
     public int GetTeam() {
         return team;
     }
 
     public void Select(bool input) {
         selected = input;
-        uiConstructionTime.gameObject.SetActive(input);
         UIButtons.SetActive(input);
     }
 
@@ -162,7 +125,5 @@ public class BarracksBuilding : MonoBehaviour {
     public void StartConst()
     {
         UpdatePlaceholders();
-        SetupTimer();
     }
-
 }

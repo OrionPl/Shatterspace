@@ -219,7 +219,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c8c9c5be04cca49afdc2b0a37b95ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameManager: {fileID: 0}
   cameraSpeed: 1
   maxCamHeight: 100
   minCamHeight: 20
@@ -228,6 +227,9 @@ MonoBehaviour:
   verticalRotationSpeed: 1
   minVerticalRotation: 15
   maxVerticalRotation: 45
+  construction: {fileID: 1901195558737108, guid: f91f8ad70117a684b8cedabb2be31f00,
+    type: 2}
+  buildingPrefabs:
+  - {fileID: 1102258221101944, guid: 9b6dd7d7ea7efa845ae5a763db0e9f9e, type: 2}
   teamID: 0
   squads: []
-  buildingPrefabs: []

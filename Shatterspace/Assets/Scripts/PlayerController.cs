@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float verticalRotationSpeed = 1;
     [SerializeField] private float minVerticalRotation = 90;
     [SerializeField] private float maxVerticalRotation = 10;
+    [SerializeField] public GameObject construction;
 
     [SerializeField] private GameObject[] buildingPrefabs;
 
@@ -80,7 +81,7 @@ public class PlayerController : MonoBehaviour {
                 {
                     BarracksBuilding tempBarrack;
                     tempBarrack = hit.collider.gameObject.GetComponent<BarracksBuilding>(); 
-                    if (tempBarrack.GetTeam() == teamID && tempBarrack.GetConstructed()) { //if its in my team and constructed
+                    if (tempBarrack.GetTeam() == teamID) { //if its in my team and constructed
                         selection.Clear(); //clear all selections
                         tempBarrack.Select(true); //set barrack seleceted
                         selection.Add(tempBarrack.gameObject); //add barracks to selection
@@ -206,11 +207,16 @@ public class PlayerController : MonoBehaviour {
     public void BuildingPlacement(GameObject building)
     {
         Vector3 newBuildingPosition = new Vector3(0, 0, 0);
-        newBuilding = Instantiate(building, newBuildingPosition, Quaternion.identity);
+        newConstruction = Instantiate(construction, newBuildingPosition, Quaternion.identity);
+
+        newConstruction.GetComponent<ConstructionController>().building = building;
+
+        newConstruction.GetComponent<ConstructionController>().enabled = false;
+
         StartCoroutine("NewBuildingPositionSelection");
     }
 
-    private GameObject newBuilding;
+    private GameObject newConstruction;
 
     IEnumerator NewBuildingPositionSelection()
     {
@@ -224,18 +230,13 @@ public class PlayerController : MonoBehaviour {
 
             if (Physics.Raycast(ray, out hit))
             {
-                newBuilding.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
+                newConstruction.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
             }
 
             if (Input.GetKey(KeyCode.Mouse0))
             {
-                if(newBuilding.tag == "barrack") {
-                    newBuilding.GetComponent<BarracksBuilding>().SetTeam(teamID);
-                    newBuilding.GetComponent<BarracksBuilding>().StartConst(); //start construction phase
-                }
-                    
-
-                newBuilding = null;
+                newConstruction.GetComponent<ConstructionController>().enabled = true;
+                newConstruction = null;
                 break;
             }
         }

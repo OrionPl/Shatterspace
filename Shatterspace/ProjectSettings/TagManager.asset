@@ -10,6 +10,8 @@ TagManager:
   - Sqad
   - barrack
   - UI
+  - Builder
+  - Construction
   layers:
   - Default
   - TransparentFX

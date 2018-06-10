@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private bool multiplayer = false;
     
     void Start() {
-        
+        gameObject.tag = "GameManager";
     }
     
     void Update() {
