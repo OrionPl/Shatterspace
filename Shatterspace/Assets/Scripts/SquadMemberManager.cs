@@ -18,6 +18,7 @@ public class SquadMemberManager : MonoBehaviour {
 
     private UnityEngine.AI.NavMeshAgent aIController;
     private GameObject placeholder;
+    private GameManager GameRuleManager;
 
     private bool selected;
     private bool living = false;
@@ -38,6 +39,7 @@ public class SquadMemberManager : MonoBehaviour {
 
         aIController = GetComponent<UnityEngine.AI.NavMeshAgent>();
         aIController.speed = speed; //set speed
+        GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  //find and set main manager
         uiHealthBar.maxValue = getTime;
         time = getTime;
         InvokeRepeating("Spawn", 0f, 0.1f);
@@ -50,6 +52,9 @@ public class SquadMemberManager : MonoBehaviour {
         {
             living = true;
             uiHealthBar.gameObject.SetActive(false);
+            mySquadManager.GetComponent<squadManager>().SetSquadTeam(team);
+            mySquadManager.GetComponent<squadManager>().Setup();
+            GoPosition();
             CancelInvoke("Spawn");
         }
 
@@ -78,17 +83,16 @@ public class SquadMemberManager : MonoBehaviour {
                 }
 
 
+                // Check if we've reached the destination (or near of the destination)
+                if (aIController.remainingDistance < 3.0f)
+                {
+                    GoPosition();
+                }
             }
 
         } else
         {
             uiHealthBar.gameObject.transform.position = cam.WorldToScreenPoint(gameObject.transform.position);
-        }
-
-        // Check if we've reached the destination (or near of the destination)
-        if (aIController.remainingDistance < 3.0f && living)
-        {
-            GoPosition();
         }
 
     }
