@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour {
                 {
                     BarracksBuilding tempBarrack;
                     tempBarrack = hit.collider.gameObject.GetComponent<BarracksBuilding>(); 
-                    if (tempBarrack.GetTeam() == teamID) { //if its in my team and constructed
+                    if (tempBarrack.Team == teamID) { //if its in my team and constructed
                         selection.Clear(); //clear all selections
                         tempBarrack.Select(true); //set barrack seleceted
                         selection.Add(tempBarrack.gameObject); //add barracks to selection
@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour {
                 }
                 else if (hit.collider.transform.tag == "Squad")
                 {
-                    squadManager tempSquad = hit.collider.gameObject.GetComponent<squadManager>();
+                    SquadManager tempSquad = hit.collider.gameObject.GetComponent<SquadManager>();
                     if (tempSquad.GetSquadTeam() == teamID) //if its ally, make squad controllable
                     {
                         selection.Add(tempSquad.gameObject);
@@ -179,8 +179,8 @@ public class PlayerController : MonoBehaviour {
     void CleanSelection() {
         foreach (var something in selection)
         {
-            if (something.GetComponent<squadManager>() != null) {
-                something.GetComponent<squadManager>().Select(false);
+            if (something.GetComponent<SquadManager>() != null) {
+                something.GetComponent<SquadManager>().Select(false);
             }else if(something.GetComponent<BarracksBuilding>() != null) {
                 something.GetComponent<BarracksBuilding>().Select(false);
             }

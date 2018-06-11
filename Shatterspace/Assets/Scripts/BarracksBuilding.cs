@@ -11,11 +11,29 @@ public class BarracksBuilding : MonoBehaviour {
     [SerializeField] private float defence = 1f;
 
     [SerializeField] private GameObject manType;
+	public GameObject ManType
+	{
+		set
+		{
+			manType = value;
+		}
+	}
     [SerializeField] private GameObject spawnPoint;
     [SerializeField] private GameObject emptySquad;
     [SerializeField] private GameObject UIButtons;
 
     [SerializeField] private int team; //will be set by builder
+	public int Team
+	{
+		get
+		{
+			return team;
+		}
+		set
+		{
+			team = value;
+		}
+	}
     
     private bool selected = false;
     private bool working;
@@ -81,7 +99,7 @@ public class BarracksBuilding : MonoBehaviour {
                 {
                     SpawnMans(3, placeholder, targetSquad, squadParent);
                 }
-                targetSquad.GetComponent<squadManager>().SetSquadTeam(team);
+                targetSquad.GetComponent<SquadManager>().SetSquadTeam(team);
                 Invoke("StopWorking", manSpawnTime);
             }
         }
@@ -98,25 +116,16 @@ public class BarracksBuilding : MonoBehaviour {
         }
     }
 
-    public void ReinforceSquad() {
-        if (selected) {
+    public void ReinforceSquad()
+	{
+        if (selected)
+		{
 
         }
     }
 
-    public void SetManType(GameObject man) {
-        manType = man;
-    }
-
-    public void SetTeam(int getTeam) {
-        team = getTeam;
-    }
-
-    public int GetTeam() {
-        return team;
-    }
-
-    public void Select(bool input) {
+    public void Select(bool input)
+	{
         selected = input;
         UIButtons.SetActive(input);
     }
