@@ -9,7 +9,6 @@ public class SquadManager : MonoBehaviour {
 
     [Header("Set it manually for now")] // TODO: Remove serialize field.
     [SerializeField] private int team; //will be set on spawn by barracks at this script's SetSquadTeam() func.
-
     private Camera cam; //maincamera - scene camera
     private UnityEngine.AI.NavMeshAgent aIController;
 
@@ -66,7 +65,7 @@ public class SquadManager : MonoBehaviour {
             }
             memberManager.SetPlaceholder(placeholders[i]); //set default positin
             memberManager.GoPosition(); //send him to position 
-            memberManager.SetTeam(team); // TODO: remove it later FOR TESTING. Use SetSquadTeam() from player when squad spawned
+            memberManager.Team = team; // TODO: remove it later FOR TESTING. Use SetSquadTeam() from player when squad spawned
             memberManager.SetMyManager(gameObject); //set his manager
 
             i++;
@@ -154,7 +153,7 @@ public class SquadManager : MonoBehaviour {
         foreach (var member in squadMembers) //set everyones team
         {
             SquadMemberManager memberManager = member.GetComponent<SquadMemberManager>();
-            memberManager.SetTeam(team);
+            memberManager.Team = team;
         }
     }
 

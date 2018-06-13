@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Scripts2;
 
 public class BarracksBuilding : MonoBehaviour {
 
@@ -21,8 +22,12 @@ public class BarracksBuilding : MonoBehaviour {
     [SerializeField] private GameObject spawnPoint;
     [SerializeField] private GameObject emptySquad;
     [SerializeField] private GameObject UIButtons;
-
+    [SerializeField] private Slider healthBar;
+    [SerializeField] private Slider statusBar;
+    [SerializeField] private Vector3 healthBarOffset;
+    [SerializeField] private Vector3 statusBarOffset;
     [SerializeField] private int team; //will be set by builder
+
 	public int Team
 	{
 		get
@@ -38,15 +43,20 @@ public class BarracksBuilding : MonoBehaviour {
     private bool selected = false;
     private bool working;
     private int spawnedMans;
+    private float health = 100;
 
     private void Start()
     {
-        
+        UpdatePlaceholders();
+        healthBar.maxValue = health;
+        healthBar.value = health;
     }
 
     // Update is called once per frame
     void Update () {
         UIButtons.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+        healthBar.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position + healthBarOffset);
+        statusBar.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position + statusBarOffset);
 	}
 
     private void UpdatePlaceholders()
@@ -76,13 +86,38 @@ public class BarracksBuilding : MonoBehaviour {
 
     }
 
-    private void StopWorking() {
+    private void StopWorking()
+    {
         working = false;
+        statusBar.value = 0;
+        statusBar.gameObject.SetActive(false);
     }
 
-    public void SpawnSquad() {
-        if (selected) {
-            if (!working) {
+
+    private void SpawnMans(GameObject placeholder, GameObject manager, GameObject squadParent) {
+        GameObject spawnedMan = Instantiate(manType, placeholder.transform.position, placeholder.transform.rotation);
+        spawnedMan.transform.SetParent(squadParent.transform);
+        SquadMemberManager manSettings = spawnedMan.GetComponent<SquadMemberManager>();
+        manSettings.SetMyManager(manager);
+        manSettings.Team = team;
+        manSettings.Setup(manSpawnTime);
+    }
+
+    private void UpdateStatus() {
+        if (manSpawnTime <= statusBar.value)
+        {
+            statusBar.value += 0.01f;
+        } else {
+            StopWorking();
+        }
+    }
+
+    public void SpawnSquad()
+    {
+        if (selected)
+        {
+            if (!working)
+            {
                 working = true;
                 GameObject targetSquad = Instantiate(emptySquad, spawnPoint.transform.position, spawnPoint.transform.rotation);
                 GameObject squadParent = null;
@@ -97,24 +132,16 @@ public class BarracksBuilding : MonoBehaviour {
 
                 foreach (var placeholder in placeholders)
                 {
-                    SpawnMans(3, placeholder, targetSquad, squadParent);
+                    SpawnMans(placeholder, targetSquad, squadParent);
                 }
                 targetSquad.GetComponent<SquadManager>().SetSquadTeam(team);
-                Invoke("StopWorking", manSpawnTime);
+                statusBar.gameObject.SetActive(true);
+                statusBar.maxValue = manSpawnTime;
+                InvokeRepeating("UpdateStatus", 0f, 0.01f);
             }
         }
     }
 
-    void SpawnMans(int count, GameObject placeholder, GameObject manager, GameObject squadParent) {
-        if (spawnedMans < placeholders.Count && spawnedMans < count) {
-            GameObject spawnedMan = Instantiate(manType, placeholder.transform.position, placeholder.transform.rotation);
-            spawnedMan.transform.SetParent(squadParent.transform);
-            SquadMemberManager manSettings = spawnedMan.GetComponent<SquadMemberManager>();
-            manSettings.SetMyManager(manager);
-            manSettings.SetTeam(team);
-            manSettings.Setup(manSpawnTime);
-        }
-    }
 
     public void ReinforceSquad()
 	{
@@ -128,11 +155,7 @@ public class BarracksBuilding : MonoBehaviour {
 	{
         selected = input;
         UIButtons.SetActive(input);
+        healthBar.gameObject.SetActive(input);
     }
 
-    // Use this for initialization
-    public void StartConst()
-    {
-        UpdatePlaceholders();
-    }
 }

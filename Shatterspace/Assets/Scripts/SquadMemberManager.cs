@@ -25,7 +25,18 @@ public class SquadMemberManager : MonoBehaviour {
 
     private float time;
 
-    private int team = 0; //it will be choosen when this man spawned, by squadManager script.  TODO: remove serialize field
+    [SerializeField] private int team; //will be set by builder
+    public int Team
+    {
+        get
+        {
+            return team;
+        }
+        set
+        {
+            team = value;
+        }
+    }
 
     void Start()
     {
@@ -52,7 +63,6 @@ public class SquadMemberManager : MonoBehaviour {
         {
             living = true;
             uiHealthBar.gameObject.SetActive(false);
-            mySquadManager.GetComponent<SquadManager>().SetSquadTeam(team);
             mySquadManager.GetComponent<SquadManager>().Setup();
             GoPosition();
             CancelInvoke("Spawn");
@@ -113,12 +123,6 @@ public class SquadMemberManager : MonoBehaviour {
     public void SetMySpeed(float getSpeed) { 
         speed = getSpeed;
         aIController.speed = getSpeed;
-    }
-
-    //Team will be set by SquadManager
-    public void SetTeam(int getTeam)
-    { 
-        team = getTeam;
     }
 
     public void SetMyManager(GameObject manager) {
