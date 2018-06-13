@@ -50,6 +50,7 @@ public class BarracksBuilding : MonoBehaviour {
         UpdatePlaceholders();
         healthBar.maxValue = health;
         healthBar.value = health;
+        //take info from BuildingInfo
     }
 
     // Update is called once per frame

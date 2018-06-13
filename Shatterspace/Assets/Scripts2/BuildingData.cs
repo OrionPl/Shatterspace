@@ -23,6 +23,6 @@ namespace Scripts2
 		public float UpgradeCost { get { return upgradeCost; } }
 		public float UpgradeTime { get { return upgradeTime; } }
 
-		// TODO: add mesh references to SquadData, and extend parameters with sub-types if needed
-	}
+        // TODO: add mesh references to SquadData, and extend parameters with sub-types if needed
+    }
 }

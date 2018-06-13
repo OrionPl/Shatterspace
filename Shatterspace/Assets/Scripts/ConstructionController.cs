@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Scripts2;
 
 public class ConstructionController : MonoBehaviour {
 
     public float buildTime = 10;
 
     public GameObject building;
-
+    public GameObject lastBuilding;
     public GameObject builder;
 
     public int team;
@@ -18,7 +19,11 @@ public class ConstructionController : MonoBehaviour {
 
     public float startedBuilding;
 
+    [SerializeField] private Faction faction = Faction.None;
+    public Faction Faction { get { return faction; } }
+
     [SerializeField] private Slider timeSlider;
+
     private Vector3 sliderOffset = new Vector3(0, 3, 0);
 
     void Start()
@@ -56,7 +61,10 @@ public class ConstructionController : MonoBehaviour {
             yield return new WaitForSeconds(0.1f);
         }
 
-        Instantiate(building, transform.position, Quaternion.identity);
+        lastBuilding = Instantiate(building, transform.position, Quaternion.identity);
+
+        lastBuilding.GetComponent<BuildInfo>().main.Faction = Faction;
+
         Destroy(gameObject, 0.1f);
     }
 }
