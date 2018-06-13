@@ -1,0 +1,3 @@
+[submodule "Shatterspace/Assets/NavMeshComponents"]
+	path = Shatterspace/Assets/NavMeshComponents
+	url = https://github.com/Unity-Technologies/NavMeshComponents

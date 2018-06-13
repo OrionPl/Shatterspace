@@ -9,7 +9,7 @@ public class SquadMemberManager : MonoBehaviour {
     [SerializeField] private Slider uiHealthBar;
 
 
-    public squadManager mySquadManager;
+    public SquadManager mySquadManager;
 
     public float speed; // !!Editing navmesh agents speed does nothing. Edit this from Inspector.
 
@@ -52,8 +52,8 @@ public class SquadMemberManager : MonoBehaviour {
         {
             living = true;
             uiHealthBar.gameObject.SetActive(false);
-            mySquadManager.GetComponent<squadManager>().SetSquadTeam(team);
-            mySquadManager.GetComponent<squadManager>().Setup();
+            mySquadManager.GetComponent<SquadManager>().SetSquadTeam(team);
+            mySquadManager.GetComponent<SquadManager>().Setup();
             GoPosition();
             CancelInvoke("Spawn");
         }
@@ -106,7 +106,7 @@ public class SquadMemberManager : MonoBehaviour {
     public void SetPlaceholder(GameObject target)
     {
         placeholder = target;
-        mySquadManager = target.transform.parent.GetComponent<squadManager>();
+        mySquadManager = target.transform.parent.GetComponent<SquadManager>();
     }
 
     //set speed of this man
@@ -122,7 +122,7 @@ public class SquadMemberManager : MonoBehaviour {
     }
 
     public void SetMyManager(GameObject manager) {
-        mySquadManager = manager.GetComponent<squadManager>();
+        mySquadManager = manager.GetComponent<SquadManager>();
     }
 
     public void Select(bool input) {
