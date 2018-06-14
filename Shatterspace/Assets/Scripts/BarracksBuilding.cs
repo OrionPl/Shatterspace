@@ -22,43 +22,37 @@ public class BarracksBuilding : MonoBehaviour {
     [SerializeField] private GameObject spawnPoint;
     [SerializeField] private GameObject emptySquad;
     [SerializeField] private GameObject UIButtons;
-    [SerializeField] private Slider healthBar;
-    [SerializeField] private Slider statusBar;
-    [SerializeField] private Vector3 healthBarOffset;
-    [SerializeField] private Vector3 statusBarOffset;
-    [SerializeField] private int team; //will be set by builder
 
-	public int Team
-	{
-		get
-		{
-			return team;
-		}
-		set
-		{
-			team = value;
-		}
-	}
+
     
     private bool selected = false;
     private bool working;
     private int spawnedMans;
-    private float health = 100;
+
+
+    private Slider statusBar;
+
+    private BuildingData mainInfo;
+    private BuildingStandard secondInfo;
 
     private void Start()
     {
+        statusBar = mainInfo.StatusBar;
+        mainInfo = GetComponent<BuildingStandard>().main;
         UpdatePlaceholders();
-        healthBar.maxValue = health;
-        healthBar.value = health;
         //take info from BuildingInfo
     }
 
     // Update is called once per frame
     void Update () {
         UIButtons.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-        healthBar.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position + healthBarOffset);
-        statusBar.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position + statusBarOffset);
+
 	}
+
+    private void LateUpdate()
+    {
+        Select(secondInfo.Selected);
+    }
 
     private void UpdatePlaceholders()
     {
@@ -100,7 +94,7 @@ public class BarracksBuilding : MonoBehaviour {
         spawnedMan.transform.SetParent(squadParent.transform);
         SquadMemberManager manSettings = spawnedMan.GetComponent<SquadMemberManager>();
         manSettings.SetMyManager(manager);
-        manSettings.Team = team;
+        manSettings.Team = secondInfo.Team;
         manSettings.Setup(manSpawnTime);
     }
 
@@ -135,7 +129,7 @@ public class BarracksBuilding : MonoBehaviour {
                 {
                     SpawnMans(placeholder, targetSquad, squadParent);
                 }
-                targetSquad.GetComponent<SquadManager>().SetSquadTeam(team);
+                targetSquad.GetComponent<SquadManager>().SetSquadTeam(secondInfo.Team);
                 statusBar.gameObject.SetActive(true);
                 statusBar.maxValue = manSpawnTime;
                 InvokeRepeating("UpdateStatus", 0f, 0.01f);
@@ -154,9 +148,6 @@ public class BarracksBuilding : MonoBehaviour {
 
     public void Select(bool input)
 	{
-        selected = input;
         UIButtons.SetActive(input);
-        healthBar.gameObject.SetActive(input);
     }
-
 }

@@ -12,6 +12,7 @@ TagManager:
   - UI
   - Builder
   - Construction
+  - Building
   layers:
   - Default
   - TransparentFX

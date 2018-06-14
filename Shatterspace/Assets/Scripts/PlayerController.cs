@@ -77,14 +77,24 @@ public class PlayerController : MonoBehaviour {
             // if raycast hit  to an object
             if (Physics.Raycast(clickRay, out hit))
             {
-                if (hit.collider.transform.tag == "barrack") //check for tags
+                if (hit.collider.transform.tag == "Building") //check for tags
                 {
-                    BarracksBuilding tempBarrack;
-                    tempBarrack = hit.collider.gameObject.GetComponent<BarracksBuilding>(); 
-                    if (tempBarrack.Team == teamID) { //if its in my team and constructed
-                        selection.Clear(); //clear all selections
-                        tempBarrack.Select(true); //set barrack seleceted
-                        selection.Add(tempBarrack.gameObject); //add barracks to selection
+                    BuildingStandard tempBuild;
+                    tempBuild = hit.collider.gameObject.GetComponent<BuildingStandard>();
+
+                    foreach (var choosen in selection) {  //clear selections if building type is different or there is no building on selection before
+                        if (choosen.gameObject.tag != "Building")
+                        {
+                            selection.Clear();
+                        }
+                        else if (choosen.GetComponent<BuildingStandard>().main.Type != tempBuild.main.Type) {
+                            selection.Clear();
+                        }
+                    }
+
+                    if (tempBuild.Team == teamID) { //if its in my team and constructed
+                        tempBuild.Select(true); //set barrack seleceted
+                        selection.Add(tempBuild.gameObject); //add barracks to selection
                     }
                 }
                 else if (hit.collider.transform.tag == "Squad")

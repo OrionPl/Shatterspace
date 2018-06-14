@@ -12,15 +12,23 @@ public class ConstructionController : MonoBehaviour {
     public GameObject lastBuilding;
     public GameObject builder;
 
-    public int team;
-
     public bool builderBuilding = false;
     public bool hasBuilder = false;
 
     public float startedBuilding;
 
-    [SerializeField] private Faction faction = Faction.None;
-    public Faction Faction { get { return faction; } }
+    [SerializeField] private int team;
+    public int Team
+    {
+        get
+        {
+            return team;
+        }
+        set
+        {
+            team = value;
+        }
+    }
 
     [SerializeField] private Slider timeSlider;
 
@@ -63,7 +71,7 @@ public class ConstructionController : MonoBehaviour {
 
         lastBuilding = Instantiate(building, transform.position, Quaternion.identity);
 
-        lastBuilding.GetComponent<BuildInfo>().main.Faction = Faction;
+        lastBuilding.GetComponent<BuildingStandard>().Team = team;
 
         Destroy(gameObject, 0.1f);
     }
