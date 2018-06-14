@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75e9d3f382dd9dc4bad65de3593cbc5c, type: 3}
+  m_Name: BarrackDefault
+  m_EditorClassIdentifier: 
+  buildingName: Barracks
+  prefab: {fileID: 1102258221101944, guid: 6968519b85ca4d54bb09b6838d5b8c3b, type: 2}
+  faction: 0
+  type: 1
+  hp: 100
+  buildCost: 0
+  upgradeCost: 0
+  upgradeTime: 5

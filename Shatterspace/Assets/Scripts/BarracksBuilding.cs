@@ -37,7 +37,7 @@ public class BarracksBuilding : MonoBehaviour {
 
     private void Start()
     {
-        statusBar = mainInfo.StatusBar;
+        statusBar = secondInfo.StatusBar;
         mainInfo = GetComponent<BuildingStandard>().main;
         UpdatePlaceholders();
         //take info from BuildingInfo

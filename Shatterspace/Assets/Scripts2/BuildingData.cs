@@ -15,8 +15,6 @@ namespace Scripts2
 		[SerializeField] private float buildCost = 0f;
 		[SerializeField] private float upgradeCost = 0f;
 		[SerializeField] private float upgradeTime = 5f;
-        [SerializeField] private UnityEngine.UI.Slider statusBar;
-        [SerializeField] private UnityEngine.UI.Slider healthBar;
 
 		public string BuildingName { get { return buildingName; } }
 		public GameObject Prefab { get { return prefab; } }
@@ -26,8 +24,6 @@ namespace Scripts2
 		public float BuildCost { get { return buildCost; } }
 		public float UpgradeCost { get { return upgradeCost; } }
 		public float UpgradeTime { get { return upgradeTime; } }
-        public UnityEngine.UI.Slider StatusBar { get { return statusBar; } }
-        public UnityEngine.UI.Slider HealthBar { get { return healthBar; } }
 
         // TODO: add mesh references to SquadData, and extend parameters with sub-types if needed
     }
