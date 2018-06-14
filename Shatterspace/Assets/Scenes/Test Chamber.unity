@@ -834,49 +834,13 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1640869581151594, guid: 6968519b85ca4d54bb09b6838d5b8c3b, type: 2}
-      propertyPath: m_Name
-      value: status
-      objectReference: {fileID: 0}
-    - target: {fileID: 1268465550021796, guid: 6968519b85ca4d54bb09b6838d5b8c3b, type: 2}
-      propertyPath: m_Name
-      value: health
-      objectReference: {fileID: 0}
-    - target: {fileID: 114595511220618150, guid: 6968519b85ca4d54bb09b6838d5b8c3b,
-        type: 2}
-      propertyPath: statusBar
-      value: 
-      objectReference: {fileID: 553587311}
-    - target: {fileID: 114595511220618150, guid: 6968519b85ca4d54bb09b6838d5b8c3b,
-        type: 2}
-      propertyPath: healthBar
-      value: 
-      objectReference: {fileID: 553587310}
-    - target: {fileID: 114595511220618150, guid: 6968519b85ca4d54bb09b6838d5b8c3b,
-        type: 2}
-      propertyPath: healthBarOffset.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114595511220618150, guid: 6968519b85ca4d54bb09b6838d5b8c3b,
-        type: 2}
-      propertyPath: statusBarOffset.y
-      value: -1
+    - target: {fileID: 1102258221101944, guid: 6968519b85ca4d54bb09b6838d5b8c3b, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6968519b85ca4d54bb09b6838d5b8c3b, type: 2}
   m_IsPrefabAsset: 0
---- !u!114 &553587310 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114347417424320066, guid: 6968519b85ca4d54bb09b6838d5b8c3b,
-    type: 2}
-  m_PrefabInternal: {fileID: 553587309}
-  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
---- !u!114 &553587311 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114781467743769414, guid: 6968519b85ca4d54bb09b6838d5b8c3b,
-    type: 2}
-  m_PrefabInternal: {fileID: 553587309}
-  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1001 &563132360
 Prefab:
   m_ObjectHideFlags: 0
@@ -1081,8 +1045,7 @@ Prefab:
         type: 2}
       propertyPath: buildingPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 1102258221101944, guid: 9b6dd7d7ea7efa845ae5a763db0e9f9e,
-        type: 2}
+      objectReference: {fileID: 1758116302}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a9f3fabdb0410c4c934e4ff7d951da6, type: 2}
   m_IsPrefabAsset: 0
@@ -1534,6 +1497,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: d85d3a32fb6157d488e31edf82b7b1c4,
     type: 2}
   m_PrefabInternal: {fileID: 198684719}
+--- !u!1 &1758116302 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1102258221101944, guid: 6968519b85ca4d54bb09b6838d5b8c3b,
+    type: 2}
+  m_PrefabInternal: {fileID: 553587309}
 --- !u!1 &1827365762
 GameObject:
   m_ObjectHideFlags: 0
