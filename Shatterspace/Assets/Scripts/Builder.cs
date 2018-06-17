@@ -29,7 +29,7 @@ public class Builder : MonoBehaviour {
                 foreach (var target in targets)
                 {
 
-                    if (!target.GetComponent<ConstructionController>().hasBuilder)
+                    if (target.GetComponent<ConstructionController>().builder == null)
                     {
                         float distance = Vector3.Distance(target.transform.position, transform.position);
 
@@ -52,15 +52,16 @@ public class Builder : MonoBehaviour {
 
     }
 
-    public void Finish() {
+    public void Construct(ConstructionController cc) {  //Its more easy to use different func.
+        cc.hasBuilder = true;
+        cc.BuilderStartBuilding();
+        movementTarget = cc.gameObject;
+    }
+
+    public void Finish()
+    {
         hasBuilding = false;
         agent.SetDestination(transform.position);
         movementTarget = null;
-    }
-
-    public void Construct(ConstructionController cc) {  //Its more easy to use different func.
-        cc.builderBuilding = true;
-        cc.hasBuilder = true;
-        movementTarget = cc.gameObject;
     }
 }

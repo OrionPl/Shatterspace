@@ -12,10 +12,7 @@ public class ConstructionController : MonoBehaviour {
     public GameObject lastBuilding;
     public GameObject builder;
 
-    public bool builderBuilding = false;
     public bool hasBuilder = false;
-
-    public float startedBuilding;
 
     [SerializeField] private int team;
     public int Team
@@ -34,12 +31,17 @@ public class ConstructionController : MonoBehaviour {
 
     private Vector3 sliderOffset = new Vector3(0, 3, 0);
 
-    void Start()
+    public void CustomStart()
     {
         timeSlider = GetComponentInChildren<Slider>();
         gameObject.tag = "Construction";
+
+        lastBuilding = Instantiate(building, transform.position, Quaternion.identity);
+
+        buildTime = lastBuilding.GetComponent<BuildingStandard>().main.UpgradeTime;
         timeSlider.maxValue = buildTime;
-        StartCoroutine("Construct");
+
+        lastBuilding.SetActive(false);
     }
 
     void Update()
@@ -61,28 +63,22 @@ public class ConstructionController : MonoBehaviour {
         timeSlider.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position + sliderOffset);
     }
 
-    IEnumerator Construct()
-    {
-
-        lastBuilding = Instantiate(building, transform.position, Quaternion.identity);
-        buildTime = lastBuilding.GetComponent<BuildingStandard>().main.UpgradeTime;
-        lastBuilding.SetActive(false);
-        
-
-        while (buildTime > 0)
-        {
-            if (builderBuilding)
-            {
-                buildTime -= 0.1f;
-                timeSlider.value += 0.1f;
-            }
-            yield return new WaitForSeconds(0.1f);
+    void Construct() {
+        if (buildTime > 0f) {
+            buildTime -= 0.1f;
+            timeSlider.value += 0.1f;
+        }
+        else {
+            lastBuilding.SetActive(true);
+            lastBuilding.GetComponent<BuildingStandard>().Team = team;
+            lastBuilding.GetComponent<BuildingStandard>().Select(false);
+            builder.GetComponent<Builder>().Finish();
+            Destroy(gameObject, 0.1f);
         }
 
-        lastBuilding.SetActive(true);
-        lastBuilding.GetComponent<BuildingStandard>().Team = team;
-        lastBuilding.GetComponent<BuildingStandard>().Select(false);
-        builder.GetComponent<Builder>().Finish();
-        Destroy(gameObject, 0.1f);
+    }
+
+    public void BuilderStartBuilding() {
+        InvokeRepeating("Construct", 0f, 0.1f);  //Coroutines not working correctly.
     }
 }

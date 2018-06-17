@@ -246,6 +246,7 @@ public class PlayerController : MonoBehaviour {
             if (Input.GetKey(KeyCode.Mouse0))
             {
                 newConstruction.GetComponent<ConstructionController>().enabled = true;
+                newConstruction.GetComponent<ConstructionController>().CustomStart();
                 newConstruction = null;
                 break;
             }
