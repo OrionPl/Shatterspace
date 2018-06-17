@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class BuildingStandard : MonoBehaviour {
 
 
-    public BuildingData main = new BuildingData();
+    public BuildingData main;
 
     [SerializeField] private Vector3 healthBarOffset;
     [SerializeField] private Vector3 statusBarOffset;
@@ -45,24 +45,24 @@ public class BuildingStandard : MonoBehaviour {
 
     private float health;
 
-    private bool selected;
-    public bool Selected
-    {
-        get
-        {
-            return selected;
-        }
-    }
+    public bool selected;
 
     // Use this for initialization
     void Start () {
+        Invoke("LateStart", 0.001f);
+
+    }
+
+    void LateStart()
+    {
         health = main.Hp;
         healthBar.maxValue = main.Hp;
         healthBar.value = main.Hp;
+        selected = false;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
        healthBar.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position + healthBarOffset);
        statusBar.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position + statusBarOffset);
     }

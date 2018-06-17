@@ -39,19 +39,23 @@ public class ConstructionController : MonoBehaviour {
         timeSlider = GetComponentInChildren<Slider>();
         gameObject.tag = "Construction";
         timeSlider.maxValue = buildTime;
-
         StartCoroutine("Construct");
     }
 
     void Update()
     {
-        foreach (var collider in Physics.OverlapSphere(transform.position, 2))
+        if(!hasBuilder)
         {
-            if (collider.tag == "Builder")
+            foreach (var collider in Physics.OverlapSphere(transform.position, 2))
             {
-                hasBuilder = true;
-                builder = collider.gameObject;
+                if (collider.tag == "Builder")
+                {
+                    hasBuilder = true;
+                    builder = collider.gameObject;
+                    builder.GetComponent<Builder>().Construct(this);
+                }
             }
+
         }
 
         timeSlider.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position + sliderOffset);
@@ -59,6 +63,12 @@ public class ConstructionController : MonoBehaviour {
 
     IEnumerator Construct()
     {
+
+        lastBuilding = Instantiate(building, transform.position, Quaternion.identity);
+        buildTime = lastBuilding.GetComponent<BuildingStandard>().main.UpgradeTime;
+        lastBuilding.SetActive(false);
+        
+
         while (buildTime > 0)
         {
             if (builderBuilding)
@@ -69,8 +79,7 @@ public class ConstructionController : MonoBehaviour {
             yield return new WaitForSeconds(0.1f);
         }
 
-        lastBuilding = Instantiate(building, transform.position, Quaternion.identity);
-
+        lastBuilding.SetActive(true);
         lastBuilding.GetComponent<BuildingStandard>().Team = team;
 
         Destroy(gameObject, 0.1f);

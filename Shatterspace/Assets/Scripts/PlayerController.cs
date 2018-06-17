@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour {
                         Attack(tempSquad.gameObject); //attack him, he is an enemy
                     }
                 }
-                else if(hit.collider.transform.tag != "UI")
+                else
                 {
                     CleanSelection();
                 }
@@ -191,8 +191,8 @@ public class PlayerController : MonoBehaviour {
         {
             if (something.GetComponent<SquadManager>() != null) {
                 something.GetComponent<SquadManager>().Select(false);
-            }else if(something.GetComponent<BarracksBuilding>() != null) {
-                something.GetComponent<BarracksBuilding>().Select(false);
+            }else if(something.tag == "Building") {
+                something.GetComponent<BuildingStandard>().Select(false);
             }
                 
         }

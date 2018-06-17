@@ -60,14 +60,10 @@ public class Builder : MonoBehaviour {
             }
         }
         
-        foreach (var collider in Physics.OverlapSphere(transform.position, 3))
-        {
-            if (collider.tag == "Construction")
-            {
-                var cc = collider.GetComponent<ConstructionController>();
-                cc.builderBuilding = true;
-                cc.hasBuilder = true;
-            }
-        }
 	}
+
+    public void Construct(ConstructionController cc) {
+        cc.builderBuilding = true;
+        cc.hasBuilder = true;
+    }
 }

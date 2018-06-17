@@ -836,7 +836,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1102258221101944, guid: 6968519b85ca4d54bb09b6838d5b8c3b, type: 2}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224292558945201558, guid: 6968519b85ca4d54bb09b6838d5b8c3b,
+        type: 2}
+      propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1102258221101944, guid: 6968519b85ca4d54bb09b6838d5b8c3b, type: 2}
+      propertyPath: m_TagString
+      value: Building
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6968519b85ca4d54bb09b6838d5b8c3b, type: 2}

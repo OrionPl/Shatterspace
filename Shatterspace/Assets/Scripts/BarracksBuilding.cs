@@ -37,10 +37,14 @@ public class BarracksBuilding : MonoBehaviour {
 
     private void Start()
     {
+        Invoke("LateStart", 0.001f);
+    }
+
+    void LateStart() {
+        secondInfo = GetComponent<BuildingStandard>();
+        mainInfo = secondInfo.main;
         statusBar = secondInfo.StatusBar;
-        mainInfo = GetComponent<BuildingStandard>().main;
         UpdatePlaceholders();
-        //take info from BuildingInfo
     }
 
     // Update is called once per frame
@@ -51,7 +55,7 @@ public class BarracksBuilding : MonoBehaviour {
 
     private void LateUpdate()
     {
-        Select(secondInfo.Selected);
+        Select(secondInfo.selected);
     }
 
     private void UpdatePlaceholders()
@@ -109,10 +113,13 @@ public class BarracksBuilding : MonoBehaviour {
 
     public void SpawnSquad()
     {
+        Debug.Log("Function status: pass");
         if (selected)
         {
+            Debug.Log("Seleceted check: pass");
             if (!working)
             {
+                Debug.Log("Working check: pass");
                 working = true;
                 GameObject targetSquad = Instantiate(emptySquad, spawnPoint.transform.position, spawnPoint.transform.rotation);
                 GameObject squadParent = null;
@@ -148,6 +155,7 @@ public class BarracksBuilding : MonoBehaviour {
 
     public void Select(bool input)
 	{
+        selected = true;
         UIButtons.SetActive(input);
     }
 }

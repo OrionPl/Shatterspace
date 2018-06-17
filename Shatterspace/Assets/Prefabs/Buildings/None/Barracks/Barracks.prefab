@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 114595511220618150}
   m_Layer: 0
   m_Name: Barracks
-  m_TagString: barrack
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1603,6 +1603,7 @@ MonoBehaviour:
   statusBar: {fileID: 114781467743769414}
   healthBar: {fileID: 114347417424320066}
   team: 0
+  selected: 0
 --- !u!114 &114667967606503334
 MonoBehaviour:
   m_ObjectHideFlags: 1
