@@ -9,9 +9,6 @@ public class BuildingStandard : MonoBehaviour {
 
     public BuildingData main;
 
-    [SerializeField] private Vector3 healthBarOffset;
-    [SerializeField] private Vector3 statusBarOffset;
-
     [SerializeField] private Slider statusBar;
     public Slider StatusBar
     {
@@ -20,6 +17,7 @@ public class BuildingStandard : MonoBehaviour {
             return statusBar;
         }
     }
+
     [SerializeField] private Slider healthBar;
     public Slider HealthBar
     {
@@ -63,8 +61,6 @@ public class BuildingStandard : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-       healthBar.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position + healthBarOffset);
-       statusBar.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position + statusBarOffset);
     }
 
     public void Select(bool input) {

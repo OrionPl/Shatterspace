@@ -37,10 +37,6 @@ public class BarracksBuilding : MonoBehaviour {
 
     private void Start()
     {
-        Invoke("LateStart", 0.001f);
-    }
-
-    void LateStart() {
         secondInfo = GetComponent<BuildingStandard>();
         mainInfo = secondInfo.main;
         statusBar = secondInfo.StatusBar;
@@ -113,13 +109,10 @@ public class BarracksBuilding : MonoBehaviour {
 
     public void SpawnSquad()
     {
-        Debug.Log("Function status: pass");
         if (selected)
         {
-            Debug.Log("Seleceted check: pass");
             if (!working)
             {
-                Debug.Log("Working check: pass");
                 working = true;
                 GameObject targetSquad = Instantiate(emptySquad, spawnPoint.transform.position, spawnPoint.transform.rotation);
                 GameObject squadParent = null;

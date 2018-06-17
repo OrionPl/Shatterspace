@@ -16,54 +16,51 @@ public class Builder : MonoBehaviour {
 	void Start () {
         gameObject.tag = "Builder";
         agent = GetComponent<NavMeshAgent>();
+        Finish();
 	}
 
     void Update() {
-        if (movementTarget == null || (movementTarget.GetComponent<ConstructionController>().hasBuilder == true && movementTarget.GetComponent<ConstructionController>().builder != gameObject))
+        if (movementTarget == null)
         {
             GameObject[] targets = GameObject.FindGameObjectsWithTag("Construction");
             if (targets.Length >= 1)
             {
                 float lengthFromTarget = Vector3.Distance(targets[0].transform.position, transform.position);
-                int targetID = 0;
-                int id = -1;
-
-                bool newBuilding = false;
-
                 foreach (var target in targets)
                 {
-                    id++;
-                    if (target.GetComponent<ConstructionController>().hasBuilder != true)
+
+                    if (!target.GetComponent<ConstructionController>().hasBuilder)
                     {
                         float distance = Vector3.Distance(target.transform.position, transform.position);
 
                         if (distance < lengthFromTarget)
                         {
                             lengthFromTarget = distance;
-                            newBuilding = true;
-                            targetID = id;
+                            StartWorking(target);
                         }
                     }
                 }
-                if (newBuilding)
-                {
-                    movementTarget = targets[targetID];
-                    targets[targetID].GetComponent<ConstructionController>().builder = gameObject;
-                    agent.SetDestination(movementTarget.transform.position);
-                    hasBuilding = true;
-                }
-                else
-                {
-                    hasBuilding = false;
-                    agent.SetDestination(transform.position);
-                }
             }
         }
-        
 	}
 
-    public void Construct(ConstructionController cc) {
+    void StartWorking(GameObject getTarget) {
+            movementTarget = getTarget;
+            getTarget.GetComponent<ConstructionController>().builder = gameObject;
+            agent.SetDestination(movementTarget.transform.position);
+            hasBuilding = true;
+
+    }
+
+    public void Finish() {
+        hasBuilding = false;
+        agent.SetDestination(transform.position);
+        movementTarget = null;
+    }
+
+    public void Construct(ConstructionController cc) {  //Its more easy to use different func.
         cc.builderBuilding = true;
         cc.hasBuilder = true;
+        movementTarget = cc.gameObject;
     }
 }

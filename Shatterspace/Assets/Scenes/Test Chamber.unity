@@ -843,9 +843,15 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1102258221101944, guid: 6968519b85ca4d54bb09b6838d5b8c3b, type: 2}
-      propertyPath: m_TagString
-      value: Building
+    - target: {fileID: 114595511220618150, guid: 6968519b85ca4d54bb09b6838d5b8c3b,
+        type: 2}
+      propertyPath: healthBarOffset.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114595511220618150, guid: 6968519b85ca4d54bb09b6838d5b8c3b,
+        type: 2}
+      propertyPath: statusBarOffset.y
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6968519b85ca4d54bb09b6838d5b8c3b, type: 2}
@@ -1048,7 +1054,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4136523058471614, guid: 1a9f3fabdb0410c4c934e4ff7d951da6, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 114357716446788276, guid: 1a9f3fabdb0410c4c934e4ff7d951da6,
         type: 2}
@@ -1737,5 +1743,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 50.383003, y: 206.74799, z: 163.001}

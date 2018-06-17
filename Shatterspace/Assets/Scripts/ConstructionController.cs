@@ -44,11 +44,11 @@ public class ConstructionController : MonoBehaviour {
 
     void Update()
     {
-        if(!hasBuilder)
+        if(!hasBuilder) //check "hasBuilder" here for more optimization 
         {
             foreach (var collider in Physics.OverlapSphere(transform.position, 2))
             {
-                if (collider.tag == "Builder")
+                if (collider.tag == "Builder" && !hasBuilder)
                 {
                     hasBuilder = true;
                     builder = collider.gameObject;
@@ -81,7 +81,8 @@ public class ConstructionController : MonoBehaviour {
 
         lastBuilding.SetActive(true);
         lastBuilding.GetComponent<BuildingStandard>().Team = team;
-
+        lastBuilding.GetComponent<BuildingStandard>().Select(false);
+        builder.GetComponent<Builder>().Finish();
         Destroy(gameObject, 0.1f);
     }
 }
