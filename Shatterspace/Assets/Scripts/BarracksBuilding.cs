@@ -86,6 +86,7 @@ public class BarracksBuilding : MonoBehaviour {
         working = false;
         statusBar.value = 0;
         statusBar.gameObject.SetActive(false);
+        CancelInvoke("UpdateStatus");
     }
 
 
@@ -99,7 +100,7 @@ public class BarracksBuilding : MonoBehaviour {
     }
 
     private void UpdateStatus() {
-        if (manSpawnTime <= statusBar.value)
+        if (manSpawnTime >= statusBar.value)
         {
             statusBar.value += 0.01f;
         } else {
@@ -113,6 +114,9 @@ public class BarracksBuilding : MonoBehaviour {
         {
             if (!working)
             {
+                statusBar.gameObject.SetActive(true);
+                statusBar.maxValue = manSpawnTime;
+                InvokeRepeating("UpdateStatus", 0f, 0.01f);
                 working = true;
                 GameObject targetSquad = Instantiate(emptySquad, spawnPoint.transform.position, spawnPoint.transform.rotation);
                 GameObject squadParent = null;
@@ -130,9 +134,6 @@ public class BarracksBuilding : MonoBehaviour {
                     SpawnMans(placeholder, targetSquad, squadParent);
                 }
                 targetSquad.GetComponent<SquadManager>().SetSquadTeam(secondInfo.Team);
-                statusBar.gameObject.SetActive(true);
-                statusBar.maxValue = manSpawnTime;
-                InvokeRepeating("UpdateStatus", 0f, 0.01f);
             }
         }
     }
@@ -148,7 +149,7 @@ public class BarracksBuilding : MonoBehaviour {
 
     public void Select(bool input)
 	{
-        selected = true;
+        selected = input;
         UIButtons.SetActive(input);
     }
 }
