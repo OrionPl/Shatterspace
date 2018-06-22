@@ -86,9 +86,11 @@ public class PlayerController : MonoBehaviour {
                         if (choosen.gameObject.tag != "Building")
                         {
                             selection.Clear();
+                            break;
                         }
                         else if (choosen.GetComponent<BuildingStandard>().main.Type != tempBuild.main.Type) {
                             selection.Clear();
+                            break;
                         }
                     }
 

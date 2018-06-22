@@ -26,7 +26,7 @@ public class BarracksBuilding : MonoBehaviour {
 
     
     private bool selected = false;
-    private bool working;
+    [SerializeField] private bool working; // TODO: remove serialize field.
     private int spawnedMans;
 
 
@@ -100,7 +100,7 @@ public class BarracksBuilding : MonoBehaviour {
     }
 
     private void UpdateStatus() {
-        if (manSpawnTime >= statusBar.value)
+        if (manSpawnTime <= statusBar.value)
         {
             statusBar.value += 0.01f;
         } else {

@@ -41,7 +41,6 @@ public class SquadMemberManager : MonoBehaviour {
     void Start()
     {
         cam = Camera.main;
-        Debug.Log(cam);
     }
 
     // one time run
