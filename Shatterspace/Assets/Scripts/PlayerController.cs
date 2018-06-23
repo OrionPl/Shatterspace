@@ -230,7 +230,7 @@ public class PlayerController : MonoBehaviour {
 
     private GameObject newConstruction;
 
-    IEnumerator NewBuildingPositionSelection()
+    IEnumerator NewBuildingPositionSelection() //TODO: Add a physics overlap sphere before placement to get info about placement area. If Its to small don't place anything
     {
         yield return new WaitForSeconds(0.1f);
         while (true)

@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 114437454361857630}
   m_Layer: 0
   m_Name: Construction
-  m_TagString: Untagged
+  m_TagString: Construction
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102,7 +102,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1901195558737108}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -19.35974, y: 0.0000047683716, z: -28.349892}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224621709783614708}
@@ -230,10 +230,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildTime: 10
   building: {fileID: 0}
-  team: 0
-  builderBuilding: 0
   hasBuilder: 0
-  startedBuilding: 0
+  team: 0
   timeSlider: {fileID: 0}
 --- !u!114 &114990866825017594
 MonoBehaviour:

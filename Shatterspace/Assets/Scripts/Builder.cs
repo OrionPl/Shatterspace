@@ -5,63 +5,75 @@ using UnityEngine.AI;
 
 public class Builder : MonoBehaviour {
 
-    [SerializeField] private GameObject movementTarget;
-
-    private NavMeshAgent agent;
+    private GameObject movementTarget;
 
     public int team;
 
-    [SerializeField] private bool hasBuilding = false;
+    private GameObject[] constructions;
+    private GameObject[] builders;
+    private NavMeshAgent agent;
+    private GameObject building;
+    private GameObject nearestBuilder;
+    void Start () {
 
-	void Start () {
-        gameObject.tag = "Builder";
         agent = GetComponent<NavMeshAgent>();
-        Finish();
-	}
+        movementTarget = null;
+    }
 
-    void Update() {
-        if (movementTarget == null)
+    void LateUpdate() {
+        if (building == null)
         {
-            GameObject[] targets = GameObject.FindGameObjectsWithTag("Construction");
-            if (targets.Length >= 1)
+            constructions = GameObject.FindGameObjectsWithTag("Construction");
+            builders = GameObject.FindGameObjectsWithTag("Builder");
+
+            Debug.Log("Checkpoint");
+            if (constructions.Length > 0)
             {
-                float lengthFromTarget = Vector3.Distance(targets[0].transform.position, transform.position);
-                foreach (var target in targets)
+                Debug.Log("Checkpoint");
+                float minimumDistance = 10000000f; //10000000 as placeholder
+                foreach (GameObject target in constructions)
                 {
 
-                    if (target.GetComponent<ConstructionController>().builder == null)
+                    foreach (GameObject otherBuilder in builders)
                     {
-                        float distance = Vector3.Distance(target.transform.position, transform.position);
-
-                        if (distance < lengthFromTarget)
+                        if (otherBuilder.GetComponent<Builder>().building == null)
                         {
-                            lengthFromTarget = distance;
-                            StartWorking(target);
+                            float distance = Vector3.Distance(otherBuilder.transform.position, target.transform.position);
+                            ConstructionController targetInfo = target.GetComponent<ConstructionController>();
+                            if (!targetInfo.hasBuilder && minimumDistance > distance && targetInfo.Placed)
+                            {
+                                minimumDistance = distance;
+                                movementTarget = target;
+                                nearestBuilder = otherBuilder;
+                            }
                         }
                     }
+                }
+
+                if (!movementTarget.GetComponent<ConstructionController>().hasBuilder && movementTarget != null)
+                {
+                    if (nearestBuilder == gameObject) {
+                        GoWork(movementTarget);
+                        movementTarget.GetComponent<ConstructionController>().hasBuilder = true;
+                    }
+                }
+                else
+                {
+                    Finish();
                 }
             }
         }
 	}
 
-    void StartWorking(GameObject getTarget) {
-            movementTarget = getTarget;
-            getTarget.GetComponent<ConstructionController>().builder = gameObject;
-            agent.SetDestination(movementTarget.transform.position);
-            hasBuilding = true;
-
+    public void GoWork(GameObject getTarget) {
+        agent.SetDestination(getTarget.transform.position);
+        movementTarget = getTarget;
+        building = getTarget; //I have used two different variables to prevent "foreach loop" issues
     }
 
-    public void Construct(ConstructionController cc) {  //Its more easy to use different func.
-        cc.hasBuilder = true;
-        cc.BuilderStartBuilding();
-        movementTarget = cc.gameObject;
-    }
-
-    public void Finish()
-    {
-        hasBuilding = false;
-        agent.SetDestination(transform.position);
+    public void Finish() {
+        building = null;
         movementTarget = null;
     }
+
 }

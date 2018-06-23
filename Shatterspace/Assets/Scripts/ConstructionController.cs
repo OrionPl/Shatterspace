@@ -4,13 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using Scripts2;
 
-public class ConstructionController : MonoBehaviour {
+public class ConstructionController : MonoBehaviour
+{
 
     public float buildTime = 10;
 
     public GameObject building;
-    public GameObject lastBuilding;
-    public GameObject builder;
+    private GameObject lastBuilding;
+    [SerializeField] GameObject builder;
 
     public bool hasBuilder = false;
 
@@ -27,6 +28,20 @@ public class ConstructionController : MonoBehaviour {
         }
     }
 
+    private bool placed;
+    public bool Placed
+    {
+        get
+        {
+            return placed;
+        }
+
+        set
+        {
+            placed = value;
+        }
+    }
+
     [SerializeField] private Slider timeSlider;
 
     private Vector3 sliderOffset = new Vector3(0, 3, 0);
@@ -34,7 +49,6 @@ public class ConstructionController : MonoBehaviour {
     public void CustomStart()
     {
         timeSlider = GetComponentInChildren<Slider>();
-        gameObject.tag = "Construction";
 
         lastBuilding = Instantiate(building, transform.position, Quaternion.identity);
 
@@ -42,19 +56,23 @@ public class ConstructionController : MonoBehaviour {
         timeSlider.maxValue = buildTime;
 
         lastBuilding.SetActive(false);
+
+        Placed = true;
     }
 
     void Update()
     {
-        if(!hasBuilder) //check "hasBuilder" here for more optimization 
+        if (!hasBuilder && Placed) //check "hasBuilder" here for more optimization 
         {
             foreach (var collider in Physics.OverlapSphere(transform.position, 2))
             {
                 if (collider.tag == "Builder" && !hasBuilder)
                 {
-                    hasBuilder = true;
                     builder = collider.gameObject;
-                    builder.GetComponent<Builder>().Construct(this);
+                    collider.gameObject.GetComponent<Builder>().GoWork(gameObject);
+                    BuilderStartBuilding();
+                    hasBuilder = true;
+                    break;
                 }
             }
 
@@ -63,12 +81,15 @@ public class ConstructionController : MonoBehaviour {
         timeSlider.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position + sliderOffset);
     }
 
-    void Construct() {
-        if (buildTime > 0f) {
+    void Construct()
+    {
+        if (buildTime > 0f)
+        {
             buildTime -= 0.1f;
             timeSlider.value += 0.1f;
         }
-        else {
+        else
+        {
             lastBuilding.SetActive(true);
             lastBuilding.GetComponent<BuildingStandard>().Team = team;
             lastBuilding.GetComponent<BuildingStandard>().Select(false);
@@ -78,7 +99,9 @@ public class ConstructionController : MonoBehaviour {
 
     }
 
-    public void BuilderStartBuilding() {
-        InvokeRepeating("Construct", 0f, 0.1f);  //Coroutines not working correctly.
+    void BuilderStartBuilding()
+    {
+        InvokeRepeating("Construct", 0f, 0.1f);
     }
+
 }

@@ -152,4 +152,5 @@ public class BarracksBuilding : MonoBehaviour {
         selected = input;
         UIButtons.SetActive(input);
     }
+
 }
