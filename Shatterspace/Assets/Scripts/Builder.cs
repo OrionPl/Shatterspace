@@ -12,8 +12,22 @@ public class Builder : MonoBehaviour {
     private GameObject[] constructions;
     private GameObject[] builders;
     private NavMeshAgent agent;
-    private GameObject building;
     private GameObject nearestBuilder;
+
+    private GameObject building;
+    public GameObject Building
+    {
+        get
+        {
+            return building;
+        }
+
+        set
+        {
+            building = value;
+        }
+    }
+
     void Start () {
 
         agent = GetComponent<NavMeshAgent>();
@@ -21,58 +35,66 @@ public class Builder : MonoBehaviour {
     }
 
     void LateUpdate() {
-        if (building == null)
+        if (Building == null)
         {
-            constructions = GameObject.FindGameObjectsWithTag("Construction");
-            builders = GameObject.FindGameObjectsWithTag("Builder");
+            FindnSetConstruction();
+        }
+    }
 
-            Debug.Log("Checkpoint");
-            if (constructions.Length > 0)
+    private void FindnSetConstruction()
+    {
+        constructions = GameObject.FindGameObjectsWithTag("Construction");
+        builders = GameObject.FindGameObjectsWithTag("Builder");
+        if (constructions.Length > 0)
+        {
+            float minimumDistance = 10000000f; //10000000 as placeholder
+            foreach (GameObject target in constructions)
             {
-                Debug.Log("Checkpoint");
-                float minimumDistance = 10000000f; //10000000 as placeholder
-                foreach (GameObject target in constructions)
-                {
 
-                    foreach (GameObject otherBuilder in builders)
+                foreach (GameObject otherBuilder in builders)
+                {
+                    if (otherBuilder.GetComponent<Builder>().Building == null)
                     {
-                        if (otherBuilder.GetComponent<Builder>().building == null)
+                        float distance = Vector3.Distance(otherBuilder.transform.position, target.transform.position);
+                        ConstructionController targetInfo = target.GetComponent<ConstructionController>();
+                        if (!targetInfo.hasBuilder && minimumDistance > distance && targetInfo.Placed)
                         {
-                            float distance = Vector3.Distance(otherBuilder.transform.position, target.transform.position);
-                            ConstructionController targetInfo = target.GetComponent<ConstructionController>();
-                            if (!targetInfo.hasBuilder && minimumDistance > distance && targetInfo.Placed)
-                            {
-                                minimumDistance = distance;
-                                movementTarget = target;
-                                nearestBuilder = otherBuilder;
-                            }
+                            minimumDistance = distance;
+                            movementTarget = target;
+                            nearestBuilder = otherBuilder;
                         }
                     }
                 }
+            }
 
-                if (!movementTarget.GetComponent<ConstructionController>().hasBuilder && movementTarget != null)
+            if (movementTarget == null)
+            {
+                Finish();
+            }
+            else if (!movementTarget.GetComponent<ConstructionController>().hasBuilder && movementTarget != null)
+            {
+                if (nearestBuilder == gameObject)
                 {
-                    if (nearestBuilder == gameObject) {
-                        GoWork(movementTarget);
-                        movementTarget.GetComponent<ConstructionController>().hasBuilder = true;
-                    }
-                }
-                else
-                {
-                    Finish();
+                    GoWork(movementTarget);
+
                 }
             }
+            else
+            {
+                Finish();
+            }
         }
-	}
+    }
 
     public void GoWork(GameObject getTarget) {
         agent.SetDestination(getTarget.transform.position);
         movementTarget = getTarget;
-        building = getTarget; //I have used two different variables to prevent "foreach loop" issues
+        Building = getTarget; //I have used two different variables to prevent "foreach loop" issues
+        getTarget.GetComponent<ConstructionController>().hasBuilder = true;
     }
 
     public void Finish() {
-        building = null;
+        Building = null;
         movementTarget = null;
     }
 

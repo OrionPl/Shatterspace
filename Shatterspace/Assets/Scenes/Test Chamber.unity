@@ -1046,7 +1046,8 @@ Prefab:
       propertyPath: buildingPrefabs.Array.data[0]
       value: 
       objectReference: {fileID: 1758116302}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114283888774670276, guid: 1a9f3fabdb0410c4c934e4ff7d951da6, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 1a9f3fabdb0410c4c934e4ff7d951da6, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &1227238864

@@ -6,16 +6,17 @@ using Scripts2;
 
 public class ConstructionController : MonoBehaviour
 {
-
+    public bool hasBuilder = false;
     public float buildTime = 10;
 
     public GameObject building;
-    private GameObject lastBuilding;
+
     [SerializeField] GameObject builder;
 
-    public bool hasBuilder = false;
+    [SerializeField] private Slider timeSlider;
 
     [SerializeField] private int team;
+
     public int Team
     {
         get
@@ -42,7 +43,9 @@ public class ConstructionController : MonoBehaviour
         }
     }
 
-    [SerializeField] private Slider timeSlider;
+    private bool buildStatus = false;
+
+    private GameObject lastBuilding;
 
     private Vector3 sliderOffset = new Vector3(0, 3, 0);
 
@@ -62,29 +65,39 @@ public class ConstructionController : MonoBehaviour
 
     void Update()
     {
-        if (!hasBuilder && Placed) //check "hasBuilder" here for more optimization 
-        {
-            foreach (var collider in Physics.OverlapSphere(transform.position, 2))
-            {
-                if (collider.tag == "Builder" && !hasBuilder)
-                {
-                    builder = collider.gameObject;
-                    collider.gameObject.GetComponent<Builder>().GoWork(gameObject);
-                    BuilderStartBuilding();
-                    hasBuilder = true;
-                    break;
-                }
-            }
-
-        }
+        FindnSetBuilders();
 
         timeSlider.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position + sliderOffset);
     }
 
+    private void FindnSetBuilders()
+    {
+        if (Placed && !buildStatus) //check "hasBuilder" here for more optimization 
+        {
+            foreach (var collider in Physics.OverlapSphere(transform.position, 2))
+            {
+                if (collider.tag == "Builder")
+                {
+                    if (collider.gameObject.GetComponent<Builder>().Building == gameObject)
+                    {
+                        collider.gameObject.GetComponent<Builder>().GoWork(gameObject);
+                        builder = collider.gameObject;
+                        BuilderStartBuilding();
+                        hasBuilder = true;
+                        break;
+                    }
+                }
+            }
+
+        }
+    }
+
     void Construct()
     {
+        Debug.Log("Check point 2");
         if (buildTime > 0f)
         {
+            Debug.Log("Check point 3");
             buildTime -= 0.1f;
             timeSlider.value += 0.1f;
         }
@@ -99,9 +112,14 @@ public class ConstructionController : MonoBehaviour
 
     }
 
-    void BuilderStartBuilding()
+    public void BuilderStartBuilding()
     {
-        InvokeRepeating("Construct", 0f, 0.1f);
+        if (!buildStatus)
+        {
+            InvokeRepeating("Construct", 0f, 0.1f);
+            buildStatus = true;
+            Debug.Log("Check point");
+        }
     }
 
 }

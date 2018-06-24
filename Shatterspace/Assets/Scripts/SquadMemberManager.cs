@@ -72,38 +72,40 @@ public class SquadMemberManager : MonoBehaviour {
     //that will called every frame
     void Update()
     {
-        if (living) {
-
-            if (mySquadManager.GetSquadTeam() == team && selected)
-            {
-                // if we click anywhere on screen with right mouse button
-                if (Input.GetMouseButtonDown(1))
-                {
-                    // send ray
-                    RaycastHit hit;
-                    Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
-
-                    // if raycast hit  to an object
-                    if (Physics.Raycast(clickRay, out hit))
-                    {
-                        // set hit.point as target
-                        aIController.destination = hit.point;
-                    }
-                }
-
-
-                // Check if we've reached the destination (or near of the destination)
-                if (aIController.remainingDistance < 3.0f)
-                {
-                    GoPosition();
-                }
-            }
-
-        } else
+        if (living)
         {
-            uiHealthBar.gameObject.transform.position = cam.WorldToScreenPoint(gameObject.transform.position);
+            FollowMouse();
+
         }
 
+        uiHealthBar.gameObject.transform.position = cam.WorldToScreenPoint(gameObject.transform.position);
+
+        // Check if we've reached the destination (or near of the destination)
+        if (aIController.remainingDistance < 3.0f && living)
+        {
+            GoPosition();
+        }
+    }
+
+    private void FollowMouse()
+    {
+        if (mySquadManager.GetSquadTeam() == team && selected)
+        {
+            // if we click anywhere on screen with right mouse button
+            if (Input.GetMouseButtonDown(1))
+            {
+                // send ray
+                RaycastHit hit;
+                Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
+
+                // if raycast hit  to an object
+                if (Physics.Raycast(clickRay, out hit))
+                {
+                    // set hit.point as target
+                    aIController.destination = hit.point;
+                }
+            }
+        }
     }
 
     //function for send him to default position
