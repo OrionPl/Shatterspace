@@ -74,7 +74,7 @@ public class ConstructionController : MonoBehaviour
     {
         if (Placed && !buildStatus) //check "hasBuilder" here for more optimization 
         {
-            foreach (var collider in Physics.OverlapSphere(transform.position, 2))
+            foreach (var collider in Physics.OverlapSphere(transform.position, 4))
             {
                 if (collider.tag == "Builder")
                 {
@@ -94,10 +94,8 @@ public class ConstructionController : MonoBehaviour
 
     void Construct()
     {
-        Debug.Log("Check point 2");
         if (buildTime > 0f)
         {
-            Debug.Log("Check point 3");
             buildTime -= 0.1f;
             timeSlider.value += 0.1f;
         }
@@ -118,7 +116,6 @@ public class ConstructionController : MonoBehaviour
         {
             InvokeRepeating("Construct", 0f, 0.1f);
             buildStatus = true;
-            Debug.Log("Check point");
         }
     }
 

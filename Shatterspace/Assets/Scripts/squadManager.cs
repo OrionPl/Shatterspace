@@ -1,25 +1,79 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Scripts2;
 
 public class SquadManager : MonoBehaviour {
 
-    [SerializeField] private List<GameObject> squadMembers;
-    [SerializeField] private List<GameObject> placeholders;
-
-    [Header("Set it manually for now")] // TODO: Remove serialize field.
     [SerializeField] private int team; //will be set on spawn by barracks at this script's SetSquadTeam() func.
+    public int Team
+    {
+        get
+        {
+            return team;
+        }
+
+        set
+        {
+            team = value;
+        }
+    }
+
+    [SerializeField] private List<GameObject> squadMembers;
+    public List<GameObject> SquadMembers
+    {
+        get
+        {
+            return squadMembers;
+        }
+
+        set
+        {
+            squadMembers = value;
+        }
+    }
+
+    [SerializeField] private List<GameObject> placeholders;
+    public List<GameObject> Placeholders
+    {
+        get
+        {
+            return placeholders;
+        }
+
+        set
+        {
+            placeholders = value;
+        }
+    }
+
+    [SerializeField] private SquadData squadInfo;
+    public SquadData SquadInfo
+    {
+        get
+        {
+            return squadInfo;
+        }
+
+        set
+        {
+            squadInfo = value;
+        }
+    }
+
+    private float squadHP;
+    private float armour;
+    private float speedMultiplier = 1; //don't change if you are not testing anything.
+
     private Camera cam; //maincamera - scene camera
     private UnityEngine.AI.NavMeshAgent aIController;
-
-    public float squadHP;
-    public float armour;
-    public float speedMultiplier = 1; //don't change if you are not testing anything.
 
     private float squadSpeed;
     private bool selected = false;
     private bool alive = false;
     private GameManager _gameManager;
+
+
 
     public void Setup(){
         _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  //find and set main manager
@@ -29,12 +83,15 @@ public class SquadManager : MonoBehaviour {
         UpdatePlaceholders();
         UpdateSquadMembers();
         alive = true;
+
+        squadHP = SquadInfo.UnitHp;
+        armour = SquadInfo.UnitArmor;
     }
 
     private void UpdateSquadMembers() //updates members and sets up manager
     {
 
-        squadMembers.Clear();
+        SquadMembers.Clear();
 
         GameObject squadParent = null;
         float squadSpeedTemp = 100000f; //declare a temp speed
@@ -51,11 +108,11 @@ public class SquadManager : MonoBehaviour {
         foreach (var member in squadParent.GetComponentsInChildren<Transform>())
         {
             if (member.GetComponent<SquadMemberManager>() != null)
-                squadMembers.Add(member.gameObject);
+                SquadMembers.Add(member.gameObject);
         }
 
         int i = 0;
-        foreach (var member in squadMembers) //search for slowest man in squaad and setup members
+        foreach (var member in SquadMembers) //search for slowest man in squaad and setup members
         {
             SquadMemberManager memberManager = member.GetComponent<SquadMemberManager>();
 
@@ -63,22 +120,22 @@ public class SquadManager : MonoBehaviour {
             {
                 squadSpeedTemp = memberManager.speed;
             }
-            memberManager.SetPlaceholder(placeholders[i]); //set default positin
+            memberManager.SetPlaceholder(Placeholders[i]); //set default positin
             memberManager.GoPosition(); //send him to position 
-            memberManager.Team = team; // TODO: remove it later FOR TESTING. Use SetSquadTeam() from player when squad spawned
+            memberManager.Team = Team; // TODO: remove it later FOR TESTING. Use SetSquadTeam() from player when squad spawned
             memberManager.SetMyManager(gameObject); //set his manager
 
             i++;
         }
 
         SetSquadSpeed(squadSpeedTemp); //set everyones speed to slowest man in squad
-        SetSquadTeam(team);
+        SetSquadTeam(Team);
         alive = true;
     }
 
     private void UpdatePlaceholders()
     {
-        placeholders.Clear();
+        Placeholders.Clear();
 
         List<GameObject> placeholdersTemp = new List<GameObject>();
         placeholdersTemp.Clear();
@@ -98,7 +155,7 @@ public class SquadManager : MonoBehaviour {
 
         foreach (var placeholder in placeholdersTemp)
         {
-            placeholders.Add(placeholder.gameObject);
+            Placeholders.Add(placeholder.gameObject);
         }
     }
 
@@ -128,14 +185,14 @@ public class SquadManager : MonoBehaviour {
 
     public void TakeDamage(float dmg)
     {
-        squadHP -= dmg / armour;
+        squadHP -= (dmg / armour) * SquadInfo.BaseDamage;
     }
 
     public void SetSquadSpeed(float setSpeed) { //sets squad speed, public function for traps, potions etc.
 
         setSpeed = setSpeed * speedMultiplier;
 
-        foreach (var member in squadMembers) //set everyones speed to given speed
+        foreach (var member in SquadMembers) //set everyones speed to given speed
         {
              SquadMemberManager memberManager = member.GetComponent<SquadMemberManager>();
              memberManager.SetMySpeed(setSpeed);
@@ -148,25 +205,19 @@ public class SquadManager : MonoBehaviour {
 
     //team will be set by player on spawn
     public void SetSquadTeam(int getTeam) {
-        team = getTeam; //set squad's team
+        Team = getTeam; //set squad's team
 
-        foreach (var member in squadMembers) //set everyones team
+        foreach (var member in SquadMembers) //set everyones team
         {
             SquadMemberManager memberManager = member.GetComponent<SquadMemberManager>();
-            memberManager.Team = team;
+            memberManager.Team = Team;
         }
-    }
-
-    //gives squad team
-    public int GetSquadTeam()
-    {
-        return team;
     }
 
     //select or deselect
     public void Select(bool input)
     {
-        foreach (var member in squadMembers) //set up selection for members
+        foreach (var member in SquadMembers) //set up selection for members
         {
             SquadMemberManager memberManager = member.GetComponent<SquadMemberManager>();
             memberManager.Select(input);

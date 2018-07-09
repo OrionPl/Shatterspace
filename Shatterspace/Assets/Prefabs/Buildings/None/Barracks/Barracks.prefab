@@ -310,6 +310,7 @@ GameObject:
   - component: {fileID: 4198832037644392}
   - component: {fileID: 33984410729855440}
   - component: {fileID: 23081726887309378}
+  - component: {fileID: 114998338206635104}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -412,6 +413,7 @@ GameObject:
   - component: {fileID: 4260965528912546}
   - component: {fileID: 33320254927796876}
   - component: {fileID: 23060404197977168}
+  - component: {fileID: 114615111938173526}
   m_Layer: 0
   m_Name: Sphere (2)
   m_TagString: Untagged
@@ -563,6 +565,7 @@ GameObject:
   - component: {fileID: 4987138341692134}
   - component: {fileID: 33295673575326448}
   - component: {fileID: 23876353020308912}
+  - component: {fileID: 114017094175381818}
   m_Layer: 0
   m_Name: Sphere (1)
   m_TagString: Untagged
@@ -658,7 +661,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1102258221101944}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.977528, y: 0.0000035762787, z: -20.708296}
+  m_LocalPosition: {x: 10.255131, y: -0.0000013113022, z: 9.055931}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4192348877591844}
@@ -1256,6 +1259,17 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114017094175381818
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1998173028489156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ea97d8bbbabec49805b8ba78c5a5f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114066942992564154
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1619,6 +1633,17 @@ MonoBehaviour:
   healthBar: {fileID: 114347417424320066}
   team: 0
   selected: 0
+--- !u!114 &114615111938173526
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1603732803259714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ea97d8bbbabec49805b8ba78c5a5f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114667967606503334
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1847,6 +1872,17 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114998338206635104
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1485364623574088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ea97d8bbbabec49805b8ba78c5a5f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!208 &208253025132678992
 NavMeshObstacle:
   m_ObjectHideFlags: 1

@@ -11,7 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 888328b2aa6e0b942a6b44243a1fac6d, type: 3}
   m_Name: TestSquad
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
+  squadName: 
+  unitPrefab: {fileID: 0}
   faction: 0
   unitHp: 100
   unitArmor: 10
@@ -21,4 +22,6 @@ MonoBehaviour:
   spawnTime: 5
   reinforceTime: 5
   startCount: 3
-  maxCount: 5
+  maxCount: 9
+  baseDamage: 5
+  armorDamageModifier: 1

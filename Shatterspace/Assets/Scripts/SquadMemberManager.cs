@@ -89,7 +89,7 @@ public class SquadMemberManager : MonoBehaviour {
 
     private void FollowMouse()
     {
-        if (mySquadManager.GetSquadTeam() == team && selected)
+        if (mySquadManager.Team == team && selected)
         {
             // if we click anywhere on screen with right mouse button
             if (Input.GetMouseButtonDown(1))

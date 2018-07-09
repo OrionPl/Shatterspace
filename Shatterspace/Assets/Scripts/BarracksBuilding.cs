@@ -26,7 +26,7 @@ public class BarracksBuilding : MonoBehaviour {
 
     
     private bool selected = false;
-    [SerializeField] private bool working; // TODO: remove serialize field.
+    private bool working;
     private int spawnedMans;
 
 
@@ -87,6 +87,9 @@ public class BarracksBuilding : MonoBehaviour {
         statusBar.value = 0;
         statusBar.gameObject.SetActive(false);
         CancelInvoke("UpdateStatus");
+        foreach (var placeholder in placeholders) {
+            placeholder.GetComponent<PlaceHolderInfo>().Empty = true;
+        }
     }
 
 
@@ -119,6 +122,7 @@ public class BarracksBuilding : MonoBehaviour {
                 InvokeRepeating("UpdateStatus", 0f, 0.01f);
                 working = true;
                 GameObject targetSquad = Instantiate(emptySquad, spawnPoint.transform.position, spawnPoint.transform.rotation);
+                manSpawnTime = emptySquad.GetComponent<SquadManager>().SquadInfo.SpawnTime;
                 GameObject squadParent = null;
                 foreach (var go in targetSquad.GetComponentsInChildren<Transform>())
                 {
@@ -132,6 +136,7 @@ public class BarracksBuilding : MonoBehaviour {
                 foreach (var placeholder in placeholders)
                 {
                     SpawnMans(placeholder, targetSquad, squadParent);
+                    placeholder.GetComponent<PlaceHolderInfo>().Empty = false;
                 }
                 targetSquad.GetComponent<SquadManager>().SetSquadTeam(secondInfo.Team);
             }
@@ -143,10 +148,64 @@ public class BarracksBuilding : MonoBehaviour {
 	{
         if (selected)
 		{
+            Debug.Log("Check point 1");
+            if (!working)
+            { 
+                Debug.Log("Check point 2");
+                GameObject squadCollider = null;
+                foreach (var collider in Physics.OverlapSphere(transform.position, 4))
+                {
+                    if (collider.tag == "Squad")
+                    {
+                        Debug.Log("Check point 2.25");
+                        squadCollider = collider.gameObject;
+                    }
+                    else if (collider.tag == "man")
+                    {
+                        Debug.Log("Check point 2.50");
+                        squadCollider = collider.gameObject.GetComponent<SquadMemberManager>().mySquadManager.gameObject;
+                    }
+                }
+                if (squadCollider != null)
+                {
+                    Debug.Log("Check point 3");
+                    Debug.Log(squadCollider);
+                    SquadManager _squadInfo = squadCollider.GetComponent<SquadManager>();
+                    if (_squadInfo.Team == secondInfo.Team && _squadInfo.SquadMembers.Count < _squadInfo.SquadInfo.MaxCount)
+                    {
+                        List<GameObject> _placeholders = _squadInfo.Placeholders;
+                        GameObject _squadParent = null;
+                        GameObject _emptyPlaceholder = null;
+                        statusBar.gameObject.SetActive(true);
+                        manSpawnTime = _squadInfo.SquadInfo.ReinforceTime;
+                        statusBar.maxValue = manSpawnTime;
+                        foreach (GameObject _tempEmptyPlaceholder in placeholders)
+                        {
+                            if (_tempEmptyPlaceholder.GetComponent<PlaceHolderInfo>().Empty)
+                            {
+                                _emptyPlaceholder = _tempEmptyPlaceholder;
+                                break;
+                            }
+                        }
+                        foreach (var go in squadCollider.GetComponentsInChildren<Transform>())
+                        {
+                            if (go.name == "SquadMembers")
+                            {
+                                _squadParent = go.gameObject;
+                            }
 
+                        }
+                        if (_emptyPlaceholder != null) {
+                            SpawnMans(_emptyPlaceholder, squadCollider, _squadParent);
+                            InvokeRepeating("UpdateStatus", 0f, 0.01f);
+                            _emptyPlaceholder.GetComponent<PlaceHolderInfo>().Empty = false;
+                        }
+                    }
+                }
+            }
         }
     }
-
+    
     public void Select(bool input)
 	{
         selected = input;

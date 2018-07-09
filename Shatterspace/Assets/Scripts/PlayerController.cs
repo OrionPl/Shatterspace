@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour {
                 else if (hit.collider.transform.tag == "Squad")
                 {
                     SquadManager tempSquad = hit.collider.gameObject.GetComponent<SquadManager>();
-                    if (tempSquad.GetSquadTeam() == teamID) //if its ally, make squad controllable
+                    if (tempSquad.Team == teamID) //if its ally, make squad controllable
                     {
                         selection.Add(tempSquad.gameObject);
                         tempSquad.Select(true);
