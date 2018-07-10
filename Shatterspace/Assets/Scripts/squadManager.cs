@@ -61,6 +61,20 @@ public class SquadManager : MonoBehaviour {
         }
     }
 
+    private int manCount;
+    public int ManCount
+    {
+        get
+        {
+            return manCount;
+        }
+
+        set
+        {
+            manCount = value;
+        }
+    }
+
     private float squadHP;
     private float armour;
     private float speedMultiplier = 1; //don't change if you are not testing anything.
@@ -131,6 +145,7 @@ public class SquadManager : MonoBehaviour {
         SetSquadSpeed(squadSpeedTemp); //set everyones speed to slowest man in squad
         SetSquadTeam(Team);
         alive = true;
+        manCount = squadMembers.Count;
     }
 
     private void UpdatePlaceholders()

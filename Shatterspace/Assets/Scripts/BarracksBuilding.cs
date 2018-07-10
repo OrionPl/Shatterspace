@@ -7,24 +7,24 @@ using Scripts2;
 public class BarracksBuilding : MonoBehaviour {
 
     [SerializeField] private List<GameObject> placeholders; // TODO: remove serialize field.
-    
+
     [SerializeField] private float manSpawnTime;
     [SerializeField] private float defence = 1f;
 
     [SerializeField] private GameObject manType;
-	public GameObject ManType
-	{
-		set
-		{
-			manType = value;
-		}
-	}
+    public GameObject ManType
+    {
+        set
+        {
+            manType = value;
+        }
+    }
     [SerializeField] private GameObject spawnPoint;
     [SerializeField] private GameObject emptySquad;
     [SerializeField] private GameObject UIButtons;
 
 
-    
+
     private bool selected = false;
     private bool working;
     private int spawnedMans;
@@ -44,14 +44,25 @@ public class BarracksBuilding : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update() {
         UIButtons.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 
-	}
+    }
 
     private void LateUpdate()
     {
         Select(secondInfo.selected);
+        if(working)
+        {
+            if (manSpawnTime <= statusBar.value)
+            {
+                statusBar.value += 0.01f;
+            }
+            else
+            {
+                StopWorking();
+            }
+        }
     }
 
     private void UpdatePlaceholders()
@@ -86,7 +97,6 @@ public class BarracksBuilding : MonoBehaviour {
         working = false;
         statusBar.value = 0;
         statusBar.gameObject.SetActive(false);
-        CancelInvoke("UpdateStatus");
         foreach (var placeholder in placeholders) {
             placeholder.GetComponent<PlaceHolderInfo>().Empty = true;
         }
@@ -94,6 +104,7 @@ public class BarracksBuilding : MonoBehaviour {
 
 
     private void SpawnMans(GameObject placeholder, GameObject manager, GameObject squadParent) {
+        placeholder.GetComponent<PlaceHolderInfo>().Empty = false;
         GameObject spawnedMan = Instantiate(manType, placeholder.transform.position, placeholder.transform.rotation);
         spawnedMan.transform.SetParent(squadParent.transform);
         SquadMemberManager manSettings = spawnedMan.GetComponent<SquadMemberManager>();
@@ -102,13 +113,17 @@ public class BarracksBuilding : MonoBehaviour {
         manSettings.Setup(manSpawnTime);
     }
 
-    private void UpdateStatus() {
-        if (manSpawnTime <= statusBar.value)
+    private bool CheckForEmptyPlaceholders()
+    {
+        bool thereIsEmptySquad = false;
+        foreach (var placeholder in placeholders)
         {
-            statusBar.value += 0.01f;
-        } else {
-            StopWorking();
+            if (placeholder.GetComponent<PlaceHolderInfo>().Empty)
+            {
+                thereIsEmptySquad = true;
+            }
         }
+        return thereIsEmptySquad;
     }
 
     public void SpawnSquad()
@@ -119,7 +134,6 @@ public class BarracksBuilding : MonoBehaviour {
             {
                 statusBar.gameObject.SetActive(true);
                 statusBar.maxValue = manSpawnTime;
-                InvokeRepeating("UpdateStatus", 0f, 0.01f);
                 working = true;
                 GameObject targetSquad = Instantiate(emptySquad, spawnPoint.transform.position, spawnPoint.transform.rotation);
                 manSpawnTime = emptySquad.GetComponent<SquadManager>().SquadInfo.SpawnTime;
@@ -145,45 +159,42 @@ public class BarracksBuilding : MonoBehaviour {
 
 
     public void ReinforceSquad()
-	{
+    {
         if (selected)
-		{
-            Debug.Log("Check point 1");
-            if (!working)
-            { 
-                Debug.Log("Check point 2");
+        {
+            if (!working || (working && CheckForEmptyPlaceholders()))
+            {
+                working = true;
                 GameObject squadCollider = null;
                 foreach (var collider in Physics.OverlapSphere(transform.position, 4))
                 {
                     if (collider.tag == "Squad")
                     {
-                        Debug.Log("Check point 2.25");
                         squadCollider = collider.gameObject;
                     }
                     else if (collider.tag == "man")
                     {
-                        Debug.Log("Check point 2.50");
                         squadCollider = collider.gameObject.GetComponent<SquadMemberManager>().mySquadManager.gameObject;
                     }
                 }
                 if (squadCollider != null)
                 {
-                    Debug.Log("Check point 3");
-                    Debug.Log(squadCollider);
                     SquadManager _squadInfo = squadCollider.GetComponent<SquadManager>();
-                    if (_squadInfo.Team == secondInfo.Team && _squadInfo.SquadMembers.Count < _squadInfo.SquadInfo.MaxCount)
+                    if (_squadInfo.Team == secondInfo.Team && _squadInfo.ManCount < _squadInfo.SquadInfo.MaxCount)
                     {
                         List<GameObject> _placeholders = _squadInfo.Placeholders;
                         GameObject _squadParent = null;
                         GameObject _emptyPlaceholder = null;
                         statusBar.gameObject.SetActive(true);
                         manSpawnTime = _squadInfo.SquadInfo.ReinforceTime;
+                        statusBar.value = 0;
                         statusBar.maxValue = manSpawnTime;
                         foreach (GameObject _tempEmptyPlaceholder in placeholders)
                         {
                             if (_tempEmptyPlaceholder.GetComponent<PlaceHolderInfo>().Empty)
                             {
                                 _emptyPlaceholder = _tempEmptyPlaceholder;
+                                Debug.Log(_tempEmptyPlaceholder.GetComponent<PlaceHolderInfo>().Empty);
                                 break;
                             }
                         }
@@ -197,15 +208,14 @@ public class BarracksBuilding : MonoBehaviour {
                         }
                         if (_emptyPlaceholder != null) {
                             SpawnMans(_emptyPlaceholder, squadCollider, _squadParent);
-                            InvokeRepeating("UpdateStatus", 0f, 0.01f);
-                            _emptyPlaceholder.GetComponent<PlaceHolderInfo>().Empty = false;
+                            _squadInfo.ManCount++;
                         }
                     }
                 }
             }
         }
     }
-    
+
     public void Select(bool input)
 	{
         selected = input;
