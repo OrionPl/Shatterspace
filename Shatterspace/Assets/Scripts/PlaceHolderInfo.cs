@@ -3,18 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlaceHolderInfo : MonoBehaviour {
-private bool empty = true;
+    public bool Empty;
 
-    public bool Empty
+    private void Start()
     {
-        get
-        {
-            return empty;
-        }
-
-        set
-        {
-            empty = value;
-        }
+        Empty = true;
     }
 }

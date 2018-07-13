@@ -62,7 +62,14 @@ public class SquadMemberManager : MonoBehaviour {
         {
             living = true;
             uiHealthBar.gameObject.SetActive(false);
-            mySquadManager.GetComponent<SquadManager>().Setup();
+            if (!mySquadManager.GetComponent<SquadManager>().Alive)
+            {
+                mySquadManager.GetComponent<SquadManager>().Setup();
+            }
+            else {
+                mySquadManager.GetComponent<SquadManager>().UpdateSquadMembers();
+            }
+
             GoPosition();
             CancelInvoke("Spawn");
         }

@@ -75,19 +75,30 @@ public class SquadManager : MonoBehaviour {
         }
     }
 
+    private bool alive = false;
+    public bool Alive
+    {
+        get
+        {
+            return alive;
+        }
+
+        set
+        {
+            alive = value;
+        }
+    }
+
     private float squadHP;
     private float armour;
     private float speedMultiplier = 1; //don't change if you are not testing anything.
+    private float squadSpeed;
 
     private Camera cam; //maincamera - scene camera
     private UnityEngine.AI.NavMeshAgent aIController;
-
-    private float squadSpeed;
-    private bool selected = false;
-    private bool alive = false;
     private GameManager _gameManager;
 
-
+    private bool selected = false;
 
     public void Setup(){
         _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  //find and set main manager
@@ -96,13 +107,12 @@ public class SquadManager : MonoBehaviour {
 
         UpdatePlaceholders();
         UpdateSquadMembers();
-        alive = true;
 
         squadHP = SquadInfo.UnitHp;
         armour = SquadInfo.UnitArmor;
     }
 
-    private void UpdateSquadMembers() //updates members and sets up manager
+    public void UpdateSquadMembers() //updates members and sets up manager
     {
 
         SquadMembers.Clear();
@@ -144,8 +154,8 @@ public class SquadManager : MonoBehaviour {
 
         SetSquadSpeed(squadSpeedTemp); //set everyones speed to slowest man in squad
         SetSquadTeam(Team);
-        alive = true;
         manCount = squadMembers.Count;
+        Alive = true;
     }
 
     private void UpdatePlaceholders()
@@ -175,7 +185,7 @@ public class SquadManager : MonoBehaviour {
     }
 
     void Update () {
-     if (selected && alive)
+     if (selected && Alive)
         {
             if (Input.GetMouseButtonDown(1))
             {

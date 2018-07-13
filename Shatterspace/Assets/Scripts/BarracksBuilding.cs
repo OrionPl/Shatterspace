@@ -113,24 +113,24 @@ public class BarracksBuilding : MonoBehaviour {
         manSettings.Setup(manSpawnTime);
     }
 
-    private bool CheckForEmptyPlaceholders()
+    private int CheckForEmptyPlaceholders()
     {
-        bool thereIsEmptySquad = false;
+        int emptySquads = 0;
         foreach (var placeholder in placeholders)
         {
             if (placeholder.GetComponent<PlaceHolderInfo>().Empty)
             {
-                thereIsEmptySquad = true;
+                emptySquads++;
             }
         }
-        return thereIsEmptySquad;
+        return emptySquads;
     }
 
     public void SpawnSquad()
     {
         if (selected)
         {
-            if (!working)
+            if (!working && (CheckForEmptyPlaceholders() > 2))
             {
                 statusBar.gameObject.SetActive(true);
                 statusBar.maxValue = manSpawnTime;
@@ -162,7 +162,7 @@ public class BarracksBuilding : MonoBehaviour {
     {
         if (selected)
         {
-            if (!working || (working && CheckForEmptyPlaceholders()))
+            if (!working || (working && (CheckForEmptyPlaceholders() > 0)))
             {
                 working = true;
                 GameObject squadCollider = null;
@@ -194,8 +194,6 @@ public class BarracksBuilding : MonoBehaviour {
                             if (_tempEmptyPlaceholder.GetComponent<PlaceHolderInfo>().Empty)
                             {
                                 _emptyPlaceholder = _tempEmptyPlaceholder;
-                                Debug.Log(_tempEmptyPlaceholder.GetComponent<PlaceHolderInfo>().Empty);
-                                break;
                             }
                         }
                         foreach (var go in squadCollider.GetComponentsInChildren<Transform>())
@@ -207,6 +205,7 @@ public class BarracksBuilding : MonoBehaviour {
 
                         }
                         if (_emptyPlaceholder != null) {
+                            _emptyPlaceholder.GetComponent<PlaceHolderInfo>().Empty = false;
                             SpawnMans(_emptyPlaceholder, squadCollider, _squadParent);
                             _squadInfo.ManCount++;
                         }
