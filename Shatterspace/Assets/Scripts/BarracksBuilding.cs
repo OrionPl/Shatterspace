@@ -52,17 +52,6 @@ public class BarracksBuilding : MonoBehaviour {
     private void LateUpdate()
     {
         Select(secondInfo.selected);
-        if(working)
-        {
-            if (manSpawnTime <= statusBar.value)
-            {
-                statusBar.value += 0.01f;
-            }
-            else
-            {
-                StopWorking();
-            }
-        }
     }
 
     private void UpdatePlaceholders()
@@ -100,10 +89,24 @@ public class BarracksBuilding : MonoBehaviour {
         foreach (var placeholder in placeholders) {
             placeholder.GetComponent<PlaceHolderInfo>().Empty = true;
         }
+        CancelInvoke("UpdateStatus");
     }
 
+    private void UpdateStatus() {
+        if (statusBar.maxValue > statusBar.value)
+        {
+            statusBar.value += 0.01f;
+            Debug.Log(statusBar.value);
+            Debug.Log(statusBar.maxValue);
+        }
+        else
+        {
+            StopWorking();
+        }
+    }
 
     private void SpawnMans(GameObject placeholder, GameObject manager, GameObject squadParent) {
+        InvokeRepeating("UpdateStatus", 0.0f, 0.01f);
         placeholder.GetComponent<PlaceHolderInfo>().Empty = false;
         GameObject spawnedMan = Instantiate(manType, placeholder.transform.position, placeholder.transform.rotation);
         spawnedMan.transform.SetParent(squadParent.transform);
@@ -180,7 +183,7 @@ public class BarracksBuilding : MonoBehaviour {
                 if (squadCollider != null)
                 {
                     SquadManager _squadInfo = squadCollider.GetComponent<SquadManager>();
-                    if (_squadInfo.Team == secondInfo.Team && _squadInfo.ManCount < _squadInfo.SquadInfo.MaxCount)
+                    if (_squadInfo.Team == secondInfo.Team && (_squadInfo.ManCount < _squadInfo.SquadInfo.MaxCount))
                     {
                         List<GameObject> _placeholders = _squadInfo.Placeholders;
                         GameObject _squadParent = null;

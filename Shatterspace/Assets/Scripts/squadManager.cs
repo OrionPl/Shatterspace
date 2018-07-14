@@ -146,7 +146,7 @@ public class SquadManager : MonoBehaviour {
             }
             memberManager.SetPlaceholder(Placeholders[i]); //set default positin
             memberManager.GoPosition(); //send him to position 
-            memberManager.Team = Team; // TODO: remove it later FOR TESTING. Use SetSquadTeam() from player when squad spawned
+            memberManager.Team = Team;
             memberManager.SetMyManager(gameObject); //set his manager
 
             i++;

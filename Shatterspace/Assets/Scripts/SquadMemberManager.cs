@@ -52,12 +52,12 @@ public class SquadMemberManager : MonoBehaviour {
         GameRuleManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  //find and set main manager
         uiHealthBar.maxValue = getTime;
         time = getTime;
-        InvokeRepeating("Spawn", 0f, 0.1f);
+        InvokeRepeating("Spawn", 0f, 0.01f);
     }
 
     void Spawn() {
 
-        uiHealthBar.value = uiHealthBar.value + 0.1f;
+        uiHealthBar.value = uiHealthBar.value + 0.01f;
         if (uiHealthBar.value >= time)
         {
             living = true;
