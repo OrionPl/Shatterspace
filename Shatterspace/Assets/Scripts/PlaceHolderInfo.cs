@@ -29,7 +29,8 @@ public class PlaceHolderInfo : MonoBehaviour {
         set
         {
             empty = value;
-            placeholderObject = null;
+            if (value)
+                placeholderObject = null;
         }
     }
 

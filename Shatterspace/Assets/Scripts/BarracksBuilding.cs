@@ -97,7 +97,7 @@ public class BarracksBuilding : MonoBehaviour {
             int count = 0;
             float calc = 0f;
             foreach (var placeholder in placeholders) {
-                if (placeholder.GetComponent<PlaceHolderInfo>().Empty) {
+                if (!placeholder.GetComponent<PlaceHolderInfo>().Empty) {
                     count = count + 1;
                     calc += placeholder.GetComponent<PlaceHolderInfo>().PlaceholderObject.GetComponent<SquadMemberManager>().Status;
                 }
@@ -111,11 +111,11 @@ public class BarracksBuilding : MonoBehaviour {
     }
 
     private void SpawnMans(GameObject placeholder, GameObject manager, GameObject squadParent) {
-        InvokeRepeating("UpdateStatus", 0.0f, 0.01f);
-        placeholder.GetComponent<PlaceHolderInfo>().Empty = false;
         GameObject spawnedMan = Instantiate(manType, placeholder.transform.position, placeholder.transform.rotation);
         spawnedMan.transform.SetParent(squadParent.transform);
         placeholder.GetComponent<PlaceHolderInfo>().PlaceholderObject = spawnedMan;
+        placeholder.GetComponent<PlaceHolderInfo>().Empty = false;
+        InvokeRepeating("UpdateStatus", 0.0f, 0.01f);
         SquadMemberManager manSettings = spawnedMan.GetComponent<SquadMemberManager>();
         manSettings.SetMyManager(manager);
         manSettings.Team = secondInfo.Team;
