@@ -25,7 +25,7 @@ public class SquadMemberManager : MonoBehaviour {
 
     private float time;
 
-    [SerializeField] private int team; //will be set by builder
+    private int team; //will be set by builder
     public int Team
     {
         get
@@ -35,6 +35,20 @@ public class SquadMemberManager : MonoBehaviour {
         set
         {
             team = value;
+        }
+    }
+
+    private float status;
+    public float Status
+    {
+        get
+        {
+            return status;
+        }
+
+        set
+        {
+            status = value;
         }
     }
 
@@ -58,6 +72,7 @@ public class SquadMemberManager : MonoBehaviour {
     void Spawn() {
 
         uiHealthBar.value = uiHealthBar.value + 0.01f;
+        Status = uiHealthBar.value;
         if (uiHealthBar.value >= time)
         {
             living = true;

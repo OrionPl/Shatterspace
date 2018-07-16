@@ -242,7 +242,8 @@ public class PlayerController : MonoBehaviour {
 
             if (Physics.Raycast(ray, out hit))
             {
-                newConstruction.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
+                newConstruction.transform.position = new Vector3(hit.point.x, hit.point.y + 0.3f, hit.point.z);
+                newConstruction.transform.up = hit.normal; //terrain-ready
             }
 
             if (Input.GetKey(KeyCode.Mouse0))

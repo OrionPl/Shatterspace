@@ -3,7 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlaceHolderInfo : MonoBehaviour {
-    public bool Empty;
+
+    private GameObject placeholderObject;
+    public GameObject PlaceholderObject
+    {
+        get
+        {
+            return placeholderObject;
+        }
+
+        set
+        {
+            placeholderObject = value;
+        }
+    }
+
+    private bool empty;
+    public bool Empty
+    {
+        get
+        {
+            return empty;
+        }
+
+        set
+        {
+            empty = value;
+            placeholderObject = null;
+        }
+    }
 
     private void Start()
     {

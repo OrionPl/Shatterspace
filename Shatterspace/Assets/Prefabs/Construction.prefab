@@ -86,7 +86,6 @@ GameObject:
   - component: {fileID: 4583665642733514}
   - component: {fileID: 33221001188674800}
   - component: {fileID: 23657145839676108}
-  - component: {fileID: 65076688176077020}
   - component: {fileID: 114437454361857630}
   m_Layer: 0
   m_Name: Construction
@@ -151,18 +150,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1901195558737108}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65076688176077020
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1901195558737108}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114384521743753758
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -228,11 +215,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 831b05ef0eb88af43aaab60cf2afd97b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasBuilder: 0
   buildTime: 10
   building: {fileID: 0}
-  hasBuilder: 0
-  team: 0
+  builder: {fileID: 0}
   timeSlider: {fileID: 0}
+  team: 0
 --- !u!114 &114990866825017594
 MonoBehaviour:
   m_ObjectHideFlags: 1

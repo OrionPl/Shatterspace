@@ -53,7 +53,7 @@ public class ConstructionController : MonoBehaviour
     {
         timeSlider = GetComponentInChildren<Slider>();
 
-        lastBuilding = Instantiate(building, transform.position, Quaternion.identity);
+        lastBuilding = Instantiate(building, transform.position, transform.rotation);
 
         buildTime = lastBuilding.GetComponent<BuildingStandard>().main.UpgradeTime;
         timeSlider.maxValue = buildTime;

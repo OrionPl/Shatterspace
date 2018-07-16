@@ -46,7 +46,6 @@ public class BarracksBuilding : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         UIButtons.gameObject.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-
     }
 
     private void LateUpdate()
@@ -95,9 +94,15 @@ public class BarracksBuilding : MonoBehaviour {
     private void UpdateStatus() {
         if (statusBar.maxValue > statusBar.value)
         {
-            statusBar.value += 0.01f;
-            Debug.Log(statusBar.value);
-            Debug.Log(statusBar.maxValue);
+            int count = 0;
+            float calc = 0f;
+            foreach (var placeholder in placeholders) {
+                if (placeholder.GetComponent<PlaceHolderInfo>().Empty) {
+                    count = count + 1;
+                    calc += placeholder.GetComponent<PlaceHolderInfo>().PlaceholderObject.GetComponent<SquadMemberManager>().Status;
+                }
+            }
+            statusBar.value = calc/count;
         }
         else
         {
@@ -110,6 +115,7 @@ public class BarracksBuilding : MonoBehaviour {
         placeholder.GetComponent<PlaceHolderInfo>().Empty = false;
         GameObject spawnedMan = Instantiate(manType, placeholder.transform.position, placeholder.transform.rotation);
         spawnedMan.transform.SetParent(squadParent.transform);
+        placeholder.GetComponent<PlaceHolderInfo>().PlaceholderObject = spawnedMan;
         SquadMemberManager manSettings = spawnedMan.GetComponent<SquadMemberManager>();
         manSettings.SetMyManager(manager);
         manSettings.Team = secondInfo.Team;
