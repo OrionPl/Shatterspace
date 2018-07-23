@@ -264,12 +264,27 @@ public class PlayerController : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.Mouse0))
             { 
-                if (CheckRotation(maxPlaceAngle, minPlaceAngle, newConstruction.transform.rotation))
+                if ((CheckRotation(maxPlaceAngle, minPlaceAngle, newConstruction.transform.rotation)))
                 {
-                    newConstruction.GetComponent<ConstructionController>().enabled = true;
-                    newConstruction.GetComponent<ConstructionController>().CustomStart();
-                    newConstruction = null;
-                    break;
+                    bool placeable = true;
+                    foreach (var collider in Physics.OverlapSphere(newConstruction.transform.position, 4))
+                    {
+                        if (((collider.gameObject.transform.position.y < newConstruction.transform.position.y) || collider.gameObject.tag == "Builder" || collider.gameObject.tag == "NoCheck" || newConstruction.gameObject == collider.gameObject) && collider.gameObject.tag != "NoPlace")
+                        {
+                            placeable = true;
+                        }
+                        else {
+                            placeable = false;
+                            break;
+                        }
+                    }
+
+                    if (placeable) {
+                        newConstruction.GetComponent<ConstructionController>().enabled = true;
+                        newConstruction.GetComponent<ConstructionController>().CustomStart();
+                        newConstruction = null;
+                        break;
+                    }
                 }
                 
             }
