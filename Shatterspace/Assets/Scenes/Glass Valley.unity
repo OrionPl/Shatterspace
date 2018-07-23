@@ -1398,6 +1398,26 @@ Prefab:
       propertyPath: m_Name
       value: Player (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 114357716446788276, guid: 1a9f3fabdb0410c4c934e4ff7d951da6,
+        type: 2}
+      propertyPath: maxPlaceAngle.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114357716446788276, guid: 1a9f3fabdb0410c4c934e4ff7d951da6,
+        type: 2}
+      propertyPath: maxPlaceAngle.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114357716446788276, guid: 1a9f3fabdb0410c4c934e4ff7d951da6,
+        type: 2}
+      propertyPath: minPlaceAngle.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114357716446788276, guid: 1a9f3fabdb0410c4c934e4ff7d951da6,
+        type: 2}
+      propertyPath: minPlaceAngle.z
+      value: -90
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114283888774670276, guid: 1a9f3fabdb0410c4c934e4ff7d951da6, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 1a9f3fabdb0410c4c934e4ff7d951da6, type: 2}

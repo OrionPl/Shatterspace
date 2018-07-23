@@ -15,16 +15,22 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float verticalRotationSpeed = 1;
     [SerializeField] private float minVerticalRotation = 90;
     [SerializeField] private float maxVerticalRotation = 10;
+
     [SerializeField] public GameObject construction;
 
     [SerializeField] private GameObject[] buildingPrefabs;
+
+    [SerializeField] private Vector3 maxPlaceAngle = new Vector3(90f, 0f, 90f);
+    [SerializeField] private Vector3 minPlaceAngle = new Vector3(-90f, 0f, -90f);
 
     [Header("0-3, 0 for Hack., 1 for SysA., 2 for Swarm,  3 for GCDI ")]
     public int teamID = 0;
 
     public List<GameObject> squads;
-
     private List<GameObject> selection;
+
+    private GameObject newConstruction;
+
     private Camera cam;
 
     private Rigidbody _rb;
@@ -184,11 +190,22 @@ public class PlayerController : MonoBehaviour {
         transform.parent.rotation = playerTargetRotation;
     }
 
-    void Attack(GameObject target) {
+    private bool CheckRotation(Vector3 limMax, Vector3 limMin, Quaternion rot) {
+        if ((limMax.x > rot.x * 360f) && (limMax.z > rot.z * 360f))
+        {
+            if ((rot.x * 360f > limMin.x) && (rot.z * 360f > limMin.z))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void Attack(GameObject target) {
 
     }
 
-    void CleanSelection() {
+    private void CleanSelection() {
         foreach (var something in selection)
         {
             if (something.GetComponent<SquadManager>() != null) {
@@ -228,8 +245,6 @@ public class PlayerController : MonoBehaviour {
         StartCoroutine("NewBuildingPositionSelection");
     }
 
-    private GameObject newConstruction;
-
     IEnumerator NewBuildingPositionSelection() //TODO: Add a physics overlap sphere before placement to get info about placement area. If Its to small don't place anything
     {
         yield return new WaitForSeconds(0.1f);
@@ -244,14 +259,19 @@ public class PlayerController : MonoBehaviour {
             {
                 newConstruction.transform.position = new Vector3(hit.point.x, hit.point.y + 0.3f, hit.point.z);
                 newConstruction.transform.up = hit.normal; //terrain-ready
+
             }
 
             if (Input.GetKey(KeyCode.Mouse0))
-            {
-                newConstruction.GetComponent<ConstructionController>().enabled = true;
-                newConstruction.GetComponent<ConstructionController>().CustomStart();
-                newConstruction = null;
-                break;
+            { 
+                if (CheckRotation(maxPlaceAngle, minPlaceAngle, newConstruction.transform.rotation))
+                {
+                    newConstruction.GetComponent<ConstructionController>().enabled = true;
+                    newConstruction.GetComponent<ConstructionController>().CustomStart();
+                    newConstruction = null;
+                    break;
+                }
+                
             }
         }
     }
