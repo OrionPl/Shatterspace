@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
 
     private GameManager _gameManager;
 
@@ -56,23 +57,25 @@ public class PlayerController : MonoBehaviour {
 
         startingCamRotation = transform.rotation;
         startingPlayerRotation = transform.parent.rotation;
-        
+
         camTargetRotation = transform.rotation;
         playerTargetRotation = transform.parent.rotation;
 
         CheckForSquads();
     }
 
-    void Update () {
+    void Update()
+    {
 
         //TODO: Make player can select and use only mans from his\her own team.
 
         CheckClick();
         MoveCamera();
         RotateCamera();
-	}
+    }
 
-    private void CheckClick() {
+    private void CheckClick()
+    {
         // if we click anywhere on screen with right mouse button
         if (Input.GetMouseButtonDown(0))
         {
@@ -88,19 +91,22 @@ public class PlayerController : MonoBehaviour {
                     BuildingStandard tempBuild;
                     tempBuild = hit.collider.gameObject.GetComponent<BuildingStandard>();
 
-                    foreach (var choosen in selection) {  //clear selections if building type is different or there is no building on selection before
+                    foreach (var choosen in selection)
+                    {  //clear selections if building type is different or there is no building on selection before
                         if (choosen.gameObject.tag != "Building")
                         {
                             selection.Clear();
                             break;
                         }
-                        else if (choosen.GetComponent<BuildingStandard>().main.Type != tempBuild.main.Type) {
+                        else if (choosen.GetComponent<BuildingStandard>().main.Type != tempBuild.main.Type)
+                        {
                             selection.Clear();
                             break;
                         }
                     }
 
-                    if (tempBuild.Team == teamID) { //if its in my team and constructed
+                    if (tempBuild.Team == teamID)
+                    { //if its in my team and constructed
                         tempBuild.Select(true); //set barrack seleceted
                         selection.Add(tempBuild.gameObject); //add barracks to selection
                     }
@@ -141,7 +147,7 @@ public class PlayerController : MonoBehaviour {
             moveVertical--;
 
         Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical) * cameraSpeed;
-        
+
         transform.parent.position += transform.parent.forward * moveVertical * cameraSpeed;
         transform.parent.position += transform.parent.right * moveHorizontal * cameraSpeed;
     }
@@ -151,7 +157,7 @@ public class PlayerController : MonoBehaviour {
         float zoomPos = transform.position.y + Input.GetAxis("Mouse ScrollWheel") * zoomSensitivity;
         zoomPos = Mathf.Clamp(zoomPos, minCamHeight, maxCamHeight);
         transform.position = new Vector3(transform.position.x, zoomPos, transform.position.z);
-        
+
         int rotHorizontal = 0;
         if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -190,7 +196,8 @@ public class PlayerController : MonoBehaviour {
         transform.parent.rotation = playerTargetRotation;
     }
 
-    private bool CheckRotation(Vector3 limMax, Vector3 limMin, Quaternion rot) {
+    private bool CheckRotation(Vector3 limMax, Vector3 limMin, Quaternion rot)
+    {
         if ((limMax.x > rot.x * 360f) && (limMax.z > rot.z * 360f))
         {
             if ((rot.x * 360f > limMin.x) && (rot.z * 360f > limMin.z))
@@ -201,19 +208,24 @@ public class PlayerController : MonoBehaviour {
         return false;
     }
 
-    private void Attack(GameObject target) {
+    private void Attack(GameObject target)
+    {
 
     }
 
-    private void CleanSelection() {
+    private void CleanSelection()
+    {
         foreach (var something in selection)
         {
-            if (something.GetComponent<SquadManager>() != null) {
+            if (something.GetComponent<SquadManager>() != null)
+            {
                 something.GetComponent<SquadManager>().Select(false);
-            }else if(something.tag == "Building") {
+            }
+            else if (something.tag == "Building")
+            {
                 something.GetComponent<BuildingStandard>().Select(false);
             }
-                
+
         }
         selection.Clear();
     }
@@ -227,9 +239,9 @@ public class PlayerController : MonoBehaviour {
                 squads.Add(squad.gameObject);
         }
     }
-    
+
     public void SetTeam(int newTeam)
-    { 
+    {
         teamID = newTeam;
     }
 
@@ -260,33 +272,35 @@ public class PlayerController : MonoBehaviour {
                 newConstruction.transform.position = new Vector3(hit.point.x, hit.point.y + 0.3f, hit.point.z);
                 newConstruction.transform.up = hit.normal; //terrain-ready
 
-            }
-
-            if (Input.GetKey(KeyCode.Mouse0))
-            { 
-                if ((CheckRotation(maxPlaceAngle, minPlaceAngle, newConstruction.transform.rotation)))
+                if (Input.GetKey(KeyCode.Mouse0))
                 {
-                    bool placeable = true;
-                    foreach (var collider in Physics.OverlapSphere(newConstruction.transform.position, 4))
+                    if ((CheckRotation(maxPlaceAngle, minPlaceAngle, newConstruction.transform.rotation)))
                     {
-                        if (((collider.gameObject.transform.position.y < newConstruction.transform.position.y) || collider.gameObject.tag == "Builder" || collider.gameObject.tag == "NoCheck" || newConstruction.gameObject == collider.gameObject) && collider.gameObject.tag != "NoPlace")
+                        bool placeable = true;
+                        foreach (var collider in Physics.OverlapSphere(newConstruction.transform.position, 4))
                         {
-                            placeable = true;
+
+                            if (collider.gameObject.tag == "Builder" || hit.collider.gameObject == collider.gameObject)
+                            {
+                                placeable = true;
+                            }
+                            else
+                            {
+                                placeable = false;
+                                break;
+                            }
                         }
-                        else {
-                            placeable = false;
+
+                        if (placeable)
+                        {
+                            newConstruction.GetComponent<ConstructionController>().enabled = true;
+                            newConstruction.GetComponent<ConstructionController>().CustomStart();
+                            newConstruction = null;
                             break;
                         }
                     }
 
-                    if (placeable) {
-                        newConstruction.GetComponent<ConstructionController>().enabled = true;
-                        newConstruction.GetComponent<ConstructionController>().CustomStart();
-                        newConstruction = null;
-                        break;
-                    }
                 }
-                
             }
         }
     }
