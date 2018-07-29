@@ -1324,6 +1324,19 @@ Prefab:
       propertyPath: minPlaceAngle.z
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 4439078917384548, guid: 1a9f3fabdb0410c4c934e4ff7d951da6, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 67.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4439078917384548, guid: 1a9f3fabdb0410c4c934e4ff7d951da6, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 20469531331232302, guid: 1a9f3fabdb0410c4c934e4ff7d951da6,
+        type: 2}
+      propertyPath: orthographic size
+      value: 41.1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114283888774670276, guid: 1a9f3fabdb0410c4c934e4ff7d951da6, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 1a9f3fabdb0410c4c934e4ff7d951da6, type: 2}
