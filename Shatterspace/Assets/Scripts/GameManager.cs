@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
     
     void Start() {
         gameObject.tag = "GameManager";
+        Cursor.lockState = CursorLockMode.Confined;
     }
     
     void Update() {

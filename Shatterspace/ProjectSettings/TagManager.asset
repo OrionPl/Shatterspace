@@ -13,8 +13,6 @@ TagManager:
   - Builder
   - Construction
   - Building
-  - NoPlace
-  - NoCheck
   layers:
   - Default
   - TransparentFX

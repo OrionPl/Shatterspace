@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Scripts2;
 
 public class PlayerController : MonoBehaviour
 {
@@ -70,7 +71,7 @@ public class PlayerController : MonoBehaviour
         //TODO: Make player can select and use only mans from his\her own team.
 
         CheckClick();
-        MoveCamera();
+        MoveCameraCheck();
         RotateCamera();
     }
 
@@ -132,7 +133,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void MoveCamera()
+    private void MoveCameraCheck()
     {
         int moveHorizontal = 0;
         int moveVertical = 0;
@@ -146,10 +147,11 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.S))
             moveVertical--;
 
-        Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical) * cameraSpeed;
-
-        transform.parent.position += transform.parent.forward * moveVertical * cameraSpeed;
-        transform.parent.position += transform.parent.right * moveHorizontal * cameraSpeed;
+        if(moveVertical != 0 || moveHorizontal != 0) {
+            Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical) * cameraSpeed;
+            MoveCameraHorizontal(moveHorizontal);
+            MoveCameraVertical(moveVertical);
+        }
     }
 
     private void RotateCamera()
@@ -158,6 +160,8 @@ public class PlayerController : MonoBehaviour
         zoomPos = Mathf.Clamp(zoomPos, minCamHeight, maxCamHeight);
         transform.position = new Vector3(transform.position.x, zoomPos, transform.position.z);
 
+
+        //TODO : Why always updating rotate things? Just create function and only update when key pressed.
         int rotHorizontal = 0;
         if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -229,6 +233,23 @@ public class PlayerController : MonoBehaviour
         }
         selection.Clear();
     }
+
+
+    public void MoveCameraHorizontal(float power)
+    {
+        transform.parent.position += transform.parent.right * power * cameraSpeed;
+    }
+
+    public void MoveCameraVertical(float power)
+    {
+        transform.parent.position += transform.parent.forward * power * cameraSpeed;
+    }
+
+    public void MoveCamera() {
+
+    }
+    
+
 
     public void CheckForSquads()
     {
