@@ -1396,7 +1396,7 @@ Prefab:
         type: 2}
     - target: {fileID: 1911774369405008, guid: 1a9f3fabdb0410c4c934e4ff7d951da6, type: 2}
       propertyPath: m_Name
-      value: Player (1)
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 114357716446788276, guid: 1a9f3fabdb0410c4c934e4ff7d951da6,
         type: 2}
@@ -4219,7 +4219,7 @@ GameObject:
   - component: {fileID: 1930286161}
   - component: {fileID: 1930286160}
   m_Layer: 0
-  m_Name: GameManager (1)
+  m_Name: GameManager
   m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
