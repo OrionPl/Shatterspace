@@ -1337,6 +1337,21 @@ Prefab:
       propertyPath: orthographic size
       value: 41.1
       objectReference: {fileID: 0}
+    - target: {fileID: 224486503533809418, guid: 1a9f3fabdb0410c4c934e4ff7d951da6,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.100097656
+      objectReference: {fileID: 0}
+    - target: {fileID: 224889648249570964, guid: 1a9f3fabdb0410c4c934e4ff7d951da6,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.15435791
+      objectReference: {fileID: 0}
+    - target: {fileID: 114092601673435656, guid: 1a9f3fabdb0410c4c934e4ff7d951da6,
+        type: 2}
+      propertyPath: m_RaycastTarget
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114283888774670276, guid: 1a9f3fabdb0410c4c934e4ff7d951da6, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 1a9f3fabdb0410c4c934e4ff7d951da6, type: 2}
