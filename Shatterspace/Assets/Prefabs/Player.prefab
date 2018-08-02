@@ -738,7 +738,7 @@ MonoBehaviour:
   minPlaceAngle: {x: -90, y: 0, z: -90}
   raycastMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 823
   teamID: 0
   squads: []
 --- !u!114 &114401734174616906

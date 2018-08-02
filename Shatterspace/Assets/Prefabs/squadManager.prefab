@@ -864,7 +864,7 @@ MonoBehaviour:
   squadInfo: {fileID: 11400000, guid: 767819e40562f4c4497ec78dc95ef3b2, type: 2}
   raycastMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 823
 --- !u!114 &114340271802005968
 MonoBehaviour:
   m_ObjectHideFlags: 1

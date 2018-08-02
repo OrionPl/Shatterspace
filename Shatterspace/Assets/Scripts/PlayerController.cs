@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
             Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
 
             // if raycast hit  to an object
-            if (Physics.Raycast(clickRay, out hit, raycastMask))
+            if (Physics.Raycast(clickRay, out hit, Mathf.Infinity, raycastMask))
             {
                 if (hit.collider.transform.tag == "Building") //check for tags
                 {
@@ -290,7 +290,7 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out hit, raycastMask))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, raycastMask))
             {
                 newConstruction.transform.position = new Vector3(hit.point.x, hit.point.y + 0.3f, hit.point.z);
                 newConstruction.transform.up = hit.normal; //terrain-ready

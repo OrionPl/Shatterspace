@@ -123,7 +123,7 @@ public class SquadMemberManager : MonoBehaviour {
                 Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
 
                 // if raycast hit  to an object
-                if (Physics.Raycast(clickRay, out hit, raycastMask))
+                if (Physics.Raycast(clickRay, out hit, Mathf.Infinity, raycastMask))
                 {
                     // set hit.point as target
                     aIController.destination = hit.point;
