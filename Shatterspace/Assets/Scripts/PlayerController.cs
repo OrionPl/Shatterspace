@@ -322,7 +322,7 @@ public class PlayerController : MonoBehaviour
                         {
                             placeable = true;
                         }
-                        else {
+                        else if(placeable){
                             placeable = false;
                         }
 
