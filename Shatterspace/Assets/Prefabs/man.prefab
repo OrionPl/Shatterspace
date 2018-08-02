@@ -466,6 +466,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiHealthBar: {fileID: 114651130607223908}
+  raycastMask:
+    serializedVersion: 2
+    m_Bits: 1024
   mySquadManager: {fileID: 0}
   speed: 3.5
 --- !u!135 &135687587625721578

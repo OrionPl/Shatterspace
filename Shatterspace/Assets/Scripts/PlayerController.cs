@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector3 maxPlaceAngle = new Vector3(90f, 0f, 90f);
     [SerializeField] private Vector3 minPlaceAngle = new Vector3(-90f, 0f, -90f);
 
+    [SerializeField] private LayerMask raycastMask;
+
     [Header("0-3, 0 for Hack., 1 for SysA., 2 for Swarm,  3 for GCDI ")]
     public int teamID = 0;
 
@@ -85,7 +87,7 @@ public class PlayerController : MonoBehaviour
             Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
 
             // if raycast hit  to an object
-            if (Physics.Raycast(clickRay, out hit))
+            if (Physics.Raycast(clickRay, out hit, raycastMask))
             {
                 if (hit.collider.transform.tag == "Building") //check for tags
                 {
@@ -288,7 +290,7 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit, raycastMask))
             {
                 newConstruction.transform.position = new Vector3(hit.point.x, hit.point.y + 0.3f, hit.point.z);
                 newConstruction.transform.up = hit.normal; //terrain-ready

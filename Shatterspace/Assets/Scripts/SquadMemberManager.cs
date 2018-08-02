@@ -7,7 +7,7 @@ public class SquadMemberManager : MonoBehaviour {
 
 
     [SerializeField] private Slider uiHealthBar;
-
+    [SerializeField] private LayerMask raycastMask;
 
     public SquadManager mySquadManager;
 
@@ -17,7 +17,9 @@ public class SquadMemberManager : MonoBehaviour {
     private Camera cam; //maincamera - scene camera
 
     private UnityEngine.AI.NavMeshAgent aIController;
+
     private GameObject placeholder;
+
     private GameManager GameRuleManager;
 
     private bool selected;
@@ -121,7 +123,7 @@ public class SquadMemberManager : MonoBehaviour {
                 Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
 
                 // if raycast hit  to an object
-                if (Physics.Raycast(clickRay, out hit))
+                if (Physics.Raycast(clickRay, out hit, raycastMask))
                 {
                     // set hit.point as target
                     aIController.destination = hit.point;

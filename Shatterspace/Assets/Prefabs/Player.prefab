@@ -736,6 +736,9 @@ MonoBehaviour:
   - {fileID: 1102258221101944, guid: 6968519b85ca4d54bb09b6838d5b8c3b, type: 2}
   maxPlaceAngle: {x: 90, y: 0, z: 90}
   minPlaceAngle: {x: -90, y: 0, z: -90}
+  raycastMask:
+    serializedVersion: 2
+    m_Bits: 1024
   teamID: 0
   squads: []
 --- !u!114 &114401734174616906
