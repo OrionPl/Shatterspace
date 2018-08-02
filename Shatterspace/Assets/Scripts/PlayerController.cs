@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector3 minPlaceAngle = new Vector3(-90f, 0f, -90f);
 
     [SerializeField] private LayerMask raycastMask;
+    [SerializeField] private LayerMask absorberCheckMask;
 
     [Header("0-3, 0 for Hack., 1 for SysA., 2 for Swarm,  3 for GCDI ")]
     public int teamID = 0;
@@ -280,7 +281,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine("NewBuildingPositionSelection");
     }
 
-    IEnumerator NewBuildingPositionSelection() //TODO: Add a physics overlap sphere before placement to get info about placement area. If Its to small don't place anything
+    IEnumerator NewBuildingPositionSelection()
     {
         yield return new WaitForSeconds(0.1f);
         while (true)
@@ -312,6 +313,17 @@ public class PlayerController : MonoBehaviour
                                 placeable = false;
                                 break;
                             }
+                        }
+
+                        RaycastHit absorberCheckHit;
+                        Ray absorberCheckRay = cam.ScreenPointToRay(Input.mousePosition);
+
+                        if (Physics.Raycast(absorberCheckRay, out absorberCheckHit, Mathf.Infinity, absorberCheckMask))
+                        {
+                            placeable = true;
+                        }
+                        else {
+                            placeable = false;
                         }
 
                         if (placeable)

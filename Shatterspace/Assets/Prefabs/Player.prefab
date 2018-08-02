@@ -739,6 +739,9 @@ MonoBehaviour:
   raycastMask:
     serializedVersion: 2
     m_Bits: 823
+  absorberCheckMask:
+    serializedVersion: 2
+    m_Bits: 1024
   teamID: 0
   squads: []
 --- !u!114 &114401734174616906
