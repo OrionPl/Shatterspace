@@ -61,6 +61,8 @@ public class SquadManager : MonoBehaviour {
         }
     }
 
+    [SerializeField] private LayerMask raycastMask;
+
     private int manCount;
     public int ManCount
     {
@@ -194,7 +196,7 @@ public class SquadManager : MonoBehaviour {
                 Ray clickRay = cam.ScreenPointToRay(Input.mousePosition);
 
                 // if raycast hit  to an object
-                if (Physics.Raycast(clickRay, out hit))
+                if (Physics.Raycast(clickRay, out hit, raycastMask))
                 {
                     // set hit.point as target
                     aIController.destination = hit.point;

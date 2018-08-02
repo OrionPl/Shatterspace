@@ -8,7 +8,13 @@ public class GameManager : MonoBehaviour {
     
     void Start() {
         gameObject.tag = "GameManager";
-        Cursor.lockState = CursorLockMode.Confined;
+
+        if (Cursor.lockState != CursorLockMode.Confined)
+        {
+            //Going directly from Locked to Confined does not work
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
     }
     
     void Update() {

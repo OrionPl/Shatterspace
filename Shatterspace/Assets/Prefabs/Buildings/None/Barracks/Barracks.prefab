@@ -131,6 +131,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1166504998769012
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4954109944408434}
+  - component: {fileID: 136018707974023124}
+  m_Layer: 10
+  m_Name: FogOfWarAbsorber
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1196480546109230
 GameObject:
   m_ObjectHideFlags: 1
@@ -660,7 +676,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1102258221101944}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.977528, y: 0.0000035762787, z: -20.708296}
+  m_LocalPosition: {x: -21.646067, y: 0.5, z: -53.788704}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4192348877591844}
@@ -668,6 +684,7 @@ Transform:
   - {fileID: 4398619518003046}
   - {fileID: 224292558945201558}
   - {fileID: 4944302096666548}
+  - {fileID: 4954109944408434}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -728,6 +745,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4512300288853246}
   m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4954109944408434
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1166504998769012}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4512300288853246}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4969444781190434
 Transform:
@@ -1870,6 +1900,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72ea97d8bbbabec49805b8ba78c5a5f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &136018707974023124
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1166504998769012}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 15
+  m_Height: 27.4
+  m_Direction: 1
+  m_Center: {x: 0, y: 5.45, z: 0}
 --- !u!208 &208253025132678992
 NavMeshObstacle:
   m_ObjectHideFlags: 1
