@@ -318,7 +318,7 @@ public class PlayerController : MonoBehaviour
                         RaycastHit absorberCheckHit;
                         Ray absorberCheckRay = cam.ScreenPointToRay(Input.mousePosition);
 
-                        if (Physics.Raycast(absorberCheckRay, out absorberCheckHit, Mathf.Infinity, absorberCheckMask))
+                        if (Physics.Raycast(absorberCheckRay, out absorberCheckHit, Mathf.Infinity, absorberCheckMask) && placeable)
                         {
                             placeable = true;
                         }
