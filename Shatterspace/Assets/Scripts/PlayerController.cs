@@ -301,9 +301,8 @@ public class PlayerController : MonoBehaviour
                     if ((CheckRotation(maxPlaceAngle, minPlaceAngle, newConstruction.transform.rotation)))
                     {
                         bool placeable = true;
-                        foreach (var collider in Physics.OverlapSphere(newConstruction.transform.position, 4))
+                        foreach (var collider in Physics.OverlapSphere(newConstruction.transform.position, 4, raycastMask))
                         {
-
                             if (collider.gameObject.tag == "Builder" || hit.collider.gameObject == collider.gameObject)
                             {
                                 placeable = true;
