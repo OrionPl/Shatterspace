@@ -13,6 +13,7 @@ public class Builder : MonoBehaviour {
     private GameObject[] builders;
     private NavMeshAgent agent;
     private GameObject nearestBuilder;
+    private GameObject constructionSite;
 
     private GameObject building;
     public GameObject Building
@@ -87,13 +88,22 @@ public class Builder : MonoBehaviour {
     }
 
     public void GoWork(GameObject getTarget) {
-        agent.SetDestination(getTarget.transform.position);
-        movementTarget = getTarget;
-        Building = getTarget; //I have used two different variables to prevent "foreach loop" issues
-        getTarget.GetComponent<ConstructionController>().hasBuilder = true;
+        ConstructionController targetController = getTarget.GetComponent<ConstructionController>();
+        if (!targetController.hasBuilder)
+        {
+            agent.SetDestination(targetController.BoundingBox.min);
+            movementTarget = getTarget;
+            Building = getTarget; //I have used two different variables to prevent "foreach loop" issues
+            constructionSite = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            constructionSite.GetComponent<Collider>().enabled = false;
+            constructionSite.transform.localScale = targetController.BoundingBox.size;
+            constructionSite.transform.position = targetController.BoundingBox.center;
+            targetController.hasBuilder = true;
+        }
     }
 
     public void Finish() {
+        Destroy(constructionSite);
         Building = null;
         movementTarget = null;
     }

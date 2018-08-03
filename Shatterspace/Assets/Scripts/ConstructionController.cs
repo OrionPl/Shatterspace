@@ -43,6 +43,20 @@ public class ConstructionController : MonoBehaviour
         }
     }
 
+    private Bounds boundingBox;
+    public Bounds BoundingBox
+    {
+        get
+        {
+            return boundingBox;
+        }
+
+        set
+        {
+            boundingBox = value;
+        }
+    }
+
     private bool buildStatus = false;
 
     private GameObject lastBuilding;
@@ -57,6 +71,7 @@ public class ConstructionController : MonoBehaviour
 
         buildTime = lastBuilding.GetComponent<BuildingStandard>().main.UpgradeTime;
         timeSlider.maxValue = buildTime;
+        boundingBox = lastBuilding.GetComponent<Collider>().bounds;
 
         lastBuilding.SetActive(false);
 
@@ -74,7 +89,7 @@ public class ConstructionController : MonoBehaviour
     {
         if (Placed && !buildStatus) //check "hasBuilder" here for more optimization 
         {
-            foreach (var collider in Physics.OverlapSphere(transform.position, 4))
+            foreach (var collider in Physics.OverlapSphere(transform.position, 7))
             {
                 if (collider.tag == "Builder")
                 {
