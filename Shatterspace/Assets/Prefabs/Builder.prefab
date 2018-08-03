@@ -11,6 +11,22 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1637397760623872}
   m_IsPrefabAsset: 1
+--- !u!1 &1409013210809158
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4745263633084402}
+  - component: {fileID: 136432729851232394}
+  m_Layer: 10
+  m_Name: FogOfWarAbsorber
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1637397760623872
 GameObject:
   m_ObjectHideFlags: 0
@@ -21,16 +37,29 @@ GameObject:
   - component: {fileID: 4932329894355772}
   - component: {fileID: 33440325528353900}
   - component: {fileID: 23913954379985630}
-  - component: {fileID: 135057428885677680}
   - component: {fileID: 114153819119572814}
   - component: {fileID: 195000967345947362}
+  - component: {fileID: 135802195564750694}
   m_Layer: 0
   m_Name: Builder
-  m_TagString: Untagged
+  m_TagString: Builder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4745263633084402
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1409013210809158}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4932329894355772}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4932329894355772
 Transform:
   m_ObjectHideFlags: 1
@@ -38,9 +67,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1637397760623872}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5.2, y: 1.1, z: -78.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4745263633084402}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -97,8 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42b34ced4133cc04799a93b3815fa3c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 0
---- !u!135 &135057428885677680
+--- !u!135 &135802195564750694
 SphereCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -110,6 +139,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &136432729851232394
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1409013210809158}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 8.9
+  m_Height: 27.4
+  m_Direction: 1
+  m_Center: {x: 0, y: 5.45, z: 0}
 --- !u!195 &195000967345947362
 NavMeshAgent:
   m_ObjectHideFlags: 1

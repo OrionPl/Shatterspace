@@ -7,8 +7,6 @@ public class Builder : MonoBehaviour {
 
     private GameObject movementTarget;
 
-    public int team;
-
     private GameObject[] constructions;
     private GameObject[] builders;
     private NavMeshAgent agent;
@@ -26,6 +24,20 @@ public class Builder : MonoBehaviour {
         set
         {
             building = value;
+        }
+    }
+
+    private int team;
+    public int Team
+    {
+        get
+        {
+            return team;
+        }
+
+        set
+        {
+            team = value;
         }
     }
 
@@ -48,7 +60,7 @@ public class Builder : MonoBehaviour {
         builders = GameObject.FindGameObjectsWithTag("Builder");
         if (constructions.Length > 0)
         {
-            float minimumDistance = 10000000f; //10000000 as placeholder
+            float minimumDistance = 99999999999f; //99999999999 as placeholder
             foreach (GameObject target in constructions)
             {
 

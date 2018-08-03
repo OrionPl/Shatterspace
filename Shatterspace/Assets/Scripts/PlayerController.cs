@@ -99,12 +99,12 @@ public class PlayerController : MonoBehaviour
                     {  //clear selections if building type is different or there is no building on selection before
                         if (choosen.gameObject.tag != "Building")
                         {
-                            selection.Clear();
+                            CleanSelection();
                             break;
                         }
                         else if (choosen.GetComponent<BuildingStandard>().main.Type != tempBuild.main.Type)
                         {
-                            selection.Clear();
+                            CleanSelection();
                             break;
                         }
                     }

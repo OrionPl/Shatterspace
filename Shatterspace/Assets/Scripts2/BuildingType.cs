@@ -2,6 +2,6 @@
 {
 	public enum BuildingType
 	{
-		None, Barracks
+		None, Barracks, Base
 	}
 }
