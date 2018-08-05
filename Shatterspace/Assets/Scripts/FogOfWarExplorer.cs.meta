@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: b9c0af1504d3b0f47b4c97b9fbb28b30
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - exploredAreaAbsorber: {fileID: 1987724167209386, guid: c9bcadc9a7e386543a205be69c41a77e,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

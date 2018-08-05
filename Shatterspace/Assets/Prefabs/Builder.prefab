@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4745263633084402}
   - component: {fileID: 136432729851232394}
+  - component: {fileID: 114992738439523522}
   m_Layer: 10
   m_Name: FogOfWarAbsorber
   m_TagString: Untagged
@@ -127,6 +128,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42b34ced4133cc04799a93b3815fa3c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114992738439523522
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1409013210809158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9c0af1504d3b0f47b4c97b9fbb28b30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exploredAreaAbsorber: {fileID: 1987724167209386, guid: c9bcadc9a7e386543a205be69c41a77e,
+    type: 2}
 --- !u!135 &135802195564750694
 SphereCollider:
   m_ObjectHideFlags: 1
