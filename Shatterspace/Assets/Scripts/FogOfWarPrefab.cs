@@ -6,7 +6,7 @@ using MapSettings;
 public class FogOfWarPrefab : MonoBehaviour
 {
     [Header("Only edit collider if you want to change radius, scrit will do all job for you.")]
-    private float colliderLightAngleRatio;
+    [SerializeField]private float lightColliderAngleRatio = 8;
     private Light explorerLight;
     private GameObject gameManager;
 
@@ -15,7 +15,6 @@ public class FogOfWarPrefab : MonoBehaviour
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager");
         explorerLight = GetComponentInChildren<Light>();
-        colliderLightAngleRatio = 7;
 
         MapOptions opts;
         opts = gameManager.GetComponent<MapOptions>();
@@ -24,7 +23,7 @@ public class FogOfWarPrefab : MonoBehaviour
         {
             explorerLight.enabled = false;
         } else {
-            explorerLight.spotAngle = GetComponent<CapsuleCollider>().radius * colliderLightAngleRatio;
+            explorerLight.spotAngle = GetComponent<CapsuleCollider>().radius * lightColliderAngleRatio;
         }
 
         this.enabled = false; //harakiri
