@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Test Chamber.unity
     guid: 5a6b9163883e31b43bef2b8cb2eee87a
   - enabled: 1
-    path: Assets/Scenes/Glass Valley.unity
+    path: Assets/Scenes/Maps/Glass Valley/Glass Valley.unity
     guid: 2236818ed8dbe6f4f8fb8c624e347113
   m_configObjects: {}

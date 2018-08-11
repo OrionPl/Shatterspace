@@ -15,6 +15,7 @@ TagManager:
   - Building
   - FogAbsorber
   - FogExplored
+  - MapLight
   layers:
   - Default
   - TransparentFX

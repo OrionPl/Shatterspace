@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 165bf84795ee03145a7a20de724433bc, type: 3}
+  m_Name: GlassValleyInfo
+  m_EditorClassIdentifier: 
+  mapName: Glass Valley
+  maxPlayers: 2
+  explorerType: 1
+  fogPrefabs:
+  - {fileID: 1152903643616974, guid: 8b128ad9e91e1cb489bb9ca9050eda70, type: 2}
+  - {fileID: 1414947828778568, guid: e4ce92ff2b5b04d4087277060b953742, type: 2}
+  fogPositions:
+  - {x: 0, y: -13, z: 0}
+  - {x: 0, y: -12, z: 0}

@@ -145,7 +145,6 @@ public class BarracksBuilding : MonoBehaviour {
                 statusBar.maxValue = manSpawnTime;
                 working = true;
                 GameObject targetSquad = Instantiate(emptySquad, spawnPoint.transform.position, spawnPoint.transform.rotation);
-                manSpawnTime = emptySquad.GetComponent<SquadManager>().SquadInfo.SpawnTime;
                 GameObject squadParent = null;
                 foreach (var go in targetSquad.GetComponentsInChildren<Transform>())
                 {
