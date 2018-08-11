@@ -269,7 +269,7 @@ public class PlayerController : MonoBehaviour
         teamID = newTeam;
     }
 
-    public void BuildingPlacement(GameObject building)
+    public void BuildingPlacement(GameObject building) // TODO !IMPORTANT BUG  you can place builds two or more times if you click "Place Barrack". So check before player placing something.
     {
         Vector3 newBuildingPosition = new Vector3(0, 0, 0);
         newConstruction = Instantiate(construction, newBuildingPosition, Quaternion.identity);
