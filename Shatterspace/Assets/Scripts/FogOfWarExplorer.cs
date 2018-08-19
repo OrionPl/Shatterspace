@@ -10,7 +10,7 @@ public class FogOfWarExplorer : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        InvokeRepeating("UpdateStatus", 0f, 0.6f);
+        InvokeRepeating("UpdateStatus", 0f, 0.4f);
 	}
 	
 	// Update is called once per frame
